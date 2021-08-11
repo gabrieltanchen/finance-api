@@ -1,6 +1,7 @@
 const {
   CategoryError,
   ExpenseError,
+  FundError,
   HouseholdError,
   VendorError,
 } = require('../../middleware/error-handler');
@@ -105,6 +106,18 @@ module.exports = (app) => {
           throw new VendorError('Not found');
         }
         expenseWhere.vendor_uuid = vendor.get('uuid');
+      } else if (req.query.fund_id) {
+        const fund = await models.Fund.findOne({
+          attributes: ['uuid'],
+          where: {
+            household_uuid: user.get('household_uuid'),
+            uuid: req.query.fund_id,
+          },
+        });
+        if (!fund) {
+          throw new FundError('Not found');
+        }
+        expenseWhere.fund_uuid = fund.get('uuid');
       } else {
         throw new ExpenseError('No open queries');
       }
