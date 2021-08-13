@@ -20592,7 +20592,14 @@ describe('Integration - GET /expenses', function() {
       assert.isOk(vendorInclude);
       assert.isOk(vendorInclude.attributes);
       assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-      assert.strictEqual(res.body.included.length, 3);
+      const fundInclude = _.find(res.body.included, (include) => {
+        return include.id === fund1Uuid
+          && include.type === 'funds';
+      });
+      assert.isOk(fundInclude);
+      assert.isOk(fundInclude.attributes);
+      assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+      assert.strictEqual(res.body.included.length, 4);
 
       assert.isOk(res.body.meta);
       assert.strictEqual(res.body.meta.pages, 2);
@@ -20650,7 +20657,14 @@ describe('Integration - GET /expenses', function() {
       assert.isOk(vendorInclude);
       assert.isOk(vendorInclude.attributes);
       assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-      assert.strictEqual(res.body.included.length, 3);
+      const fundInclude = _.find(res.body.included, (include) => {
+        return include.id === fund1Uuid
+          && include.type === 'funds';
+      });
+      assert.isOk(fundInclude);
+      assert.isOk(fundInclude.attributes);
+      assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+      assert.strictEqual(res.body.included.length, 4);
 
       assert.isOk(res.body.meta);
       assert.strictEqual(res.body.meta.pages, 2);
@@ -20738,7 +20752,14 @@ describe('Integration - GET /expenses', function() {
       assert.isOk(vendorInclude);
       assert.isOk(vendorInclude.attributes);
       assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-      assert.strictEqual(res.body.included.length, 3);
+      const fundInclude = _.find(res.body.included, (include) => {
+        return include.id === fund1Uuid
+          && include.type === 'funds';
+      });
+      assert.isOk(fundInclude);
+      assert.isOk(fundInclude.attributes);
+      assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+      assert.strictEqual(res.body.included.length, 4);
 
       assert.isOk(res.body.meta);
       assert.strictEqual(res.body.meta.pages, 6);
@@ -20786,7 +20807,14 @@ describe('Integration - GET /expenses', function() {
       assert.isOk(vendorInclude);
       assert.isOk(vendorInclude.attributes);
       assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor2.name);
-      assert.strictEqual(res.body.included.length, 3);
+      const fundInclude = _.find(res.body.included, (include) => {
+        return include.id === fund2Uuid
+          && include.type === 'funds';
+      });
+      assert.isOk(fundInclude);
+      assert.isOk(fundInclude.attributes);
+      assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund2.name);
+      assert.strictEqual(res.body.included.length, 4);
 
       assert.isOk(res.body.meta);
       assert.strictEqual(res.body.meta.pages, 1);
@@ -21081,7 +21109,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 2);
@@ -21145,7 +21180,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 2);
@@ -21239,7 +21281,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 6);
@@ -21535,7 +21584,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 2);
@@ -21599,7 +21655,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 2);
@@ -21693,7 +21756,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 6);
@@ -22124,7 +22194,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 5);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 6);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 2);
@@ -22208,7 +22285,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 2);
@@ -22302,7 +22386,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 6);
@@ -22713,7 +22804,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 2);
@@ -22817,7 +22915,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 5);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 6);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 2);
@@ -22911,7 +23016,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 6);
@@ -23298,7 +23410,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 2);
@@ -23396,7 +23515,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendor4Include);
         assert.isOk(vendor4Include.attributes);
         assert.strictEqual(vendor4Include.attributes.name, sampleData.vendors.vendor4.name);
-        assert.strictEqual(res.body.included.length, 5);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 6);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 2);
@@ -23490,7 +23616,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 6);
@@ -23891,7 +24024,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendor4Include);
         assert.isOk(vendor4Include.attributes);
         assert.strictEqual(vendor4Include.attributes.name, sampleData.vendors.vendor4.name);
-        assert.strictEqual(res.body.included.length, 5);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 6);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 2);
@@ -23975,7 +24115,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 2);
@@ -24069,7 +24216,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 6);
@@ -24476,7 +24630,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 5);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 6);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 2);
@@ -24560,7 +24721,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 2);
@@ -24654,7 +24822,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 6);
@@ -25041,7 +25216,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 2);
@@ -25145,7 +25327,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 5);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 6);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 2);
@@ -25239,7 +25428,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 6);
@@ -25535,7 +25731,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 2);
@@ -25599,7 +25802,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 2);
@@ -25693,7 +25903,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 6);
@@ -25989,7 +26206,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 2);
@@ -26053,7 +26277,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 2);
@@ -26147,7 +26378,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 6);
@@ -26443,7 +26681,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 2);
@@ -26507,7 +26752,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 2);
@@ -26601,7 +26853,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 6);
@@ -26897,7 +27156,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 2);
@@ -26961,7 +27227,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 2);
@@ -27055,7 +27328,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 6);
@@ -27351,7 +27631,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 2);
@@ -27415,7 +27702,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 2);
@@ -27509,7 +27803,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 6);
@@ -27805,7 +28106,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 2);
@@ -27869,7 +28177,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 2);
@@ -27963,7 +28278,14 @@ describe('Integration - GET /expenses', function() {
         assert.isOk(vendorInclude);
         assert.isOk(vendorInclude.attributes);
         assert.strictEqual(vendorInclude.attributes.name, sampleData.vendors.vendor1.name);
-        assert.strictEqual(res.body.included.length, 3);
+        const fundInclude = _.find(res.body.included, (include) => {
+          return include.id === fund1Uuid
+            && include.type === 'funds';
+        });
+        assert.isOk(fundInclude);
+        assert.isOk(fundInclude.attributes);
+        assert.strictEqual(fundInclude.attributes.name, sampleData.funds.fund1.name);
+        assert.strictEqual(res.body.included.length, 4);
 
         assert.isOk(res.body.meta);
         assert.strictEqual(res.body.meta.pages, 6);
