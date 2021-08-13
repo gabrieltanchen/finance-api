@@ -1,3 +1,7 @@
+const Sequelize = require('sequelize');
+
+const Op = Sequelize.Op;
+
 module.exports = (app) => {
   const models = app.get('models');
 
@@ -42,14 +46,23 @@ module.exports = (app) => {
         },
       });
 
+      const fundWhere = {
+        household_uuid: user.get('household_uuid'),
+      };
+
+      if (req.query && req.query.search) {
+        offset = 0;
+        fundWhere.name = {
+          [Op.iLike]: `%${req.query.search}%`,
+        };
+      }
+
       const funds = await models.Fund.findAndCountAll({
         attributes: ['balance_cents', 'created_at', 'name', 'uuid'],
         limit,
         offset,
         order: [['name', 'ASC']],
-        where: {
-          household_uuid: user.get('household_uuid'),
-        },
+        where: fundWhere,
       });
 
       return res.status(200).json({
