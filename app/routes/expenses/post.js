@@ -37,11 +37,19 @@ module.exports = (app) => {
    */
   return async(req, res, next) => {
     try {
+      let fundUuid = null;
+      if (req.body.data.relationships
+          && req.body.data.relationships.fund
+          && req.body.data.relationships.fund.data
+          && req.body.data.relationships.fund.data.id) {
+        fundUuid = req.body.data.relationships.fund.data.id;
+      }
       const expenseUuid = await controllers.ExpenseCtrl.createExpense({
         amount: req.body.data.attributes.amount,
         auditApiCallUuid: req.auditApiCallUuid,
         date: req.body.data.attributes.date,
         description: req.body.data.attributes.description,
+        fundUuid,
         householdMemberUuid: req.body.data.relationships['household-member'].data.id,
         reimbursedAmount: req.body.data.attributes['reimbursed-amount'],
         subcategoryUuid: req.body.data.relationships.subcategory.data.id,
@@ -58,6 +66,10 @@ module.exports = (app) => {
           'uuid',
         ],
         include: [{
+          attributes: ['name', 'uuid'],
+          model: models.Fund,
+          required: false,
+        }, {
           attributes: ['name', 'uuid'],
           model: models.HouseholdMember,
           required: true,
@@ -86,6 +98,12 @@ module.exports = (app) => {
           },
           'id': expenseUuid,
           'relationships': {
+            'fund': expense.Fund ? {
+              'data': {
+                'id': expense.Fund.get('uuid'),
+                'type': 'funds',
+              },
+            } : null,
             'household-member': {
               'data': {
                 'id': expense.HouseholdMember.get('uuid'),
