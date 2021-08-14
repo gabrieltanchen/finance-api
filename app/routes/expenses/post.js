@@ -87,6 +87,34 @@ module.exports = (app) => {
         },
       });
 
+      const relationships = {
+        'household-member': {
+          'data': {
+            'id': expense.HouseholdMember.get('uuid'),
+            'type': 'household-members',
+          },
+        },
+        'subcategory': {
+          'data': {
+            'id': expense.Subcategory.get('uuid'),
+            'type': 'subcategories',
+          },
+        },
+        'vendor': {
+          'data': {
+            'id': expense.Vendor.get('uuid'),
+            'type': 'vendors',
+          },
+        },
+      };
+      if (expense.Fund) {
+        relationships.fund = {
+          'data': {
+            'id': expense.Fund.get('uuid'),
+            'type': 'funds',
+          },
+        };
+      }
       return res.status(201).json({
         'data': {
           'attributes': {
@@ -97,32 +125,7 @@ module.exports = (app) => {
             'reimbursed-amount': expense.get('reimbursed_cents'),
           },
           'id': expenseUuid,
-          'relationships': {
-            'fund': expense.Fund ? {
-              'data': {
-                'id': expense.Fund.get('uuid'),
-                'type': 'funds',
-              },
-            } : null,
-            'household-member': {
-              'data': {
-                'id': expense.HouseholdMember.get('uuid'),
-                'type': 'household-members',
-              },
-            },
-            'subcategory': {
-              'data': {
-                'id': expense.Subcategory.get('uuid'),
-                'type': 'subcategories',
-              },
-            },
-            'vendor': {
-              'data': {
-                'id': expense.Vendor.get('uuid'),
-                'type': 'vendors',
-              },
-            },
-          },
+          'relationships': relationships,
           'type': 'expenses',
         },
       });
