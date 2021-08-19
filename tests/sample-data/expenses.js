@@ -115,7 +115,7 @@ module.exports = {
     amount: 521.14,
     amount_cents: 52114,
     date: '2018-06-17',
-    description: 'Poke kombucha chartreuse butcher occupy keffiyeh drinking vinegar celiac.',
+    description: 'Pok kombucha chartreuse butcher occupy keffiyeh drinking vinegar celiac.',
     reimbursed_amount: 7.98,
     reimbursed_cents: 798,
   },
