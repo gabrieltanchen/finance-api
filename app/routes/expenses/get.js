@@ -1,6 +1,7 @@
 const {
   CategoryError,
   ExpenseError,
+  FundError,
   HouseholdError,
   VendorError,
 } = require('../../middleware/error-handler');
@@ -105,6 +106,18 @@ module.exports = (app) => {
           throw new VendorError('Not found');
         }
         expenseWhere.vendor_uuid = vendor.get('uuid');
+      } else if (req.query.fund_id) {
+        const fund = await models.Fund.findOne({
+          attributes: ['uuid'],
+          where: {
+            household_uuid: user.get('household_uuid'),
+            uuid: req.query.fund_id,
+          },
+        });
+        if (!fund) {
+          throw new FundError('Not found');
+        }
+        expenseWhere.fund_uuid = fund.get('uuid');
       } else {
         throw new ExpenseError('No open queries');
       }
@@ -117,6 +130,8 @@ module.exports = (app) => {
         sortField = ['date'];
       } else if (req.query.sort && req.query.sort === 'description') {
         sortField = ['description'];
+      } else if (req.query.sort && req.query.sort === 'fund') {
+        sortField = ['Fund', 'name'];
       } else if (req.query.sort && req.query.sort === 'member') {
         sortField = ['HouseholdMember', 'name'];
       } else if (req.query.sort && req.query.sort === 'reimbursed_amount') {
@@ -149,6 +164,10 @@ module.exports = (app) => {
         ],
         include: [{
           attributes: ['name', 'uuid'],
+          model: models.Fund,
+          required: false,
+        }, {
+          attributes: ['name', 'uuid'],
           model: models.HouseholdMember,
           required: true,
         }, {
@@ -167,10 +186,23 @@ module.exports = (app) => {
       });
 
       const included = [];
+      const fundIds = [];
       const subcategoryIds = [];
       const householdMemberIds = [];
       const vendorIds = [];
       expenses.rows.forEach((expense) => {
+        if (expense.Fund) {
+          if (!fundIds.includes(expense.Fund.get('uuid'))) {
+            fundIds.push(expense.Fund.get('uuid'));
+            included.push({
+              'attributes': {
+                'name': expense.Fund.get('name'),
+              },
+              'id': expense.Fund.get('uuid'),
+              'type': 'funds',
+            });
+          }
+        }
         if (!subcategoryIds.includes(expense.Subcategory.get('uuid'))) {
           subcategoryIds.push(expense.Subcategory.get('uuid'));
           included.push({
@@ -205,6 +237,34 @@ module.exports = (app) => {
 
       return res.status(200).json({
         'data': expenses.rows.map((expense) => {
+          const relationships = {
+            'household-member': {
+              'data': {
+                'id': expense.HouseholdMember.get('uuid'),
+                'type': 'household-members',
+              },
+            },
+            'subcategory': {
+              'data': {
+                'id': expense.Subcategory.get('uuid'),
+                'type': 'subcategories',
+              },
+            },
+            'vendor': {
+              'data': {
+                'id': expense.Vendor.get('uuid'),
+                'type': 'vendors',
+              },
+            },
+          };
+          if (expense.Fund) {
+            relationships.fund = {
+              'data': {
+                'id': expense.Fund.get('uuid'),
+                'type': 'funds',
+              },
+            };
+          }
           return {
             'attributes': {
               'amount': expense.get('amount_cents'),
@@ -214,26 +274,7 @@ module.exports = (app) => {
               'reimbursed-amount': expense.get('reimbursed_cents'),
             },
             'id': expense.get('uuid'),
-            'relationships': {
-              'household-member': {
-                'data': {
-                  'id': expense.HouseholdMember.get('uuid'),
-                  'type': 'household-members',
-                },
-              },
-              'subcategory': {
-                'data': {
-                  'id': expense.Subcategory.get('uuid'),
-                  'type': 'subcategories',
-                },
-              },
-              'vendor': {
-                'data': {
-                  'id': expense.Vendor.get('uuid'),
-                  'type': 'vendors',
-                },
-              },
-            },
+            'relationships': relationships,
             'type': 'expenses',
           };
         }),

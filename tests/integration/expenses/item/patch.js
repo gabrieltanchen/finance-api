@@ -19,6 +19,7 @@ describe('Integration - PATCH /expenses/:uuid', function() {
   let updateExpenseSpy;
 
   let expenseUuid;
+  let user1FundUuid;
   let user1Subcategory1Uuid;
   let user1Subcategory2Uuid;
   let user1HouseholdMember1Uuid;
@@ -132,6 +133,16 @@ describe('Integration - PATCH /expenses/:uuid', function() {
     user1HouseholdMember2Uuid = await controllers.HouseholdCtrl.createMember({
       auditApiCallUuid: apiCall.get('uuid'),
       name: sampleData.users.user2.firstName,
+    });
+  });
+
+  beforeEach('create user 1 fund', async function() {
+    const apiCall = await models.Audit.ApiCall.create({
+      user_uuid: user1Uuid,
+    });
+    user1FundUuid = await controllers.FundCtrl.createFund({
+      auditApiCallUuid: apiCall.get('uuid'),
+      name: sampleData.funds.fund1.name,
     });
   });
 
@@ -739,6 +750,7 @@ describe('Integration - PATCH /expenses/:uuid', function() {
     assert.strictEqual(res.body.data.attributes['reimbursed-amount'], sampleData.expenses.expense2.reimbursed_cents);
     assert.strictEqual(res.body.data.id, expenseUuid);
     assert.isOk(res.body.data.relationships);
+    assert.isNotOk(res.body.data.relationships.fund);
     assert.isOk(res.body.data.relationships['household-member']);
     assert.isOk(res.body.data.relationships['household-member'].data);
     assert.strictEqual(res.body.data.relationships['household-member'].data.id, user1HouseholdMember2Uuid);
@@ -757,6 +769,111 @@ describe('Integration - PATCH /expenses/:uuid', function() {
     assert.isOk(updateExpenseParams.auditApiCallUuid);
     assert.strictEqual(updateExpenseParams.date, sampleData.expenses.expense2.date);
     assert.strictEqual(updateExpenseParams.description, sampleData.expenses.expense2.description);
+    assert.isNotOk(updateExpenseParams.fundUuid);
+    assert.strictEqual(updateExpenseParams.householdMemberUuid, user1HouseholdMember2Uuid);
+    assert.strictEqual(
+      updateExpenseParams.reimbursedAmount,
+      sampleData.expenses.expense2.reimbursed_cents,
+    );
+    assert.strictEqual(updateExpenseParams.subcategoryUuid, user1Subcategory2Uuid);
+    assert.strictEqual(updateExpenseParams.vendorUuid, user1Vendor2Uuid);
+
+    // Validate Audit API call.
+    const apiCall = await models.Audit.ApiCall.findOne({
+      attributes: [
+        'http_method',
+        'ip_address',
+        'route',
+        'user_agent',
+        'user_uuid',
+        'uuid',
+      ],
+      where: {
+        uuid: updateExpenseParams.auditApiCallUuid,
+      },
+    });
+    assert.isOk(apiCall);
+    assert.strictEqual(apiCall.get('http_method'), 'PATCH');
+    assert.isOk(apiCall.get('ip_address'));
+    assert.strictEqual(apiCall.get('route'), `/expenses/${expenseUuid}`);
+    assert.isOk(apiCall.get('user_agent'));
+    assert.strictEqual(apiCall.get('user_uuid'), user1Uuid);
+  });
+
+  it('should return 200 including a fund', async function() {
+    const res = await chai.request(server)
+      .patch(`/expenses/${expenseUuid}`)
+      .set('Content-Type', 'application/vnd.api+json')
+      .set('Authorization', `Bearer ${user1Token}`)
+      .send({
+        'data': {
+          'attributes': {
+            'amount': sampleData.expenses.expense2.amount_cents,
+            'date': sampleData.expenses.expense2.date,
+            'description': sampleData.expenses.expense2.description,
+            'reimbursed-amount': sampleData.expenses.expense2.reimbursed_cents,
+          },
+          'id': expenseUuid,
+          'relationships': {
+            'fund': {
+              'data': {
+                'id': user1FundUuid,
+              },
+            },
+            'household-member': {
+              'data': {
+                'id': user1HouseholdMember2Uuid,
+              },
+            },
+            'subcategory': {
+              'data': {
+                'id': user1Subcategory2Uuid,
+              },
+            },
+            'vendor': {
+              'data': {
+                'id': user1Vendor2Uuid,
+              },
+            },
+          },
+          'type': 'expenses',
+        },
+      });
+    expect(res).to.have.status(200);
+    assert.isOk(res.body.data);
+    assert.isOk(res.body.data.attributes);
+    assert.strictEqual(res.body.data.attributes.amount, sampleData.expenses.expense2.amount_cents);
+    assert.isOk(res.body.data.attributes['created-at']);
+    assert.strictEqual(res.body.data.attributes.date, sampleData.expenses.expense2.date);
+    assert.strictEqual(
+      res.body.data.attributes.description,
+      sampleData.expenses.expense2.description,
+    );
+    assert.strictEqual(res.body.data.attributes['reimbursed-amount'], sampleData.expenses.expense2.reimbursed_cents);
+    assert.strictEqual(res.body.data.id, expenseUuid);
+    assert.isOk(res.body.data.relationships);
+    assert.isOk(res.body.data.relationships.fund);
+    assert.isOk(res.body.data.relationships.fund.data);
+    assert.strictEqual(res.body.data.relationships.fund.data.id, user1FundUuid);
+    assert.isOk(res.body.data.relationships['household-member']);
+    assert.isOk(res.body.data.relationships['household-member'].data);
+    assert.strictEqual(res.body.data.relationships['household-member'].data.id, user1HouseholdMember2Uuid);
+    assert.isOk(res.body.data.relationships.subcategory);
+    assert.isOk(res.body.data.relationships.subcategory.data);
+    assert.strictEqual(res.body.data.relationships.subcategory.data.id, user1Subcategory2Uuid);
+    assert.isOk(res.body.data.relationships.vendor);
+    assert.isOk(res.body.data.relationships.vendor.data);
+    assert.strictEqual(res.body.data.relationships.vendor.data.id, user1Vendor2Uuid);
+    assert.strictEqual(res.body.data.type, 'expenses');
+
+    // Validate ExpenseCtrl.updateExpense call.
+    assert.strictEqual(updateExpenseSpy.callCount, 1);
+    const updateExpenseParams = updateExpenseSpy.getCall(0).args[0];
+    assert.strictEqual(updateExpenseParams.amount, sampleData.expenses.expense2.amount_cents);
+    assert.isOk(updateExpenseParams.auditApiCallUuid);
+    assert.strictEqual(updateExpenseParams.date, sampleData.expenses.expense2.date);
+    assert.strictEqual(updateExpenseParams.description, sampleData.expenses.expense2.description);
+    assert.strictEqual(updateExpenseParams.fundUuid, user1FundUuid);
     assert.strictEqual(updateExpenseParams.householdMemberUuid, user1HouseholdMember2Uuid);
     assert.strictEqual(
       updateExpenseParams.reimbursedAmount,

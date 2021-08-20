@@ -103,6 +103,13 @@ describe('Unit:Model - Expense', function() {
     assert.isNull(attributes.subcategory_uuid.defaultValue);
     assert.isFalse(attributes.subcategory_uuid.primaryKey);
 
-    assert.strictEqual(Object.keys(attributes).length, 11);
+    // fund_uuid
+    assert.isOk(attributes.fund_uuid);
+    assert.strictEqual(attributes.fund_uuid.type, 'UUID');
+    assert.isTrue(attributes.fund_uuid.allowNull);
+    assert.isNull(attributes.fund_uuid.defaultValue);
+    assert.isFalse(attributes.fund_uuid.primaryKey);
+
+    assert.strictEqual(Object.keys(attributes).length, 12);
   });
 });
