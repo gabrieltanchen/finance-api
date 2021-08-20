@@ -37,12 +37,20 @@ module.exports = (app) => {
    */
   return async(req, res, next) => {
     try {
+      let fundUuid = null;
+      if (req.body.data.relationships
+          && req.body.data.relationships.fund
+          && req.body.data.relationships.fund.data
+          && req.body.data.relationships.fund.data.id) {
+        fundUuid = req.body.data.relationships.fund.data.id;
+      }
       await controllers.ExpenseCtrl.updateExpense({
         amount: req.body.data.attributes.amount,
         auditApiCallUuid: req.auditApiCallUuid,
         date: req.body.data.attributes.date,
         description: req.body.data.attributes.description,
         expenseUuid: req.params.uuid,
+        fundUuid,
         householdMemberUuid: req.body.data.relationships['household-member'].data.id,
         reimbursedAmount: req.body.data.attributes['reimbursed-amount'],
         subcategoryUuid: req.body.data.relationships.subcategory.data.id,
@@ -60,6 +68,10 @@ module.exports = (app) => {
         ],
         include: [{
           attributes: ['name', 'uuid'],
+          model: models.Fund,
+          required: false,
+        }, {
+          attributes: ['name', 'uuid'],
           model: models.HouseholdMember,
           required: true,
         }, {
@@ -76,6 +88,34 @@ module.exports = (app) => {
         },
       });
 
+      const relationships = {
+        'household-member': {
+          'data': {
+            'id': expense.HouseholdMember.get('uuid'),
+            'type': 'household-members',
+          },
+        },
+        'subcategory': {
+          'data': {
+            'id': expense.Subcategory.get('uuid'),
+            'type': 'subcategories',
+          },
+        },
+        'vendor': {
+          'data': {
+            'id': expense.Vendor.get('uuid'),
+            'type': 'vendors',
+          },
+        },
+      };
+      if (expense.Fund) {
+        relationships.fund = {
+          'data': {
+            'id': expense.Fund.get('uuid'),
+            'type': 'funds',
+          },
+        };
+      }
       return res.status(200).json({
         'data': {
           'attributes': {
@@ -86,26 +126,7 @@ module.exports = (app) => {
             'reimbursed-amount': expense.get('reimbursed_cents'),
           },
           'id': expense.get('uuid'),
-          'relationships': {
-            'household-member': {
-              'data': {
-                'id': expense.HouseholdMember.get('uuid'),
-                'type': 'household-members',
-              },
-            },
-            'subcategory': {
-              'data': {
-                'id': expense.Subcategory.get('uuid'),
-                'type': 'subcategories',
-              },
-            },
-            'vendor': {
-              'data': {
-                'id': expense.Vendor.get('uuid'),
-                'type': 'vendors',
-              },
-            },
-          },
+          'relationships': relationships,
           'type': 'expenses',
         },
       });
