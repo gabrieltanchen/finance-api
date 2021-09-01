@@ -1,3 +1,4 @@
+const addUserToHousehold = require('./add-user-to-household');
 const getToken = require('./get-token');
 const loginWithPassword = require('./login-with-password');
 const loginWithToken = require('./login-with-token');
@@ -14,6 +15,13 @@ class UserCtrl {
       p: 1,
     };
     this.tokenExpiresIn = 7200;
+  }
+
+  async addUserToHousehold(params) {
+    return addUserToHousehold({
+      ...params,
+      userCtrl: this,
+    });
   }
 
   async getToken(userUuid) {
