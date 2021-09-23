@@ -1,5 +1,3 @@
-const Sequelize = require('sequelize');
-
 module.exports = (app) => {
   const models = app.get('models');
 
