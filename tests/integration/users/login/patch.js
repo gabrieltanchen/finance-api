@@ -20,11 +20,15 @@ describe('Integration - PATCH /users/login', function() {
     await testHelper.cleanup();
   });
 
-  it('should return 501', async function() {
+  it('should return 401', async function() {
     const res = await chai.request(server)
       .patch('/users/login')
       .set('Content-Type', 'application/vnd.api+json');
-    expect(res).to.have.status(501);
-    assert.deepEqual(res.body, {});
+    expect(res).to.have.status(401);
+    assert.deepEqual(res.body, {
+      errors: [{
+        detail: 'Unauthorized',
+      }],
+    });
   });
 });

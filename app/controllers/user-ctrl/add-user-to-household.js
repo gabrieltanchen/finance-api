@@ -4,14 +4,6 @@ const _ = require('lodash');
 
 const { UserError } = require('../../middleware/error-handler');
 
-/**
- * @param {string} auditApiCallUuid
- * @param {string} email
- * @param {string} firstName
- * @param {string} lastName
- * @param {string} password
- * @param {object} userCtrl Instance of UserCtrl
- */
 module.exports = async({
   auditApiCallUuid,
   email,
@@ -35,13 +27,28 @@ module.exports = async({
   }
 
   const apiCall = await models.Audit.ApiCall.findOne({
-    attributes: ['uuid'],
+    attributes: ['user_uuid', 'uuid'],
     where: {
       uuid: auditApiCallUuid,
     },
   });
-  if (!apiCall) {
+  if (!apiCall || !apiCall.get('user_uuid')) {
     throw new UserError('Missing audit API call');
+  }
+
+  const user = await models.User.findOne({
+    attributes: ['uuid'],
+    include: [{
+      attributes: ['uuid'],
+      model: models.Household,
+      required: true,
+    }],
+    where: {
+      uuid: apiCall.get('user_uuid'),
+    },
+  });
+  if (!user) {
+    throw new UserError('Not found');
   }
 
   if (await models.User.findOne({
@@ -53,47 +60,41 @@ module.exports = async({
     throw new UserError('Email already exists');
   }
 
-  const user = models.User.build({
+  const newUser = models.User.build({
     email: email.toLowerCase(),
     first_name: firstName,
+    household_uuid: user.Household.get('uuid'),
     last_name: lastName,
   });
-  const userLogin = models.UserLogin.build({
+  const newUserLogin = models.UserLogin.build({
     s1: crypto.randomBytes(48).toString('base64'),
-  });
-  const household = models.Household.build({
-    name: user.get('last_name'),
   });
   const hash = await models.Hash.create({
     h1: (
-      await crypto.scryptSync(password, userLogin.get('s1'), 96, userCtrl.hashParams)
+      await crypto.scryptSync(password, newUserLogin.get('s1'), 96, userCtrl.hashParams)
     ).toString('base64'),
     s2: crypto.randomBytes(48).toString('base64'),
   });
-  userLogin.set('h2', (
+  newUserLogin.set('h2', (
     await crypto.scryptSync(password, hash.get('s2'), 96, userCtrl.hashParams)
   ).toString('base64'));
 
   await models.sequelize.transaction({
     isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.REPEATABLE_READ,
   }, async(transaction) => {
-    await household.save({
+    await newUser.save({
       transaction,
     });
-    user.set('household_uuid', household.get('uuid'));
-    await user.save({
-      transaction,
-    });
-    userLogin.set('user_uuid', user.get('uuid'));
-    await userLogin.save({
+    newUserLogin.set('user_uuid', newUser.get('uuid'));
+    await newUserLogin.save({
       transaction,
     });
     await controllers.AuditCtrl.trackChanges({
       auditApiCallUuid,
-      newList: [household, user, userLogin],
+      newList: [newUser, newUserLogin],
       transaction,
     });
   });
 
-  return user.get('uuid');
+  return newUser.get('uuid');
 };
