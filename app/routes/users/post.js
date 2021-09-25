@@ -38,13 +38,24 @@ module.exports = (app) => {
    */
   return async(req, res, next) => {
     try {
-      const userUuid = await controllers.UserCtrl.signUp({
-        auditApiCallUuid: req.auditApiCallUuid,
-        email: req.body.data.attributes.email,
-        firstName: req.body.data.attributes['first-name'],
-        lastName: req.body.data.attributes['last-name'],
-        password: req.body.data.attributes.password,
-      });
+      let userUuid;
+      if (req.userUuid) {
+        userUuid = await controllers.UserCtrl.addUserToHousehold({
+          auditApiCallUuid: req.auditApiCallUuid,
+          email: req.body.data.attributes.email,
+          firstName: req.body.data.attributes['first-name'],
+          lastName: req.body.data.attributes['last-name'],
+          password: req.body.data.attributes.password,
+        });
+      } else {
+        userUuid = await controllers.UserCtrl.signUp({
+          auditApiCallUuid: req.auditApiCallUuid,
+          email: req.body.data.attributes.email,
+          firstName: req.body.data.attributes['first-name'],
+          lastName: req.body.data.attributes['last-name'],
+          password: req.body.data.attributes.password,
+        });
+      }
 
       const user = await models.User.findOne({
         attributes: ['created_at', 'email', 'first_name', 'last_name', 'uuid'],
@@ -57,17 +68,20 @@ module.exports = (app) => {
           uuid: userUuid,
         },
       });
-      const token = await controllers.UserCtrl.getToken(user.get('uuid'));
+      const attributes = {
+        'created-at': user.get('created_at'),
+        'email': user.get('email'),
+        'first-name': user.get('first_name'),
+        'last-name': user.get('last_name'),
+      };
+      if (!req.userUuid) {
+        const token = await controllers.UserCtrl.getToken(user.get('uuid'));
+        attributes.token = token;
+      }
 
       return res.status(201).json({
         'data': {
-          'attributes': {
-            'created-at': user.get('created_at'),
-            'email': user.get('email'),
-            'first-name': user.get('first_name'),
-            'last-name': user.get('last_name'),
-            'token': token,
-          },
+          'attributes': attributes,
           'id': user.get('uuid'),
           'type': 'users',
         },

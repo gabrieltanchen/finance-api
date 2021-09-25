@@ -1,13 +1,19 @@
 const { body } = require('express-validator');
+const getFn = require('./get');
 const postFn = require('./post');
 const routeItem = require('./item');
 const routeLogin = require('./login');
 
 module.exports = (router, app) => {
   const Auditor = app.get('Auditor');
+  const Authentication = app.get('Authentication');
   const Validator = app.get('Validator');
 
   router.route('/')
+    .get(
+      Authentication.UserAuth.can('access-account'),
+      getFn(app),
+    )
     .post(
       [
         body([['data', 'attributes', 'email']], 'Email address is required.').not().isEmpty(),

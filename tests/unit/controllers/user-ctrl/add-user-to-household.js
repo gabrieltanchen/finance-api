@@ -10,12 +10,15 @@ const { UserError } = require('../../../../app/middleware/error-handler');
 
 const assert = chai.assert;
 
-describe('Unit:Controllers - UserCtrl.signUp', function() {
+describe('Unit:Controllers - UserCtrl.addUserToHousehold', function() {
   let controllers;
   let models;
   const testHelper = new TestHelper();
 
   let trackChangesSpy;
+
+  let user1HouseholdUuid;
+  let user1Uuid;
 
   before('get app', async function() {
     this.timeout(30000);
@@ -36,6 +39,20 @@ describe('Unit:Controllers - UserCtrl.signUp', function() {
     await testHelper.cleanup();
   });
 
+  beforeEach('create first user', async function() {
+    const household = await models.Household.create({
+      name: sampleData.users.user1.lastName,
+    });
+    user1HouseholdUuid = household.get('uuid');
+    const user = await models.User.create({
+      email: sampleData.users.user1.email,
+      first_name: sampleData.users.user1.firstName,
+      household_uuid: household.get('uuid'),
+      last_name: sampleData.users.user1.lastName,
+    });
+    user1Uuid = user.get('uuid');
+  });
+
   afterEach('reset history for sinon spies', function() {
     trackChangesSpy.resetHistory();
   });
@@ -47,8 +64,10 @@ describe('Unit:Controllers - UserCtrl.signUp', function() {
 
   it('should reject with no email', async function() {
     try {
-      const apiCall = await models.Audit.ApiCall.create();
-      await controllers.UserCtrl.signUp({
+      const apiCall = await models.Audit.ApiCall.create({
+        user_uuid: user1Uuid,
+      });
+      await controllers.UserCtrl.addUserToHousehold({
         auditApiCallUuid: apiCall.get('uuid'),
         email: sampleData.users.invalid1.email,
         firstName: sampleData.users.invalid1.firstName,
@@ -67,8 +86,10 @@ describe('Unit:Controllers - UserCtrl.signUp', function() {
 
   it('should reject with no first name', async function() {
     try {
-      const apiCall = await models.Audit.ApiCall.create();
-      await controllers.UserCtrl.signUp({
+      const apiCall = await models.Audit.ApiCall.create({
+        user_uuid: user1Uuid,
+      });
+      await controllers.UserCtrl.addUserToHousehold({
         auditApiCallUuid: apiCall.get('uuid'),
         email: sampleData.users.invalid2.email,
         firstName: sampleData.users.invalid2.firstName,
@@ -87,8 +108,10 @@ describe('Unit:Controllers - UserCtrl.signUp', function() {
 
   it('should reject with no last name', async function() {
     try {
-      const apiCall = await models.Audit.ApiCall.create();
-      await controllers.UserCtrl.signUp({
+      const apiCall = await models.Audit.ApiCall.create({
+        user_uuid: user1Uuid,
+      });
+      await controllers.UserCtrl.addUserToHousehold({
         auditApiCallUuid: apiCall.get('uuid'),
         email: sampleData.users.invalid3.email,
         firstName: sampleData.users.invalid3.firstName,
@@ -107,8 +130,10 @@ describe('Unit:Controllers - UserCtrl.signUp', function() {
 
   it('should reject with no password', async function() {
     try {
-      const apiCall = await models.Audit.ApiCall.create();
-      await controllers.UserCtrl.signUp({
+      const apiCall = await models.Audit.ApiCall.create({
+        user_uuid: user1Uuid,
+      });
+      await controllers.UserCtrl.addUserToHousehold({
         auditApiCallUuid: apiCall.get('uuid'),
         email: sampleData.users.invalid4.email,
         firstName: sampleData.users.invalid4.firstName,
@@ -127,8 +152,10 @@ describe('Unit:Controllers - UserCtrl.signUp', function() {
 
   it('should reject with a short password', async function() {
     try {
-      const apiCall = await models.Audit.ApiCall.create();
-      await controllers.UserCtrl.signUp({
+      const apiCall = await models.Audit.ApiCall.create({
+        user_uuid: user1Uuid,
+      });
+      await controllers.UserCtrl.addUserToHousehold({
         auditApiCallUuid: apiCall.get('uuid'),
         email: sampleData.users.invalid6.email,
         firstName: sampleData.users.invalid6.firstName,
@@ -147,12 +174,12 @@ describe('Unit:Controllers - UserCtrl.signUp', function() {
 
   it('should reject with no audit API call', async function() {
     try {
-      await controllers.UserCtrl.signUp({
+      await controllers.UserCtrl.addUserToHousehold({
         auditApiCallUuid: null,
-        email: sampleData.users.user1.email,
-        firstName: sampleData.users.user1.firstName,
-        lastName: sampleData.users.user1.lastName,
-        password: sampleData.users.user1.password,
+        email: sampleData.users.user2.email,
+        firstName: sampleData.users.user2.firstName,
+        lastName: sampleData.users.user2.lastName,
+        password: sampleData.users.user2.password,
       });
       /* istanbul ignore next */
       throw new Error('Expected to reject not resolve.');
@@ -166,12 +193,12 @@ describe('Unit:Controllers - UserCtrl.signUp', function() {
 
   it('should reject when the audit API call does not exist', async function() {
     try {
-      await controllers.UserCtrl.signUp({
+      await controllers.UserCtrl.addUserToHousehold({
         auditApiCallUuid: uuidv4(),
-        email: sampleData.users.user1.email,
-        firstName: sampleData.users.user1.firstName,
-        lastName: sampleData.users.user1.lastName,
-        password: sampleData.users.user1.password,
+        email: sampleData.users.user2.email,
+        firstName: sampleData.users.user2.firstName,
+        lastName: sampleData.users.user2.lastName,
+        password: sampleData.users.user2.password,
       });
       /* istanbul ignore next */
       throw new Error('Expected to reject not resolve.');
@@ -183,54 +210,46 @@ describe('Unit:Controllers - UserCtrl.signUp', function() {
     assert.strictEqual(trackChangesSpy.callCount, 0);
   });
 
-  it('should create a new user and household', async function() {
-    const apiCall = await models.Audit.ApiCall.create();
-    const userUuid = await controllers.UserCtrl.signUp({
+  it('should create a new user with the same household', async function() {
+    const apiCall = await models.Audit.ApiCall.create({
+      user_uuid: user1Uuid,
+    });
+    const newUserUuid = await controllers.UserCtrl.addUserToHousehold({
       auditApiCallUuid: apiCall.get('uuid'),
-      email: sampleData.users.user1.email,
-      firstName: sampleData.users.user1.firstName,
-      lastName: sampleData.users.user1.lastName,
-      password: sampleData.users.user1.password,
+      email: sampleData.users.user2.email,
+      firstName: sampleData.users.user2.firstName,
+      lastName: sampleData.users.user2.lastName,
+      password: sampleData.users.user2.password,
     });
 
-    assert.isOk(userUuid);
+    assert.isOk(newUserUuid);
 
-    // Verify the User instance.
-    const user = await models.User.findOne({
+    // Verify the new User instance.
+    const newUser = await models.User.findOne({
       attributes: ['email', 'first_name', 'household_uuid', 'last_name', 'uuid'],
       where: {
-        uuid: userUuid,
+        uuid: newUserUuid,
       },
     });
-    assert.isOk(user);
-    assert.strictEqual(user.get('email'), sampleData.users.user1.email.toLowerCase());
-    assert.strictEqual(user.get('first_name'), sampleData.users.user1.firstName);
-    assert.isOk(user.get('household_uuid'));
-    assert.strictEqual(user.get('last_name'), sampleData.users.user1.lastName);
+    assert.isOk(newUser);
+    assert.strictEqual(newUser.get('email'), sampleData.users.user2.email.toLowerCase());
+    assert.strictEqual(newUser.get('first_name'), sampleData.users.user2.firstName);
+    assert.strictEqual(newUser.get('last_name'), sampleData.users.user2.lastName);
+    assert.strictEqual(newUser.get('household_uuid'), user1HouseholdUuid);
 
-    // Verify the Household instance.
-    const household = await models.Household.findOne({
-      attributes: ['name', 'uuid'],
-      where: {
-        uuid: user.get('household_uuid'),
-      },
-    });
-    assert.isOk(household);
-    assert.strictEqual(household.get('name'), sampleData.users.user1.lastName);
-
-    // Verify the UserLogin instance.
-    const userLogin = await models.UserLogin.findOne({
+    // Verify the new UserLogin instance.
+    const newUserLogin = await models.UserLogin.findOne({
       attributes: ['h2', 's1', 'user_uuid'],
       where: {
-        user_uuid: user.get('uuid'),
+        user_uuid: newUser.get('uuid'),
       },
     });
-    assert.isOk(userLogin);
-    assert.isOk(userLogin.get('h2'));
-    assert.isOk(userLogin.get('s1'));
+    assert.isOk(newUserLogin);
+    assert.isOk(newUserLogin.get('h2'));
+    assert.isOk(newUserLogin.get('s1'));
     const h1 = (await crypto.scryptSync(
-      sampleData.users.user1.password,
-      userLogin.get('s1'),
+      sampleData.users.user2.password,
+      newUserLogin.get('s1'),
       96,
       controllers.UserCtrl.hashParams,
     )).toString('base64');
@@ -242,12 +261,12 @@ describe('Unit:Controllers - UserCtrl.signUp', function() {
     });
     assert.isOk(hash);
     const h2 = (await crypto.scryptSync(
-      sampleData.users.user1.password,
+      sampleData.users.user2.password,
       hash.get('s2'),
       96,
       controllers.UserCtrl.hashParams,
     )).toString('base64');
-    assert.strictEqual(userLogin.get('h2'), h2);
+    assert.strictEqual(newUserLogin.get('h2'), h2);
 
     assert.strictEqual(trackChangesSpy.callCount, 1);
     const trackChangesParams = trackChangesSpy.getCall(0).args[0];
@@ -255,22 +274,15 @@ describe('Unit:Controllers - UserCtrl.signUp', function() {
     assert.isNotOk(trackChangesParams.changeList);
     assert.isNotOk(trackChangesParams.deleteList);
     assert.isOk(trackChangesParams.newList);
-    const newHousehold = _.find(trackChangesParams.newList, (newInstance) => {
-      return newInstance instanceof models.Household
-        && newInstance.get('uuid') === household.get('uuid');
-    });
-    assert.isOk(newHousehold);
-    const newUser = _.find(trackChangesParams.newList, (newInstance) => {
+    assert.isOk(_.find(trackChangesParams.newList, (newInstance) => {
       return newInstance instanceof models.User
-        && newInstance.get('uuid') === user.get('uuid');
-    });
-    assert.isOk(newUser);
-    const newUserLogin = _.find(trackChangesParams.newList, (newInstance) => {
+        && newInstance.get('uuid') === newUser.get('uuid');
+    }));
+    assert.isOk(_.find(trackChangesParams.newList, (newInstance) => {
       return newInstance instanceof models.UserLogin
-        && newInstance.get('user_uuid') === user.get('uuid');
-    });
-    assert.isOk(newUserLogin);
-    assert.strictEqual(trackChangesParams.newList.length, 3);
+        && newInstance.get('user_uuid') === newUser.get('uuid');
+    }));
+    assert.strictEqual(trackChangesParams.newList.length, 2);
     assert.isOk(trackChangesParams.transaction);
   });
 
@@ -279,23 +291,25 @@ describe('Unit:Controllers - UserCtrl.signUp', function() {
       const apiCall = await models.Audit.ApiCall.create();
       await controllers.UserCtrl.signUp({
         auditApiCallUuid: apiCall.get('uuid'),
-        email: sampleData.users.user1.email,
-        firstName: sampleData.users.user1.firstName,
-        lastName: sampleData.users.user1.lastName,
-        password: sampleData.users.user1.password,
+        email: sampleData.users.user2.email,
+        firstName: sampleData.users.user2.firstName,
+        lastName: sampleData.users.user2.lastName,
+        password: sampleData.users.user2.password,
       });
       trackChangesSpy.resetHistory();
     });
 
     it('should reject with the same email', async function() {
       try {
-        const apiCall = await models.Audit.ApiCall.create();
-        await controllers.UserCtrl.signUp({
+        const apiCall = await models.Audit.ApiCall.create({
+          user_uuid: user1Uuid,
+        });
+        await controllers.UserCtrl.addUserToHousehold({
           auditApiCallUuid: apiCall.get('uuid'),
-          email: sampleData.users.user1.email,
-          firstName: sampleData.users.user1.firstName,
-          lastName: sampleData.users.user1.lastName,
-          password: sampleData.users.user1.password,
+          email: sampleData.users.user2.email,
+          firstName: sampleData.users.user2.firstName,
+          lastName: sampleData.users.user2.lastName,
+          password: sampleData.users.user2.password,
         });
         /* istanbul ignore next */
         throw new Error('Expected to reject not resolve.');
@@ -309,13 +323,15 @@ describe('Unit:Controllers - UserCtrl.signUp', function() {
 
     it('should reject with the same email regardless of case', async function() {
       try {
-        const apiCall = await models.Audit.ApiCall.create();
-        await controllers.UserCtrl.signUp({
+        const apiCall = await models.Audit.ApiCall.create({
+          user_uuid: user1Uuid,
+        });
+        await controllers.UserCtrl.addUserToHousehold({
           auditApiCallUuid: apiCall.get('uuid'),
-          email: sampleData.users.user1.email.toUpperCase(),
-          firstName: sampleData.users.user1.firstName,
-          lastName: sampleData.users.user1.lastName,
-          password: sampleData.users.user1.password,
+          email: sampleData.users.user2.email.toUpperCase(),
+          firstName: sampleData.users.user2.firstName,
+          lastName: sampleData.users.user2.lastName,
+          password: sampleData.users.user2.password,
         });
         /* istanbul ignore next */
         throw new Error('Expected to reject not resolve.');

@@ -1,7 +1,9 @@
+const addUserToHousehold = require('./add-user-to-household');
 const getToken = require('./get-token');
 const loginWithPassword = require('./login-with-password');
 const loginWithToken = require('./login-with-token');
 const signUp = require('./sign-up');
+const updateUserDetails = require('./update-user-details');
 
 class UserCtrl {
   constructor(parent, models) {
@@ -14,6 +16,13 @@ class UserCtrl {
       p: 1,
     };
     this.tokenExpiresIn = 7200;
+  }
+
+  async addUserToHousehold(params) {
+    return addUserToHousehold({
+      ...params,
+      userCtrl: this,
+    });
   }
 
   async getToken(userUuid) {
@@ -61,6 +70,13 @@ class UserCtrl {
       firstName,
       lastName,
       password,
+      userCtrl: this,
+    });
+  }
+
+  async updateUserDetails(params) {
+    return updateUserDetails({
+      ...params,
       userCtrl: this,
     });
   }
