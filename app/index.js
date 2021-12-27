@@ -2,7 +2,6 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const express = require('express');
 const nconf = require('nconf');
-const Sequelize = require('sequelize');
 const { Umzug, SequelizeStorage } = require('umzug');
 
 const Controllers = require('./controllers');
