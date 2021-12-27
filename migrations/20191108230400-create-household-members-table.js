@@ -1,41 +1,41 @@
-'use strict';
-/* istanbul ignore next */
-module.exports = {
-  up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('household_members', {
-      uuid: {
-        allowNull: false,
-        primaryKey: true,
-        type: Sequelize.UUID,
-      },
-      created_at: {
-        allowNull: false,
-        type: Sequelize.DATE,
-      },
-      updated_at: {
-        allowNull: false,
-        type: Sequelize.DATE,
-      },
-      deleted_at: {
-        allowNull: true,
-        type: Sequelize.DATE,
-      },
-      household_uuid: {
-        allowNull: false,
-        references: {
-          key: 'uuid',
-          model: 'households',
-        },
-        type: Sequelize.UUID,
-      },
-      name: {
-        allowNull: false,
-        type: Sequelize.STRING,
-      },
-    });
-  },
+const { Sequelize } = require('sequelize');
 
-  down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('household_members');
-  },
-};
+async function up({ context: queryInterface }) {
+  await queryInterface.createTable('household_members', {
+    uuid: {
+      allowNull: false,
+      primaryKey: true,
+      type: Sequelize.UUID,
+    },
+    created_at: {
+      allowNull: false,
+      type: Sequelize.DATE,
+    },
+    updated_at: {
+      allowNull: false,
+      type: Sequelize.DATE,
+    },
+    deleted_at: {
+      allowNull: true,
+      type: Sequelize.DATE,
+    },
+    household_uuid: {
+      allowNull: false,
+      references: {
+        key: 'uuid',
+        model: 'households',
+      },
+      type: Sequelize.UUID,
+    },
+    name: {
+      allowNull: false,
+      type: Sequelize.STRING,
+    },
+  });
+}
+
+async function down({ context: queryInterface }) {
+  await queryInterface.dropTable('household_members');
+}
+
+module.exports = { up, down };

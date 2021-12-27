@@ -2,8 +2,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const express = require('express');
 const nconf = require('nconf');
-const Sequelize = require('sequelize');
-const Umzug = require('umzug');
+const { Umzug, SequelizeStorage } = require('umzug');
 
 const Controllers = require('./controllers');
 const Middleware = require('./middleware');
@@ -72,13 +71,10 @@ class App {
     const models = app.get('models');
 
     const umzug = new Umzug({
-      storage: 'sequelize',
-      storageOptions: {
-        sequelize: models.sequelize,
-      },
-      migrations: {
-        params: [models.sequelize.getQueryInterface(), Sequelize],
-      },
+      migrations: { glob: 'migrations/*.js' },
+      context: models.sequelize.getQueryInterface(),
+      storage: new SequelizeStorage({ sequelize: models.sequelize }),
+      logger: console,
     });
     await umzug.up();
 
