@@ -1,18 +1,18 @@
-'use strict';
+const { Sequelize } = require('sequelize');
 
-module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    return queryInterface.addColumn('expenses', 'fund_uuid', {
-      allowNull: true,
-      references: {
-        key: 'uuid',
-        model: 'funds',
-      },
-      type: Sequelize.UUID,
-    });
-  },
+async function up({ context: queryInterface }) {
+  await queryInterface.addColumn('expenses', 'fund_uuid', {
+    allowNull: true,
+    references: {
+      key: 'uuid',
+      model: 'funds',
+    },
+    type: Sequelize.UUID,
+  });
+}
 
-  down: async (queryInterface, Sequelize) => {
-    return queryInterface.removeColumn('expenses', 'fund_uuid');
-  },
-};
+async function down({ context: queryInterface }) {
+  await queryInterface.removeColumn('expenses', 'fund_uuid');
+}
+
+module.exports = { up, down };
