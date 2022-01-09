@@ -299,6 +299,7 @@ describe('Integration - GET /subcategory-annual-reports/:uuid', function() {
     assert.strictEqual(res.body.data.attributes['oct-budget'], 0);
     assert.strictEqual(res.body.data.attributes['sep-actual'], 0);
     assert.strictEqual(res.body.data.attributes['sep-budget'], 0);
+    assert.strictEqual(res.body.data.attributes.year, 2018);
     assert.strictEqual(res.body.data.id, `${user1Subcategory1Uuid}-2018`);
     assert.strictEqual(res.body.data.type, 'subcategory-annual-reports');
   });
@@ -735,6 +736,7 @@ describe('Integration - GET /subcategory-annual-reports/:uuid', function() {
       assert.strictEqual(res.body.data.attributes['oct-budget'], 90756);
       assert.strictEqual(res.body.data.attributes['sep-actual'], 0);
       assert.strictEqual(res.body.data.attributes['sep-budget'], 43294);
+      assert.strictEqual(res.body.data.attributes.year, 2018);
       assert.strictEqual(res.body.data.id, `${user1Subcategory1Uuid}-2018`);
       assert.strictEqual(res.body.data.type, 'subcategory-annual-reports');
     });

@@ -15,7 +15,7 @@ module.exports = (app) => {
           || isNaN(year.substr(1))) {
         throw new CategoryError('Invalid year');
       }
-      year = year.substr(1);
+      year = parseInt(year.substr(1), 10);
       const uuid = req.params.id.substr(0, 36);
 
       const user = await models.User.findOne({
@@ -137,6 +137,7 @@ module.exports = (app) => {
             'oct-budget': monthReports[9].budget ? monthReports[9].budget.get('amount_cents') : 0,
             'sep-actual': monthReports[8].expenseSum[0].get('amount_cents') - monthReports[8].expenseSum[0].get('reimbursed_cents'),
             'sep-budget': monthReports[8].budget ? monthReports[8].budget.get('amount_cents') : 0,
+            'year': year,
           },
           'id': `${subcategory.get('uuid')}-${year}`,
           'type': 'subcategory-annual-reports',
