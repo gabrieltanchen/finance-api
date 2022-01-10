@@ -22,6 +22,11 @@ module.exports = class CategoryError extends Error {
         message: 'Cannot delete when there are subcategories remaining.',
         status: 422,
       };
+    case 'Invalid year':
+      return {
+        message: 'Invalid ID provided.',
+        status: 403,
+      };
     case 'No open queries':
       return {
         message: 'Category ID is required.',
