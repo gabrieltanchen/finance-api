@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const _ = require('lodash');
 
 const { BudgetError } = require('../../middleware/error-handler');
 
@@ -42,6 +43,8 @@ module.exports = async({
     throw new BudgetError('Invalid month');
   } else if (isNaN(parseInt(amount, 10))) {
     throw new BudgetError('Invalid budget');
+  } else if (!_.isString(notes)) {
+    throw new BudgetError('Invalid notes');
   }
 
   const apiCall = await models.Audit.ApiCall.findOne({

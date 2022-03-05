@@ -35,7 +35,7 @@ module.exports = (app) => {
         amount: req.body.data.attributes.amount,
         auditApiCallUuid: req.auditApiCallUuid,
         month: req.body.data.attributes.month,
-        notes: req.body.data.attributes.notes,
+        notes: req.body.data.attributes.notes || '',
         subcategoryUuid: req.body.data.relationships.subcategory.data.id,
         year: req.body.data.attributes.year,
       });

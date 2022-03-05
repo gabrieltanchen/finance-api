@@ -341,6 +341,50 @@ describe('Unit:Controllers - BudgetCtrl.createBudget', function() {
     assert.strictEqual(trackChangesSpy.callCount, 0);
   });
 
+  it('should reject with no notes', async function() {
+    try {
+      const apiCall = await models.Audit.ApiCall.create({
+        user_uuid: user1Uuid,
+      });
+      await controllers.BudgetCtrl.createBudget({
+        amount: sampleData.budgets.budget1.amount_cents,
+        auditApiCallUuid: apiCall.get('uuid'),
+        month: sampleData.budgets.budget1.month,
+        notes: null,
+        subcategoryUuid: user1SubcategoryUuid,
+        year: sampleData.budgets.budget1.year,
+      });
+      /* istanbul ignore next */
+      throw new Error('Expected to reject not resolve.');
+    } catch (err) {
+      assert.isOk(err);
+      assert.strictEqual(err.message, 'Invalid notes');
+      assert.isTrue(err instanceof BudgetError);
+    }
+  });
+
+  it('should reject with invalid notes', async function() {
+    try {
+      const apiCall = await models.Audit.ApiCall.create({
+        user_uuid: user1Uuid,
+      });
+      await controllers.BudgetCtrl.createBudget({
+        amount: sampleData.budgets.budget1.amount_cents,
+        auditApiCallUuid: apiCall.get('uuid'),
+        month: sampleData.budgets.budget1.month,
+        notes: 123,
+        subcategoryUuid: user1SubcategoryUuid,
+        year: sampleData.budgets.budget1.year,
+      });
+      /* istanbul ignore next */
+      throw new Error('Expected to reject not resolve.');
+    } catch (err) {
+      assert.isOk(err);
+      assert.strictEqual(err.message, 'Invalid notes');
+      assert.isTrue(err instanceof BudgetError);
+    }
+  });
+
   it('should reject with no audit API call', async function() {
     try {
       await controllers.BudgetCtrl.createBudget({
@@ -535,4 +579,55 @@ describe('Unit:Controllers - BudgetCtrl.createBudget', function() {
       assert.isTrue(err instanceof BudgetError);
     }
   });
+
+  it('should resolve creating a budget with empty notes', async function() {
+    const apiCall = await models.Audit.ApiCall.create({
+      user_uuid: user1Uuid,
+    });
+    const budgetUuid = await controllers.BudgetCtrl.createBudget({
+      amount: sampleData.budgets.budget1.amount_cents,
+      auditApiCallUuid: apiCall.get('uuid'),
+      month: sampleData.budgets.budget1.month,
+      notes: '',
+      subcategoryUuid: user1SubcategoryUuid,
+      year: sampleData.budgets.budget1.year,
+    });
+
+    assert.isOk(budgetUuid);
+
+    // Verify the Budget instance.
+    const budget = await models.Budget.findOne({
+      attributes: [
+        'amount_cents',
+        'month',
+        'notes',
+        'subcategory_uuid',
+        'uuid',
+        'year',
+      ],
+      where: {
+        uuid: budgetUuid,
+      },
+    });
+    assert.isOk(budget);
+    assert.strictEqual(budget.get('amount_cents'), sampleData.budgets.budget1.amount_cents);
+    assert.strictEqual(budget.get('month'), sampleData.budgets.budget1.month);
+    assert.strictEqual(budget.get('notes'), '');
+    assert.strictEqual(budget.get('subcategory_uuid'), user1SubcategoryUuid);
+    assert.strictEqual(budget.get('year'), sampleData.budgets.budget1.year);
+
+    assert.strictEqual(trackChangesSpy.callCount, 1);
+    const trackChangesParams = trackChangesSpy.getCall(0).args[0];
+    assert.strictEqual(trackChangesParams.auditApiCallUuid, apiCall.get('uuid'));
+    assert.isNotOk(trackChangesParams.changeList);
+    assert.isNotOk(trackChangesParams.deleteList);
+    assert.isOk(trackChangesParams.newList);
+    const newBudget = _.find(trackChangesParams.newList, (newInstance) => {
+      return newInstance instanceof models.Budget
+        && newInstance.get('uuid') === budget.get('uuid');
+    });
+    assert.isOk(newBudget);
+    assert.strictEqual(trackChangesParams.newList.length, 1);
+    assert.isOk(trackChangesParams.transaction);
+  })
 });

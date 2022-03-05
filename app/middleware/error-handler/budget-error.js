@@ -17,6 +17,11 @@ module.exports = class BudgetError extends Error {
         message: 'Invalid month provided.',
         status: 403,
       };
+    case 'Invalid notes':
+      return {
+        message: 'Invalid notes provided.',
+        status: 403,
+      };
     case 'Invalid year':
       return {
         message: 'Invalid year provided.',

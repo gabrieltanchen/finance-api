@@ -416,6 +416,54 @@ describe('Unit:Controllers - BudgetCtrl.updateBudget', function() {
     assert.strictEqual(trackChangesSpy.callCount, 0);
   });
 
+  it('should reject with no notes', async function() {
+    try {
+      const apiCall = await models.Audit.ApiCall.create({
+        user_uuid: user1Uuid,
+      });
+      await controllers.BudgetCtrl.updateBudget({
+        amount: sampleData.budgets.budget1.amount_cents,
+        auditApiCallUuid: apiCall.get('uuid'),
+        budgetUuid: user1BudgetUuid,
+        month: sampleData.budgets.budget1.month,
+        notes: null,
+        subcategoryUuid: user1Subcategory1Uuid,
+        year: sampleData.budgets.budget1.year,
+      });
+      /* istanbul ignore next */
+      throw new Error('Expected to reject not resolve.');
+    } catch (err) {
+      assert.isOk(err);
+      assert.strictEqual(err.message, 'Invalid notes');
+      assert.isTrue(err instanceof BudgetError);
+    }
+    assert.strictEqual(trackChangesSpy.callCount, 0);
+  });
+
+  it('should reject with invalid notes', async function() {
+    try {
+      const apiCall = await models.Audit.ApiCall.create({
+        user_uuid: user1Uuid,
+      });
+      await controllers.BudgetCtrl.updateBudget({
+        amount: sampleData.budgets.budget1.amount_cents,
+        auditApiCallUuid: apiCall.get('uuid'),
+        budgetUuid: user1BudgetUuid,
+        month: sampleData.budgets.budget1.month,
+        notes: 123,
+        subcategoryUuid: user1Subcategory1Uuid,
+        year: sampleData.budgets.budget1.year,
+      });
+      /* istanbul ignore next */
+      throw new Error('Expected to reject not resolve.');
+    } catch (err) {
+      assert.isOk(err);
+      assert.strictEqual(err.message, 'Invalid notes');
+      assert.isTrue(err instanceof BudgetError);
+    }
+    assert.strictEqual(trackChangesSpy.callCount, 0);
+  });
+
   it('should reject with no audit API call', async function() {
     try {
       await controllers.BudgetCtrl.updateBudget({
