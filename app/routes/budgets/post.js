@@ -11,6 +11,7 @@ module.exports = (app) => {
    * @apiParam {object} data.attributes
    * @apiParam {integer} data.attributes.amount
    * @apiParam {integer} data.attributes.month
+   * @apiParam {string} data.attributes.notes
    * @apiParam {integer} data.attributes.year
    * @apiParam {object} data.relationships
    * @apiParam {object} data.relationships.subcategory
@@ -34,6 +35,7 @@ module.exports = (app) => {
         amount: req.body.data.attributes.amount,
         auditApiCallUuid: req.auditApiCallUuid,
         month: req.body.data.attributes.month,
+        notes: req.body.data.attributes.notes,
         subcategoryUuid: req.body.data.relationships.subcategory.data.id,
         year: req.body.data.attributes.year,
       });
@@ -43,6 +45,7 @@ module.exports = (app) => {
           'amount_cents',
           'created_at',
           'month',
+          'notes',
           'uuid',
           'year',
         ],
@@ -62,6 +65,7 @@ module.exports = (app) => {
             'amount': budget.get('amount_cents'),
             'created-at': budget.get('created_at'),
             'month': budget.get('month'),
+            'notes': budget.get('notes'),
             'year': budget.get('year'),
           },
           'id': budgetUuid,

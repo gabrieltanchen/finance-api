@@ -10,6 +10,7 @@ const Op = Sequelize.Op;
  * @param {object} budgetCtrl
  * @param {string} budgetUuid
  * @param {integer} month
+ * @param {string} notes
  * @param {string} subcategoryUuid
  * @param {integer} year
  */
@@ -19,6 +20,7 @@ module.exports = async({
   budgetCtrl,
   budgetUuid,
   month,
+  notes,
   subcategoryUuid,
   year,
 }) => {
@@ -66,6 +68,7 @@ module.exports = async({
     attributes: [
       'amount_cents',
       'month',
+      'notes',
       'subcategory_uuid',
       'uuid',
       'year',
@@ -99,6 +102,9 @@ module.exports = async({
   }
   if (budget.get('year') !== parseInt(year, 10)) {
     budget.set('year', parseInt(year, 10));
+  }
+  if (budget.get('notes') !== notes) {
+    budget.set('notes', notes);
   }
 
   // Validate subcategory UUID

@@ -8,50 +8,24 @@ class BudgetCtrl {
     this.models = models;
   }
 
-  async createBudget({
-    amount,
-    auditApiCallUuid,
-    month,
-    subcategoryUuid,
-    year,
-  }) {
+  async createBudget(params) {
     return createBudget({
-      amount,
-      auditApiCallUuid,
+      ...params,
       budgetCtrl: this,
-      month,
-      subcategoryUuid,
-      year,
     });
   }
 
-  async deleteBudget({
-    auditApiCallUuid,
-    budgetUuid,
-  }) {
+  async deleteBudget(params) {
     return deleteBudget({
-      auditApiCallUuid,
+      ...params,
       budgetCtrl: this,
-      budgetUuid,
     });
   }
 
-  async updateBudget({
-    amount,
-    auditApiCallUuid,
-    budgetUuid,
-    month,
-    subcategoryUuid,
-    year,
-  }) {
+  async updateBudget(params) {
     return updateBudget({
-      amount,
-      auditApiCallUuid,
+      ...params,
       budgetCtrl: this,
-      budgetUuid,
-      month,
-      subcategoryUuid,
-      year,
     });
   }
 }

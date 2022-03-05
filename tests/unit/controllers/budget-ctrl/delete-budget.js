@@ -73,6 +73,7 @@ describe('Unit:Controllers - BudgetCtrl.deleteBudget', function() {
     const budget = await models.Budget.create({
       amount_cents: sampleData.budgets.budget1.amount_cents,
       month: sampleData.budgets.budget1.month,
+      notes: sampleData.budgets.budget1.notes,
       subcategory_uuid: user1SubcategoryUuid,
       year: sampleData.budgets.budget1.year,
     });

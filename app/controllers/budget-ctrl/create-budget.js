@@ -7,6 +7,7 @@ module.exports = async({
   auditApiCallUuid,
   budgetCtrl,
   month,
+  notes,
   subcategoryUuid,
   year,
 }) => {
@@ -82,6 +83,7 @@ module.exports = async({
   const newBudget = models.Budget.build({
     amount_cents: amount,
     month: parseInt(month, 10),
+    notes,
     subcategory_uuid: subcategory.get('uuid'),
     year: parseInt(year, 10),
   });

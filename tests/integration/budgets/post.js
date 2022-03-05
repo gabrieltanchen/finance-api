@@ -90,6 +90,7 @@ describe('Integration - POST /budgets', function() {
           'attributes': {
             'amount': sampleData.budgets.budget1.amount_cents,
             'month': sampleData.budgets.budget1.month,
+            'notes': sampleData.budgets.budget1.notes,
             'year': sampleData.budgets.budget1.year,
           },
           'relationships': {
@@ -120,6 +121,7 @@ describe('Integration - POST /budgets', function() {
           'attributes': {
             'amount': null,
             'month': sampleData.budgets.budget1.month,
+            'notes': sampleData.budgets.budget1.notes,
             'year': sampleData.budgets.budget1.year,
           },
           'relationships': {
@@ -153,6 +155,7 @@ describe('Integration - POST /budgets', function() {
           'attributes': {
             'amount': '12.34',
             'month': sampleData.budgets.budget1.month,
+            'notes': sampleData.budgets.budget1.notes,
             'year': sampleData.budgets.budget1.year,
           },
           'relationships': {
@@ -186,6 +189,7 @@ describe('Integration - POST /budgets', function() {
           'attributes': {
             'amount': sampleData.budgets.budget1.amount_cents,
             'month': null,
+            'notes': sampleData.budgets.budget1.notes,
             'year': sampleData.budgets.budget1.year,
           },
           'relationships': {
@@ -219,6 +223,7 @@ describe('Integration - POST /budgets', function() {
           'attributes': {
             'amount': sampleData.budgets.budget1.amount_cents,
             'month': '1.0',
+            'notes': sampleData.budgets.budget1.notes,
             'year': sampleData.budgets.budget1.year,
           },
           'relationships': {
@@ -252,6 +257,7 @@ describe('Integration - POST /budgets', function() {
           'attributes': {
             'amount': sampleData.budgets.budget1.amount_cents,
             'month': sampleData.budgets.budget1.month,
+            'notes': sampleData.budgets.budget1.notes,
             'year': null,
           },
           'relationships': {
@@ -285,6 +291,7 @@ describe('Integration - POST /budgets', function() {
           'attributes': {
             'amount': sampleData.budgets.budget1.amount_cents,
             'month': sampleData.budgets.budget1.month,
+            'notes': sampleData.budgets.budget1.notes,
             'year': '1.0',
           },
           'relationships': {
@@ -318,6 +325,7 @@ describe('Integration - POST /budgets', function() {
           'attributes': {
             'amount': sampleData.budgets.budget1.amount_cents,
             'month': sampleData.budgets.budget1.month,
+            'notes': sampleData.budgets.budget1.notes,
             'year': sampleData.budgets.budget1.year,
           },
           'relationships': {
@@ -351,6 +359,7 @@ describe('Integration - POST /budgets', function() {
           'attributes': {
             'amount': sampleData.budgets.budget1.amount_cents,
             'month': sampleData.budgets.budget1.month,
+            'notes': sampleData.budgets.budget1.notes,
             'year': sampleData.budgets.budget1.year,
           },
           'relationships': {
@@ -368,6 +377,7 @@ describe('Integration - POST /budgets', function() {
     assert.strictEqual(res.body.data.attributes.amount, sampleData.budgets.budget1.amount_cents);
     assert.isOk(res.body.data.attributes['created-at']);
     assert.strictEqual(res.body.data.attributes.month, sampleData.budgets.budget1.month);
+    assert.strictEqual(res.body.data.attributes.notes, sampleData.budgets.budget1.notes);
     assert.strictEqual(res.body.data.attributes.year, sampleData.budgets.budget1.year);
     assert.isOk(res.body.data.id);
     assert.isOk(res.body.data.relationships);

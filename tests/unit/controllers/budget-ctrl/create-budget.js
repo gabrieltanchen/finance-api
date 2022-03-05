@@ -97,6 +97,7 @@ describe('Unit:Controllers - BudgetCtrl.createBudget', function() {
         amount: sampleData.budgets.budget1.amount_cents,
         auditApiCallUuid: apiCall.get('uuid'),
         month: sampleData.budgets.budget1.month,
+        notes: sampleData.budgets.budget1.notes,
         subcategoryUuid: null,
         year: sampleData.budgets.budget1.year,
       });
@@ -119,6 +120,7 @@ describe('Unit:Controllers - BudgetCtrl.createBudget', function() {
         amount: sampleData.budgets.budget1.amount_cents,
         auditApiCallUuid: apiCall.get('uuid'),
         month: sampleData.budgets.budget1.month,
+        notes: sampleData.budgets.budget1.notes,
         subcategoryUuid: user1SubcategoryUuid,
         year: null,
       });
@@ -141,6 +143,7 @@ describe('Unit:Controllers - BudgetCtrl.createBudget', function() {
         amount: sampleData.budgets.budget1.amount_cents,
         auditApiCallUuid: apiCall.get('uuid'),
         month: sampleData.budgets.budget1.month,
+        notes: sampleData.budgets.budget1.notes,
         subcategoryUuid: user1SubcategoryUuid,
         year: 'invalid year',
       });
@@ -163,6 +166,7 @@ describe('Unit:Controllers - BudgetCtrl.createBudget', function() {
         amount: sampleData.budgets.budget1.amount_cents,
         auditApiCallUuid: apiCall.get('uuid'),
         month: sampleData.budgets.budget1.month,
+        notes: sampleData.budgets.budget1.notes,
         subcategoryUuid: user1SubcategoryUuid,
         year: 1999,
       });
@@ -185,6 +189,7 @@ describe('Unit:Controllers - BudgetCtrl.createBudget', function() {
         amount: sampleData.budgets.budget1.amount_cents,
         auditApiCallUuid: apiCall.get('uuid'),
         month: sampleData.budgets.budget1.month,
+        notes: sampleData.budgets.budget1.notes,
         subcategoryUuid: user1SubcategoryUuid,
         year: 2051,
       });
@@ -207,6 +212,7 @@ describe('Unit:Controllers - BudgetCtrl.createBudget', function() {
         amount: sampleData.budgets.budget1.amount_cents,
         auditApiCallUuid: apiCall.get('uuid'),
         month: null,
+        notes: sampleData.budgets.budget1.notes,
         subcategoryUuid: user1SubcategoryUuid,
         year: sampleData.budgets.budget1.year,
       });
@@ -229,6 +235,7 @@ describe('Unit:Controllers - BudgetCtrl.createBudget', function() {
         amount: sampleData.budgets.budget1.amount_cents,
         auditApiCallUuid: apiCall.get('uuid'),
         month: 'invalid month',
+        notes: sampleData.budgets.budget1.notes,
         subcategoryUuid: user1SubcategoryUuid,
         year: sampleData.budgets.budget1.year,
       });
@@ -251,6 +258,7 @@ describe('Unit:Controllers - BudgetCtrl.createBudget', function() {
         amount: sampleData.budgets.budget1.amount_cents,
         auditApiCallUuid: apiCall.get('uuid'),
         month: -1,
+        notes: sampleData.budgets.budget1.notes,
         subcategoryUuid: user1SubcategoryUuid,
         year: sampleData.budgets.budget1.year,
       });
@@ -273,6 +281,7 @@ describe('Unit:Controllers - BudgetCtrl.createBudget', function() {
         amount: sampleData.budgets.budget1.amount_cents,
         auditApiCallUuid: apiCall.get('uuid'),
         month: 12,
+        notes: sampleData.budgets.budget1.notes,
         subcategoryUuid: user1SubcategoryUuid,
         year: sampleData.budgets.budget1.year,
       });
@@ -295,6 +304,7 @@ describe('Unit:Controllers - BudgetCtrl.createBudget', function() {
         amount: null,
         auditApiCallUuid: apiCall.get('uuid'),
         month: sampleData.budgets.budget1.month,
+        notes: sampleData.budgets.budget1.notes,
         subcategoryUuid: user1SubcategoryUuid,
         year: sampleData.budgets.budget1.year,
       });
@@ -317,6 +327,7 @@ describe('Unit:Controllers - BudgetCtrl.createBudget', function() {
         amount: 'invalid amount',
         auditApiCallUuid: apiCall.get('uuid'),
         month: sampleData.budgets.budget1.month,
+        notes: sampleData.budgets.budget1.notes,
         subcategoryUuid: user1SubcategoryUuid,
         year: sampleData.budgets.budget1.year,
       });
@@ -336,6 +347,7 @@ describe('Unit:Controllers - BudgetCtrl.createBudget', function() {
         amount: sampleData.budgets.budget1.amount_cents,
         auditApiCallUuid: null,
         month: sampleData.budgets.budget1.month,
+        notes: sampleData.budgets.budget1.notes,
         subcategoryUuid: user1SubcategoryUuid,
         year: sampleData.budgets.budget1.year,
       });
@@ -355,6 +367,7 @@ describe('Unit:Controllers - BudgetCtrl.createBudget', function() {
         amount: sampleData.budgets.budget1.amount_cents,
         auditApiCallUuid: uuidv4(),
         month: sampleData.budgets.budget1.month,
+        notes: sampleData.budgets.budget1.notes,
         subcategoryUuid: user1SubcategoryUuid,
         year: sampleData.budgets.budget1.year,
       });
@@ -382,6 +395,7 @@ describe('Unit:Controllers - BudgetCtrl.createBudget', function() {
         amount: sampleData.budgets.budget1.amount_cents,
         auditApiCallUuid: apiCall.get('uuid'),
         month: sampleData.budgets.budget1.month,
+        notes: sampleData.budgets.budget1.notes,
         subcategoryUuid: user1SubcategoryUuid,
         year: sampleData.budgets.budget1.year,
       });
@@ -404,6 +418,7 @@ describe('Unit:Controllers - BudgetCtrl.createBudget', function() {
         amount: sampleData.budgets.budget1.amount_cents,
         auditApiCallUuid: apiCall.get('uuid'),
         month: sampleData.budgets.budget1.month,
+        notes: sampleData.budgets.budget1.notes,
         subcategoryUuid: uuidv4(),
         year: sampleData.budgets.budget1.year,
       });
@@ -426,6 +441,7 @@ describe('Unit:Controllers - BudgetCtrl.createBudget', function() {
         amount: sampleData.budgets.budget1.amount_cents,
         auditApiCallUuid: apiCall.get('uuid'),
         month: sampleData.budgets.budget1.month,
+        notes: sampleData.budgets.budget1.notes,
         subcategoryUuid: user1SubcategoryUuid,
         year: sampleData.budgets.budget1.year,
       });
@@ -447,6 +463,7 @@ describe('Unit:Controllers - BudgetCtrl.createBudget', function() {
       amount: sampleData.budgets.budget1.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget1.month,
+      notes: sampleData.budgets.budget1.notes,
       subcategoryUuid: user1SubcategoryUuid,
       year: sampleData.budgets.budget1.year,
     });
@@ -458,6 +475,7 @@ describe('Unit:Controllers - BudgetCtrl.createBudget', function() {
       attributes: [
         'amount_cents',
         'month',
+        'notes',
         'subcategory_uuid',
         'uuid',
         'year',
@@ -469,6 +487,7 @@ describe('Unit:Controllers - BudgetCtrl.createBudget', function() {
     assert.isOk(budget);
     assert.strictEqual(budget.get('amount_cents'), sampleData.budgets.budget1.amount_cents);
     assert.strictEqual(budget.get('month'), sampleData.budgets.budget1.month);
+    assert.strictEqual(budget.get('notes'), sampleData.budgets.budget1.notes);
     assert.strictEqual(budget.get('subcategory_uuid'), user1SubcategoryUuid);
     assert.strictEqual(budget.get('year'), sampleData.budgets.budget1.year);
 
@@ -478,11 +497,11 @@ describe('Unit:Controllers - BudgetCtrl.createBudget', function() {
     assert.isNotOk(trackChangesParams.changeList);
     assert.isNotOk(trackChangesParams.deleteList);
     assert.isOk(trackChangesParams.newList);
-    const newExpense = _.find(trackChangesParams.newList, (newInstance) => {
+    const newBudget = _.find(trackChangesParams.newList, (newInstance) => {
       return newInstance instanceof models.Budget
         && newInstance.get('uuid') === budget.get('uuid');
     });
-    assert.isOk(newExpense);
+    assert.isOk(newBudget);
     assert.strictEqual(trackChangesParams.newList.length, 1);
     assert.isOk(trackChangesParams.transaction);
   });
@@ -495,6 +514,7 @@ describe('Unit:Controllers - BudgetCtrl.createBudget', function() {
       amount: sampleData.budgets.budget1.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget1.month,
+      notes: sampleData.budgets.budget1.notes,
       subcategoryUuid: user1SubcategoryUuid,
       year: sampleData.budgets.budget1.year,
     });
@@ -503,6 +523,7 @@ describe('Unit:Controllers - BudgetCtrl.createBudget', function() {
         amount: sampleData.budgets.budget2.amount_cents,
         auditApiCallUuid: apiCall.get('uuid'),
         month: sampleData.budgets.budget1.month,
+        notes: sampleData.budgets.budget2.notes,
         subcategoryUuid: user1SubcategoryUuid,
         year: sampleData.budgets.budget1.year,
       });

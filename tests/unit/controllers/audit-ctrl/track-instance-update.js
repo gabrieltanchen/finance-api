@@ -102,6 +102,90 @@ describe('Unit:Controllers - AuditCtrl._trackInstanceUpdate', function() {
     }
   });
 
+  it('should track all Budget attributes', async function() {
+    const auditLog = await models.Audit.Log.create();
+    const household = await models.Household.create({
+      name: sampleData.users.user1.lastName,
+    });
+    const category = await models.Category.create({
+      household_uuid: household.get('uuid'),
+      name: sampleData.categories.category1.name,
+    });
+    const subcategory1 = await models.Subcategory.create({
+      category_uuid: category.get('uuid'),
+      name: sampleData.categories.category2.name,
+    });
+    const subcategory2 = await models.Subcategory.create({
+      category_uuid: category.get('uuid'),
+      name: sampleData.categories.category3.name,
+    });
+    const budget = await models.Budget.create({
+      amount_cents: sampleData.budgets.budget1.amount_cents,
+      month: sampleData.budgets.budget1.month,
+      notes: sampleData.budgets.budget1.notes,
+      subcategory_uuid: subcategory1.get('uuid'),
+      year: sampleData.budgets.budget1.year,
+    });
+    budget.set('amount_cents', sampleData.budgets.budget2.amount_cents);
+    budget.set('month', sampleData.budgets.budget2.month);
+    budget.set('notes', sampleData.budgets.budget2.notes);
+    budget.set('subcategory_uuid', subcategory2.get('uuid'));
+    budget.set('year', sampleData.budgets.budget2.year);
+
+    await models.sequelize.transaction({
+      isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.REPEATABLE_READ,
+    }, async(transaction) => {
+      await controllers.AuditCtrl._trackInstanceUpdate(auditLog, budget, transaction);
+    });
+
+    const auditChanges = await models.Audit.Change.findAll({
+      where: {
+        audit_log_uuid: auditLog.get('uuid'),
+      },
+    });
+    shouldTrackAttribute({
+      attribute: 'amount_cents',
+      auditChanges,
+      key: budget.get('uuid'),
+      newValue: sampleData.budgets.budget2.amount_cents,
+      oldValue: sampleData.budgets.budget1.amount_cents,
+      table: 'budgets',
+    });
+    shouldTrackAttribute({
+      attribute: 'month',
+      auditChanges,
+      key: budget.get('uuid'),
+      newValue: sampleData.budgets.budget2.month,
+      oldValue: sampleData.budgets.budget1.month,
+      table: 'budgets',
+    });
+    shouldTrackAttribute({
+      attribute: 'notes',
+      auditChanges,
+      key: budget.get('uuid'),
+      newValue: sampleData.budgets.budget2.notes,
+      oldValue: sampleData.budgets.budget1.notes,
+      table: 'budgets',
+    });
+    shouldTrackAttribute({
+      attribute: 'subcategory_uuid',
+      auditChanges,
+      key: budget.get('uuid'),
+      newValue: subcategory2.get('uuid'),
+      oldValue: subcategory1.get('uuid'),
+      table: 'budgets',
+    });
+    shouldTrackAttribute({
+      attribute: 'year',
+      auditChanges,
+      key: budget.get('uuid'),
+      newValue: sampleData.budgets.budget2.year,
+      oldValue: sampleData.budgets.budget1.year,
+      table: 'budgets',
+    });
+    assert.strictEqual(auditChanges.length, 5);
+  });
+
   it('should track all Category attributes', async function() {
     const auditLog = await models.Audit.Log.create();
     const household1 = await models.Household.create({

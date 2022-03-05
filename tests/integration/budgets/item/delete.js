@@ -83,6 +83,7 @@ describe('Integration - DELETE /budgets/:uuid', function() {
       amount: sampleData.budgets.budget1.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget1.month,
+      notes: sampleData.budgets.budget1.notes,
       subcategoryUuid: user1SubcategoryUuid,
       year: sampleData.budgets.budget1.year,
     });
