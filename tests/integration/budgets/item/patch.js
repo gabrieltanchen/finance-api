@@ -95,6 +95,7 @@ describe('Integration - PATCH /budgets/:uuid', function() {
       amount: sampleData.budgets.budget1.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget1.month,
+      notes: sampleData.budgets.budget1.notes,
       subcategoryUuid: user1Subcategory1Uuid,
       year: sampleData.budgets.budget1.year,
     });
@@ -133,6 +134,7 @@ describe('Integration - PATCH /budgets/:uuid', function() {
           'attributes': {
             'amount': sampleData.budgets.budget2.amount_cents,
             'month': sampleData.budgets.budget2.month,
+            'notes': sampleData.budgets.budget2.notes,
             'year': sampleData.budgets.budget2.year,
           },
           'id': user1BudgetUuid,
@@ -165,6 +167,7 @@ describe('Integration - PATCH /budgets/:uuid', function() {
           'attributes': {
             'amount': sampleData.budgets.budget2.amount_cents,
             'month': sampleData.budgets.budget2.month,
+            'notes': sampleData.budgets.budget2.notes,
             'year': sampleData.budgets.budget2.year,
           },
           'id': user1BudgetUuid,
@@ -190,6 +193,7 @@ describe('Integration - PATCH /budgets/:uuid', function() {
     assert.isOk(updateBudgetParams.auditApiCallUuid);
     assert.strictEqual(updateBudgetParams.budgetUuid, user1BudgetUuid);
     assert.strictEqual(updateBudgetParams.month, sampleData.budgets.budget2.month);
+    assert.strictEqual(updateBudgetParams.notes, sampleData.budgets.budget2.notes);
     assert.strictEqual(updateBudgetParams.subcategoryUuid, user1Subcategory2Uuid);
     assert.strictEqual(updateBudgetParams.year, sampleData.budgets.budget2.year);
   });
@@ -204,6 +208,7 @@ describe('Integration - PATCH /budgets/:uuid', function() {
           'attributes': {
             'amount': null,
             'month': sampleData.budgets.budget2.month,
+            'notes': sampleData.budgets.budget2.notes,
             'year': sampleData.budgets.budget2.year,
           },
           'id': user1BudgetUuid,
@@ -239,6 +244,7 @@ describe('Integration - PATCH /budgets/:uuid', function() {
           'attributes': {
             'amount': '12.34',
             'month': sampleData.budgets.budget2.month,
+            'notes': sampleData.budgets.budget2.notes,
             'year': sampleData.budgets.budget2.year,
           },
           'id': user1BudgetUuid,
@@ -274,6 +280,7 @@ describe('Integration - PATCH /budgets/:uuid', function() {
           'attributes': {
             'amount': sampleData.budgets.budget2.amount_cents,
             'month': null,
+            'notes': sampleData.budgets.budget2.notes,
             'year': sampleData.budgets.budget2.year,
           },
           'id': user1BudgetUuid,
@@ -309,6 +316,7 @@ describe('Integration - PATCH /budgets/:uuid', function() {
           'attributes': {
             'amount': sampleData.budgets.budget2.amount_cents,
             'month': '1.0',
+            'notes': sampleData.budgets.budget2.notes,
             'year': sampleData.budgets.budget2.year,
           },
           'id': user1BudgetUuid,
@@ -344,6 +352,7 @@ describe('Integration - PATCH /budgets/:uuid', function() {
           'attributes': {
             'amount': sampleData.budgets.budget2.amount_cents,
             'month': sampleData.budgets.budget2.month,
+            'notes': sampleData.budgets.budget2.notes,
             'year': null,
           },
           'id': user1BudgetUuid,
@@ -379,6 +388,7 @@ describe('Integration - PATCH /budgets/:uuid', function() {
           'attributes': {
             'amount': sampleData.budgets.budget2.amount_cents,
             'month': sampleData.budgets.budget2.month,
+            'notes': sampleData.budgets.budget2.notes,
             'year': '1.0',
           },
           'id': user1BudgetUuid,
@@ -414,6 +424,7 @@ describe('Integration - PATCH /budgets/:uuid', function() {
           'attributes': {
             'amount': sampleData.budgets.budget2.amount_cents,
             'month': sampleData.budgets.budget2.month,
+            'notes': sampleData.budgets.budget2.notes,
             'year': sampleData.budgets.budget2.year,
           },
           'id': user1BudgetUuid,
@@ -449,6 +460,7 @@ describe('Integration - PATCH /budgets/:uuid', function() {
           'attributes': {
             'amount': sampleData.budgets.budget2.amount_cents,
             'month': sampleData.budgets.budget2.month,
+            'notes': sampleData.budgets.budget2.notes,
             'year': sampleData.budgets.budget2.year,
           },
           'id': user1BudgetUuid,
@@ -468,6 +480,7 @@ describe('Integration - PATCH /budgets/:uuid', function() {
     assert.strictEqual(res.body.data.attributes.amount, sampleData.budgets.budget2.amount_cents);
     assert.isOk(res.body.data.attributes['created-at']);
     assert.strictEqual(res.body.data.attributes.month, sampleData.budgets.budget2.month);
+    assert.strictEqual(res.body.data.attributes.notes, sampleData.budgets.budget2.notes);
     assert.strictEqual(res.body.data.attributes.year, sampleData.budgets.budget2.year);
     assert.strictEqual(res.body.data.id, user1BudgetUuid);
     assert.isOk(res.body.data.relationships);
@@ -483,6 +496,7 @@ describe('Integration - PATCH /budgets/:uuid', function() {
     assert.isOk(updateBudgetParams.auditApiCallUuid);
     assert.strictEqual(updateBudgetParams.budgetUuid, user1BudgetUuid);
     assert.strictEqual(updateBudgetParams.month, sampleData.budgets.budget2.month);
+    assert.strictEqual(updateBudgetParams.notes, sampleData.budgets.budget2.notes);
     assert.strictEqual(updateBudgetParams.subcategoryUuid, user1Subcategory2Uuid);
     assert.strictEqual(updateBudgetParams.year, sampleData.budgets.budget2.year);
 

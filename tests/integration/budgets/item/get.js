@@ -73,6 +73,7 @@ describe('Integration - GET /budgets/:uuid', function() {
       amount: sampleData.budgets.budget1.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget1.month,
+      notes: sampleData.budgets.budget1.notes,
       subcategoryUuid: user1SubcategoryUuid,
       year: sampleData.budgets.budget1.year,
     });
@@ -188,6 +189,7 @@ describe('Integration - GET /budgets/:uuid', function() {
     assert.strictEqual(res.body.data.attributes.amount, sampleData.budgets.budget1.amount_cents);
     assert.isOk(res.body.data.attributes['created-at']);
     assert.strictEqual(res.body.data.attributes.month, sampleData.budgets.budget1.month);
+    assert.strictEqual(res.body.data.attributes.notes, sampleData.budgets.budget1.notes);
     assert.strictEqual(res.body.data.attributes.year, sampleData.budgets.budget1.year);
     assert.strictEqual(res.body.data.id, user1BudgetUuid);
     assert.isOk(res.body.data.relationships);

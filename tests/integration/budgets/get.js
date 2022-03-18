@@ -19,6 +19,7 @@ const validateBudget = ({
   assert.strictEqual(returnedBudget.attributes.amount, expectedBudget.amount_cents);
   assert.isOk(returnedBudget.attributes['created-at']);
   assert.strictEqual(returnedBudget.attributes.month, expectedBudget.month);
+  assert.strictEqual(returnedBudget.attributes.notes, expectedBudget.notes);
   assert.strictEqual(returnedBudget.attributes.year, expectedBudget.year);
   assert.strictEqual(returnedBudget.id, budgetUuid);
   assert.isOk(returnedBudget.relationships);
@@ -147,6 +148,7 @@ describe('Integration - GET /budgets', function() {
       amount: sampleData.budgets.budget1.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget1.month,
+      notes: sampleData.budgets.budget1.notes,
       subcategoryUuid: subcategory1Uuid,
       year: sampleData.budgets.budget1.year,
     });
@@ -160,6 +162,7 @@ describe('Integration - GET /budgets', function() {
       amount: sampleData.budgets.budget2.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget2.month,
+      notes: sampleData.budgets.budget2.notes,
       subcategoryUuid: subcategory1Uuid,
       year: sampleData.budgets.budget2.year,
     });
@@ -173,6 +176,7 @@ describe('Integration - GET /budgets', function() {
       amount: sampleData.budgets.budget3.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget3.month,
+      notes: sampleData.budgets.budget3.notes,
       subcategoryUuid: subcategory1Uuid,
       year: sampleData.budgets.budget3.year,
     });
@@ -186,6 +190,7 @@ describe('Integration - GET /budgets', function() {
       amount: sampleData.budgets.budget4.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget4.month,
+      notes: sampleData.budgets.budget4.notes,
       subcategoryUuid: subcategory1Uuid,
       year: sampleData.budgets.budget4.year,
     });
@@ -199,6 +204,7 @@ describe('Integration - GET /budgets', function() {
       amount: sampleData.budgets.budget5.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget5.month,
+      notes: sampleData.budgets.budget5.notes,
       subcategoryUuid: subcategory1Uuid,
       year: sampleData.budgets.budget5.year,
     });
@@ -212,6 +218,7 @@ describe('Integration - GET /budgets', function() {
       amount: sampleData.budgets.budget6.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget6.month,
+      notes: sampleData.budgets.budget6.notes,
       subcategoryUuid: subcategory1Uuid,
       year: sampleData.budgets.budget6.year,
     });
@@ -225,6 +232,7 @@ describe('Integration - GET /budgets', function() {
       amount: sampleData.budgets.budget7.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget7.month,
+      notes: sampleData.budgets.budget7.notes,
       subcategoryUuid: subcategory1Uuid,
       year: sampleData.budgets.budget7.year,
     });
@@ -238,6 +246,7 @@ describe('Integration - GET /budgets', function() {
       amount: sampleData.budgets.budget8.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget8.month,
+      notes: sampleData.budgets.budget8.notes,
       subcategoryUuid: subcategory1Uuid,
       year: sampleData.budgets.budget8.year,
     });
@@ -251,6 +260,7 @@ describe('Integration - GET /budgets', function() {
       amount: sampleData.budgets.budget9.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget9.month,
+      notes: sampleData.budgets.budget9.notes,
       subcategoryUuid: subcategory1Uuid,
       year: sampleData.budgets.budget9.year,
     });
@@ -264,6 +274,7 @@ describe('Integration - GET /budgets', function() {
       amount: sampleData.budgets.budget10.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget10.month,
+      notes: sampleData.budgets.budget10.notes,
       subcategoryUuid: subcategory1Uuid,
       year: sampleData.budgets.budget10.year,
     });
@@ -277,6 +288,7 @@ describe('Integration - GET /budgets', function() {
       amount: sampleData.budgets.budget11.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget11.month,
+      notes: sampleData.budgets.budget11.notes,
       subcategoryUuid: subcategory1Uuid,
       year: sampleData.budgets.budget11.year,
     });
@@ -290,6 +302,7 @@ describe('Integration - GET /budgets', function() {
       amount: sampleData.budgets.budget12.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget12.month,
+      notes: sampleData.budgets.budget12.notes,
       subcategoryUuid: subcategory1Uuid,
       year: sampleData.budgets.budget12.year,
     });
@@ -303,6 +316,7 @@ describe('Integration - GET /budgets', function() {
       amount: sampleData.budgets.budget13.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget13.month,
+      notes: sampleData.budgets.budget13.notes,
       subcategoryUuid: subcategory1Uuid,
       year: sampleData.budgets.budget13.year,
     });
@@ -316,6 +330,7 @@ describe('Integration - GET /budgets', function() {
       amount: sampleData.budgets.budget14.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget14.month,
+      notes: sampleData.budgets.budget14.notes,
       subcategoryUuid: subcategory1Uuid,
       year: sampleData.budgets.budget14.year,
     });
@@ -329,6 +344,7 @@ describe('Integration - GET /budgets', function() {
       amount: sampleData.budgets.budget15.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget15.month,
+      notes: sampleData.budgets.budget15.notes,
       subcategoryUuid: subcategory1Uuid,
       year: sampleData.budgets.budget15.year,
     });
@@ -342,6 +358,7 @@ describe('Integration - GET /budgets', function() {
       amount: sampleData.budgets.budget16.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget16.month,
+      notes: sampleData.budgets.budget16.notes,
       subcategoryUuid: subcategory1Uuid,
       year: sampleData.budgets.budget16.year,
     });
@@ -355,6 +372,7 @@ describe('Integration - GET /budgets', function() {
       amount: sampleData.budgets.budget17.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget17.month,
+      notes: sampleData.budgets.budget17.notes,
       subcategoryUuid: subcategory1Uuid,
       year: sampleData.budgets.budget17.year,
     });
@@ -368,6 +386,7 @@ describe('Integration - GET /budgets', function() {
       amount: sampleData.budgets.budget18.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget18.month,
+      notes: sampleData.budgets.budget18.notes,
       subcategoryUuid: subcategory1Uuid,
       year: sampleData.budgets.budget18.year,
     });
@@ -381,6 +400,7 @@ describe('Integration - GET /budgets', function() {
       amount: sampleData.budgets.budget19.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget19.month,
+      notes: sampleData.budgets.budget19.notes,
       subcategoryUuid: subcategory1Uuid,
       year: sampleData.budgets.budget19.year,
     });
@@ -394,6 +414,7 @@ describe('Integration - GET /budgets', function() {
       amount: sampleData.budgets.budget20.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget20.month,
+      notes: sampleData.budgets.budget20.notes,
       subcategoryUuid: subcategory1Uuid,
       year: sampleData.budgets.budget20.year,
     });
@@ -407,6 +428,7 @@ describe('Integration - GET /budgets', function() {
       amount: sampleData.budgets.budget21.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget21.month,
+      notes: sampleData.budgets.budget21.notes,
       subcategoryUuid: subcategory1Uuid,
       year: sampleData.budgets.budget21.year,
     });
@@ -420,6 +442,7 @@ describe('Integration - GET /budgets', function() {
       amount: sampleData.budgets.budget22.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget22.month,
+      notes: sampleData.budgets.budget22.notes,
       subcategoryUuid: subcategory1Uuid,
       year: sampleData.budgets.budget22.year,
     });
@@ -433,6 +456,7 @@ describe('Integration - GET /budgets', function() {
       amount: sampleData.budgets.budget23.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget23.month,
+      notes: sampleData.budgets.budget23.notes,
       subcategoryUuid: subcategory1Uuid,
       year: sampleData.budgets.budget23.year,
     });
@@ -446,6 +470,7 @@ describe('Integration - GET /budgets', function() {
       amount: sampleData.budgets.budget24.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget24.month,
+      notes: sampleData.budgets.budget24.notes,
       subcategoryUuid: subcategory1Uuid,
       year: sampleData.budgets.budget24.year,
     });
@@ -459,6 +484,7 @@ describe('Integration - GET /budgets', function() {
       amount: sampleData.budgets.budget25.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget25.month,
+      notes: sampleData.budgets.budget25.notes,
       subcategoryUuid: subcategory1Uuid,
       year: sampleData.budgets.budget25.year,
     });
@@ -472,6 +498,7 @@ describe('Integration - GET /budgets', function() {
       amount: sampleData.budgets.budget26.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget26.month,
+      notes: sampleData.budgets.budget26.notes,
       subcategoryUuid: subcategory1Uuid,
       year: sampleData.budgets.budget26.year,
     });
@@ -485,6 +512,7 @@ describe('Integration - GET /budgets', function() {
       amount: sampleData.budgets.budget27.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget27.month,
+      notes: sampleData.budgets.budget27.notes,
       subcategoryUuid: subcategory1Uuid,
       year: sampleData.budgets.budget27.year,
     });
@@ -498,6 +526,7 @@ describe('Integration - GET /budgets', function() {
       amount: sampleData.budgets.budget28.amount_cents,
       auditApiCallUuid: apiCall.get('uuid'),
       month: sampleData.budgets.budget28.month,
+      notes: sampleData.budgets.budget28.notes,
       subcategoryUuid: subcategory2Uuid,
       year: sampleData.budgets.budget28.year,
     });

@@ -14,6 +14,7 @@ module.exports = (app) => {
    * @apiSuccess (200) {integer} data.budgets[].attributes.amount
    * @apiSuccess (200) {string} data.budgets[].attributes[created-at]
    * @apiSuccess (200) {integer} data.budgets[].attributes.month
+   * @apiSuccess (200) {string} data.budgets[].attributes.notes
    * @apiSuccess (200) {integer} data.budgets[].attributes.year
    * @apiSuccess (200) {string} data.budgets[].id
    * @apiSuccess (200) {object} data.budgets[].relationships
@@ -92,6 +93,7 @@ module.exports = (app) => {
           'amount_cents',
           'created_at',
           'month',
+          'notes',
           'uuid',
           'year',
         ],
@@ -128,6 +130,7 @@ module.exports = (app) => {
               'amount': budget.get('amount_cents'),
               'created-at': budget.get('created_at'),
               'month': budget.get('month'),
+              'notes': budget.get('notes'),
               'year': budget.get('year'),
             },
             'id': budget.get('uuid'),

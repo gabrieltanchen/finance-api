@@ -82,6 +82,13 @@ describe('Unit:Model - Budget', function() {
     assert.isNull(attributes.amount_cents.defaultValue);
     assert.isFalse(attributes.amount_cents.primaryKey);
 
-    assert.strictEqual(Object.keys(attributes).length, 8);
+    // notes
+    assert.isOk(attributes.notes);
+    assert.strictEqual(attributes.notes.type, 'TEXT');
+    assert.isFalse(attributes.notes.allowNull);
+    assert.strictEqual(attributes.notes.defaultValue, '');
+    assert.isFalse(attributes.notes.primaryKey);
+
+    assert.strictEqual(Object.keys(attributes).length, 9);
   });
 });

@@ -18,6 +18,11 @@ module.exports = (sequelize) => {
       allowNull: false,
       type: Sequelize.INTEGER,
     },
+    notes: {
+      allowNull: false,
+      defualtValue: '',
+      type: Sequelize.TEXT,
+    },
     subcategory_uuid: {
       allowNull: false,
       type: Sequelize.UUID,
