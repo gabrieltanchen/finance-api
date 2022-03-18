@@ -10,7 +10,7 @@ const expect = chai.expect;
 
 chai.use(chaiHttp);
 
-describe.only('Integration - POST /budgets', function() {
+describe('Integration - POST /budgets', function() {
   let controllers;
   let models;
   let server;

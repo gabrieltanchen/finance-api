@@ -629,5 +629,5 @@ describe('Unit:Controllers - BudgetCtrl.createBudget', function() {
     assert.isOk(newBudget);
     assert.strictEqual(trackChangesParams.newList.length, 1);
     assert.isOk(trackChangesParams.transaction);
-  })
+  });
 });
