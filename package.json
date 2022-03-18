@@ -42,7 +42,7 @@
     "winston": "3.6.0"
   },
   "devDependencies": {
-    "@babel/core": "7.17.5",
+    "@babel/core": "7.17.7",
     "@babel/eslint-parser": "7.17.0",
     "chai": "4.3.6",
     "chai-http": "4.3.0",
