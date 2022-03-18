@@ -82,6 +82,62 @@ describe('Unit:Controllers - AuditCtrl._trackInstanceDestroy', function() {
     }
   });
 
+  it('should track deleting a Budget', async function() {
+    const household = await models.Household.create({
+      name: sampleData.users.user1.lastName,
+    });
+    const category = await models.Category.create({
+      household_uuid: household.get('uuid'),
+      name: sampleData.categories.category1.name,
+    });
+    const subcategory = await models.Subcategory.create({
+      category_uuid: category.get('uuid'),
+      name: sampleData.categories.category2.name,
+    });
+    const auditLog = await models.Audit.Log.create();
+    const budget = await models.Budget.create({
+      amount_cents: sampleData.budgets.budget1.amount_cents,
+      month: sampleData.budgets.budget1.month,
+      notes: sampleData.budgets.budget1.notes,
+      subcategory_uuid: subcategory.get('uuid'),
+      year: sampleData.budgets.budget1.year,
+    });
+
+    await models.sequelize.transaction({
+      isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.REPEATABLE_READ,
+    }, async(transaction) => {
+      await controllers.AuditCtrl._trackInstanceDestroy(auditLog, budget, transaction);
+    });
+
+    const auditChanges = await models.Audit.Change.findAll({
+      where: {
+        audit_log_uuid: auditLog.get('uuid'),
+      },
+    });
+    const trackDeletedAt = _.find(auditChanges, (auditChange) => {
+      return auditChange.get('table') === 'budgets'
+        && auditChange.get('attribute') === 'deleted_at'
+        && auditChange.get('key') === budget.get('uuid');
+    });
+    assert.isOk(trackDeletedAt);
+    assert.isNull(trackDeletedAt.get('old_value'));
+    assert.isOk(trackDeletedAt.get('new_value'));
+    assert.strictEqual(auditChanges.length, 1);
+
+    // Verify that the Budget is deleted.
+    assert.isNull(await models.Budget.findOne({
+      where: {
+        uuid: budget.get('uuid'),
+      },
+    }));
+    assert.isOk(await models.Budget.findOne({
+      paranoid: false,
+      where: {
+        uuid: budget.get('uuid'),
+      },
+    }));
+  });
+
   it('should track deleting a Category', async function() {
     const auditLog = await models.Audit.Log.create();
     const household = await models.Household.create({
