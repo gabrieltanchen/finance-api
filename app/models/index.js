@@ -1,6 +1,7 @@
 const nconf = require('nconf');
 const Sequelize = require('sequelize');
 
+const Attachment = require('./attachment');
 const Audit = require('./audit');
 const Budget = require('./budget');
 const Category = require('./category');
@@ -37,6 +38,7 @@ class Models {
       },
     });
 
+    this.Attachment = Attachment(this.sequelize);
     this.Audit = Audit(this.sequelize);
     this.Budget = Budget(this.sequelize);
     this.Category = Category(this.sequelize);
@@ -51,6 +53,13 @@ class Models {
     this.User = User(this.sequelize);
     this.UserLogin = UserLogin(this.sequelize);
     this.Vendor = Vendor(this.sequelize);
+
+    // Attachment
+    this.Attachment.belongsTo(this.Expense, {
+      foreignKey: 'entity_uuid',
+      constraints: false,
+      as: 'expense',
+    });
 
     // Audit.ApiCall
     this.Audit.ApiCall.hasOne(this.Audit.Log, {
@@ -92,6 +101,13 @@ class Models {
     });
 
     // Expense
+    this.Expense.hasMany(this.Attachment, {
+      foreignKey: 'entity_uuid',
+      constraints: false,
+      scope: {
+        entity_type: 'expense',
+      },
+    });
     this.Expense.belongsTo(this.Fund, {
       foreignKey: 'fund_uuid',
     });
