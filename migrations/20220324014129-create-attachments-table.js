@@ -28,23 +28,23 @@ async function up({ context: queryInterface }) {
       type: Sequelize.UUID,
     },
     aws_bucket: {
-      allowNull: false,
+      allowNull: true,
       type: Sequelize.STRING,
     },
     aws_key: {
-      allowNull: false,
+      allowNull: true,
       type: Sequelize.STRING,
     },
     aws_content_length: {
-      allowNull: false,
+      allowNull: true,
       type: Sequelize.INTEGER,
     },
     aws_content_type: {
-      allowNull: false,
+      allowNull: true,
       type: Sequelize.STRING,
     },
     aws_etag: {
-      allowNull: false,
+      allowNull: true,
       type: Sequelize.STRING,
     },
   });

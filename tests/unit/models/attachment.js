@@ -56,7 +56,7 @@ describe('Unit:Model - Attachment', function() {
 
     // entity_type
     assert.isOk(attributes.entity_type);
-    assert.strictEqual(attributes.entity_type.type, 'CHARACTER VARYING(255)')
+    assert.strictEqual(attributes.entity_type.type, 'CHARACTER VARYING(255)');
     assert.isFalse(attributes.entity_type.allowNull);
     assert.isNull(attributes.entity_type.defaultValue);
     assert.isFalse(attributes.entity_type.primaryKey);
@@ -70,36 +70,36 @@ describe('Unit:Model - Attachment', function() {
 
     // aws_bucket
     assert.isOk(attributes.aws_bucket);
-    assert.strictEqual(attributes.aws_bucket.type, 'CHARACTER VARYING(255)')
-    assert.isFalse(attributes.aws_bucket.allowNull);
+    assert.strictEqual(attributes.aws_bucket.type, 'CHARACTER VARYING(255)');
+    assert.isTrue(attributes.aws_bucket.allowNull);
     assert.isNull(attributes.aws_bucket.defaultValue);
     assert.isFalse(attributes.aws_bucket.primaryKey);
 
     // aws_key
     assert.isOk(attributes.aws_key);
-    assert.strictEqual(attributes.aws_key.type, 'CHARACTER VARYING(255)')
-    assert.isFalse(attributes.aws_key.allowNull);
+    assert.strictEqual(attributes.aws_key.type, 'CHARACTER VARYING(255)');
+    assert.isTrue(attributes.aws_key.allowNull);
     assert.isNull(attributes.aws_key.defaultValue);
     assert.isFalse(attributes.aws_key.primaryKey);
 
     // aws_content_length
     assert.isOk(attributes.aws_content_length);
-    assert.strictEqual(attributes.aws_content_length.type, 'INTEGER')
-    assert.isFalse(attributes.aws_content_length.allowNull);
+    assert.strictEqual(attributes.aws_content_length.type, 'INTEGER');
+    assert.isTrue(attributes.aws_content_length.allowNull);
     assert.isNull(attributes.aws_content_length.defaultValue);
     assert.isFalse(attributes.aws_content_length.primaryKey);
 
     // aws_content_type
     assert.isOk(attributes.aws_content_type);
-    assert.strictEqual(attributes.aws_content_type.type, 'CHARACTER VARYING(255)')
-    assert.isFalse(attributes.aws_content_type.allowNull);
+    assert.strictEqual(attributes.aws_content_type.type, 'CHARACTER VARYING(255)');
+    assert.isTrue(attributes.aws_content_type.allowNull);
     assert.isNull(attributes.aws_content_type.defaultValue);
     assert.isFalse(attributes.aws_content_type.primaryKey);
 
     // aws_etag
     assert.isOk(attributes.aws_etag);
-    assert.strictEqual(attributes.aws_etag.type, 'CHARACTER VARYING(255)')
-    assert.isFalse(attributes.aws_etag.allowNull);
+    assert.strictEqual(attributes.aws_etag.type, 'CHARACTER VARYING(255)');
+    assert.isTrue(attributes.aws_etag.allowNull);
     assert.isNull(attributes.aws_etag.defaultValue);
     assert.isFalse(attributes.aws_etag.primaryKey);
 

@@ -3,23 +3,23 @@ const Sequelize = require('sequelize');
 module.exports = (sequelize) => {
   return sequelize.define('Attachment', {
     aws_bucket: {
-      allowNull: false,
+      allowNull: true,
       type: Sequelize.STRING,
     },
     aws_content_length: {
-      allowNull: false,
+      allowNull: true,
       type: Sequelize.INTEGER,
     },
     aws_content_type: {
-      allowNull: false,
+      allowNull: true,
       type: Sequelize.STRING,
     },
     aws_etag: {
-      allowNull: false,
+      allowNull: true,
       type: Sequelize.STRING,
     },
     aws_key: {
-      allowNull: false,
+      allowNull: true,
       type: Sequelize.STRING,
     },
     created_at: {
