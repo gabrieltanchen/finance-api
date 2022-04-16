@@ -27,6 +27,10 @@ async function up({ context: queryInterface }) {
       allowNull: false,
       type: Sequelize.UUID,
     },
+    name: {
+      allowNull: false,
+      type: Sequelize.STRING,
+    },
     aws_bucket: {
       allowNull: true,
       type: Sequelize.STRING,

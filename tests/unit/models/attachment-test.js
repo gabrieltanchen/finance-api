@@ -68,6 +68,13 @@ describe('Unit:Model - Attachment', function() {
     assert.isNull(attributes.entity_uuid.defaultValue);
     assert.isFalse(attributes.entity_uuid.primaryKey);
 
+    // name
+    assert.isOk(attributes.name);
+    assert.strictEqual(attributes.name.type, 'CHARACTER VARYING(255)');
+    assert.isFalse(attributes.name.allowNull);
+    assert.isNull(attributes.name.defaultValue);
+    assert.isFalse(attributes.name.primaryKey);
+
     // aws_bucket
     assert.isOk(attributes.aws_bucket);
     assert.strictEqual(attributes.aws_bucket.type, 'CHARACTER VARYING(255)');
@@ -103,6 +110,6 @@ describe('Unit:Model - Attachment', function() {
     assert.isNull(attributes.aws_etag.defaultValue);
     assert.isFalse(attributes.aws_etag.primaryKey);
 
-    assert.strictEqual(Object.keys(attributes).length, 11);
+    assert.strictEqual(Object.keys(attributes).length, 12);
   });
 });
