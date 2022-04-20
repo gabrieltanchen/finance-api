@@ -1,3 +1,5 @@
+const Sequelize = require('sequelize');
+
 const { AttachmentError } = require('../../middleware/error-handler');
 
 module.exports = async({
@@ -10,7 +12,7 @@ module.exports = async({
   const models = attachmentCtrl.models;
   if (!expenseUuid) {
     throw new AttachmentError('Expense is required');
-  } else if !name) {
+  } else if (!name) {
     throw new AttachmentError('Name is required');
   }
 
@@ -74,7 +76,7 @@ module.exports = async({
       auditApiCallUuid,
       newList: [newAttachment],
       transaction,
-    })
+    });
   });
 
   return newAttachment.get('uuid');

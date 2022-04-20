@@ -19,4 +19,4 @@ module.exports = class AttachmentError extends Error {
       };
     }
   }
-}
+};

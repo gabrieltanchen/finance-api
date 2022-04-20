@@ -166,15 +166,180 @@ describe('Unit:Controllers - AttachmentCtrl.createAttachment', function() {
     await testHelper.truncateTables();
   });
 
-  it('should reject with no expense UUID');
+  it('should reject with no expense UUID', async function() {
+    try {
+      const apiCall = await models.Audit.ApiCall.create({
+        user_uuid: user1Uuid,
+      });
+      await controllers.AttachmentCtrl.createAttachment({
+        auditApiCallUuid: apiCall.get('uuid'),
+        expenseUuid: null,
+        name: sampleData.attachments.attachment1.name,
+      });
+      /* istanbul ignore next */
+      throw new Error('Expected to reject not resolve.');
+    } catch (err) {
+      assert.isOk(err);
+      assert.strictEqual(err.message, 'Expense is required');
+      assert.isTrue(err instanceof AttachmentError);
+    }
+    assert.strictEqual(trackChangesSpy.callCount, 0);
+  });
 
-  it('should reject with no name');
+  it('should reject with no name', async function() {
+    try {
+      const apiCall = await models.Audit.ApiCall.create({
+        user_uuid: user1Uuid,
+      });
+      await controllers.AttachmentCtrl.createAttachment({
+        auditApiCallUuid: apiCall.get('uuid'),
+        expenseUuid: user1ExpenseUuid,
+        name: null,
+      });
+      /* istanbul ignore next */
+      throw new Error('Expected to reject not resolve.');
+    } catch (err) {
+      assert.isOk(err);
+      assert.strictEqual(err.message, 'Name is required');
+      assert.isTrue(err instanceof AttachmentError);
+    }
+    assert.strictEqual(trackChangesSpy.callCount, 0);
+  });
 
-  it('should reject with no audit API call');
+  it('should reject with no audit API call', async function() {
+    try {
+      await controllers.AttachmentCtrl.createAttachment({
+        auditApiCallUuid: null,
+        expenseUuid: user1ExpenseUuid,
+        name: sampleData.attachments.attachment1.name,
+      });
+      /* istanbul ignore next */
+      throw new Error('Expected to reject not resolve.');
+    } catch (err) {
+      assert.isOk(err);
+      assert.strictEqual(err.message, 'Missing audit API call');
+      assert.isTrue(err instanceof AttachmentError);
+    }
+    assert.strictEqual(trackChangesSpy.callCount, 0);
+  });
 
-  it('should reject when the audit API call does not exist');
+  it('should reject when the audit API call does not exist', async function() {
+    try {
+      await controllers.AttachmentCtrl.createAttachment({
+        auditApiCallUuid: uuidv4(),
+        expenseUuid: user1ExpenseUuid,
+        name: sampleData.attachments.attachment1.name,
+      });
+      /* istanbul ignore next */
+      throw new Error('Expected to reject not resolve.');
+    } catch (err) {
+      assert.isOk(err);
+      assert.strictEqual(err.message, 'Missing audit API call');
+      assert.isTrue(err instanceof AttachmentError);
+    }
+    assert.strictEqual(trackChangesSpy.callCount, 0);
+  });
 
-  it('should reject when the user does not exist');
+  it('should reject when the user does not exist', async function() {
+    try {
+      await models.User.destroy({
+        where: {
+          uuid: user1Uuid,
+        },
+      });
+      const apiCall = await models.Audit.ApiCall.create({
+        user_uuid: user1Uuid,
+      });
+      await controllers.AttachmentCtrl.createAttachment({
+        auditApiCallUuid: apiCall.get('uuid'),
+        expenseUuid: user1ExpenseUuid,
+        name: sampleData.attachments.attachment1.name,
+      });
+      /* istanbul ignore next */
+      throw new Error('Expected to reject not resolve.');
+    } catch (err) {
+      assert.isOk(err);
+      assert.strictEqual(err.message, 'Audit user does not exist');
+      assert.isTrue(err instanceof AttachmentError);
+    }
+    assert.strictEqual(trackChangesSpy.callCount, 0);
+  });
 
-  it('should resolve creating an attachment');
+  it('should reject when the expense does not exist', async function() {
+    try {
+      const apiCall = await models.Audit.ApiCall.create({
+        user_uuid: user1Uuid,
+      });
+      await controllers.AttachmentCtrl.createAttachment({
+        auditApiCallUuid: apiCall.get('uuid'),
+        expenseUuid: uuidv4(),
+        name: sampleData.attachments.attachment1.name,
+      });
+      /* istanbul ignore next */
+      throw new Error('Expected to reject not resolve.');
+    } catch (err) {
+      assert.isOk(err);
+      assert.strictEqual(err.message, 'Expense not found');
+      assert.isTrue(err instanceof AttachmentError);
+    }
+    assert.strictEqual(trackChangesSpy.callCount, 0);
+  });
+
+  it('should reject when the expense belongs to a different household', async function() {
+    try {
+      const apiCall = await models.Audit.ApiCall.create({
+        user_uuid: user1Uuid,
+      });
+      await controllers.AttachmentCtrl.createAttachment({
+        auditApiCallUuid: apiCall.get('uuid'),
+        expenseUuid: user2ExpenseUuid,
+        name: sampleData.attachments.attachment1.name,
+      });
+      /* istanbul ignore next */
+      throw new Error('Expected to reject not resolve.');
+    } catch (err) {
+      assert.isOk(err);
+      assert.strictEqual(err.message, 'Expense not found');
+      assert.isTrue(err instanceof AttachmentError);
+    }
+    assert.strictEqual(trackChangesSpy.callCount, 0);
+  });
+
+  it('should resolve creating an attachment', async function() {
+    const apiCall = await models.Audit.ApiCall.create({
+      user_uuid: user1Uuid,
+    });
+    const attachmentUuid = await controllers.AttachmentCtrl.createAttachment({
+      auditApiCallUuid: apiCall.get('uuid'),
+      expenseUuid: user1ExpenseUuid,
+      name: sampleData.attachments.attachment1.name,
+    });
+    assert.isOk(attachmentUuid);
+
+    // Verify the Attachment instance.
+    const attachment = await models.Attachment.findOne({
+      attributes: ['entity_type', 'entity_uuid', 'name', 'uuid'],
+      where: {
+        uuid: attachmentUuid,
+      },
+    });
+    assert.isOk(attachment);
+    assert.strictEqual(attachment.get('entity_type'), 'expense');
+    assert.strictEqual(attachment.get('entity_uuid'), user1ExpenseUuid);
+    assert.strictEqual(attachment.get('name'), sampleData.attachments.attachment1.name);
+
+    assert.strictEqual(trackChangesSpy.callCount, 1);
+    const trackChangesParams = trackChangesSpy.getCall(0).args[0];
+    assert.strictEqual(trackChangesParams.auditApiCallUuid, apiCall.get('uuid'));
+    assert.isNotOk(trackChangesParams.changeList);
+    assert.isNotOk(trackChangesParams.deleteList);
+    assert.isOk(trackChangesParams.newList);
+    const newAttachment = _.find(trackChangesParams.newList, (newInstance) => {
+      return newInstance instanceof models.Attachment
+        && newInstance.get('uuid') === attachment.get('uuid');
+    });
+    assert.isOk(newAttachment);
+    assert.strictEqual(trackChangesParams.newList.length, 1);
+    assert.isOk(trackChangesParams.transaction);
+  });
 });
