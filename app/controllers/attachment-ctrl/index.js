@@ -1,4 +1,5 @@
 const createAttachment = require('./create-attachment');
+const deleteAttachment = require('./delete-attachment');
 const updateAttachment = require('./update-attachment');
 
 class AttachmentCtrl {
@@ -9,6 +10,13 @@ class AttachmentCtrl {
 
   async createAttachment(params) {
     return createAttachment({
+      ...params,
+      attachmentCtrl: this,
+    });
+  }
+
+  async deleteAttachment(params) {
+    return deleteAttachment({
       ...params,
       attachmentCtrl: this,
     });
