@@ -58,7 +58,7 @@ class Models {
     this.Attachment.belongsTo(this.Expense, {
       foreignKey: 'entity_uuid',
       constraints: false,
-      as: 'expense',
+      as: 'Expense',
     });
 
     // Audit.ApiCall
