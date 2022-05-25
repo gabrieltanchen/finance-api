@@ -1,35 +1,31 @@
-const nconf = require('nconf');
-const { S3Client, HeadObjectCommand, PutObjectCommand } = require('@aws-sdk/client-s3');
+module.exports = (app) => {
+  const controllers = app.get('controllers');
 
-const s3Client = new S3Client({ region: 'us-east-1' });
-
-module.exports = () => {
+  /**
+   * @api {post} /attachments/:uuid/upload
+   * @apiName AttachmentItemUploadPost
+   * @apiGroup Attachment
+   *
+   * @apiErrorExample {json} Error-Response:
+   *    HTTP/1.1 401 Unprocessable Entity
+   *    {
+   *      "errors": [{
+   *        "detail": "Unauthorized",
+   *      }],
+   *    }
+   */
   return async(req, res, next) => {
     try {
-      // const results =
-      await s3Client.send(new PutObjectCommand({
-        Bucket: nconf.get('AWS_STORAGE_BUCKET'),
-        Key: req.file.originalname,
-        Body: req.file.buffer,
-      }));
-      // console.log('Result:');
-      // console.log(results);
+      await controllers.AttachmentCtrl.uploadAttachment({
+        attachmentUuid: req.params.uuid,
+        auditApiCallUuid: req.auditApiCallUuid,
+        fileBody: req.file.buffer,
+        fileName: req.file.originalname,
+      });
 
-      // const response =
-      await s3Client.send(new HeadObjectCommand({
-        Bucket: nconf.get('AWS_STORAGE_BUCKET'),
-        Key: req.file.originalname,
-      }));
-      // response.ContentLength
-      // response.ContentType
-      // response.ETag
+      return res.sendStatus(204);
     } catch (err) {
       return next(err);
     }
-
-    // console.log(req.file);
-    // req.file.buffer
-    // req.file.originalname
-    return res.sendStatus(200);
   };
 };
