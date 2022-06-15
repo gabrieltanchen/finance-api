@@ -597,54 +597,54 @@ describe('Integration - GET /attachments', function() {
       assert.strictEqual(res.body.data[5].id, user1Attachment18Uuid);
       assert.strictEqual(res.body.data[5].type, 'attachments');
 
-      // Attachment 20
+      // Attachment 7
       assert.isOk(res.body.data[6].attributes);
       assert.isOk(res.body.data[6].attributes['created-at']);
       assert.strictEqual(
         res.body.data[6].attributes.name,
-        sampleData.attachments.attachment20.name,
+        sampleData.attachments.attachment7.name,
       );
-      assert.strictEqual(res.body.data[6].id, user1Attachment20Uuid);
+      assert.strictEqual(res.body.data[6].id, user1Attachment7Uuid);
       assert.strictEqual(res.body.data[6].type, 'attachments');
 
-      // Attachment 7
+      // Attachment 5
       assert.isOk(res.body.data[7].attributes);
       assert.isOk(res.body.data[7].attributes['created-at']);
       assert.strictEqual(
         res.body.data[7].attributes.name,
-        sampleData.attachments.attachment7.name,
+        sampleData.attachments.attachment5.name,
       );
-      assert.strictEqual(res.body.data[7].id, user1Attachment7Uuid);
+      assert.strictEqual(res.body.data[7].id, user1Attachment5Uuid);
       assert.strictEqual(res.body.data[7].type, 'attachments');
 
-      // Attachment 5
+      // Attachment 10
       assert.isOk(res.body.data[8].attributes);
       assert.isOk(res.body.data[8].attributes['created-at']);
       assert.strictEqual(
         res.body.data[8].attributes.name,
-        sampleData.attachments.attachment5.name,
+        sampleData.attachments.attachment10.name,
       );
-      assert.strictEqual(res.body.data[8].id, user1Attachment5Uuid);
+      assert.strictEqual(res.body.data[8].id, user1Attachment10Uuid);
       assert.strictEqual(res.body.data[8].type, 'attachments');
 
-      // Attachment 10
+      // Attachment 17
       assert.isOk(res.body.data[9].attributes);
       assert.isOk(res.body.data[9].attributes['created-at']);
       assert.strictEqual(
         res.body.data[9].attributes.name,
-        sampleData.attachments.attachment10.name,
+        sampleData.attachments.attachment17.name,
       );
-      assert.strictEqual(res.body.data[9].id, user1Attachment10Uuid);
+      assert.strictEqual(res.body.data[9].id, user1Attachment17Uuid);
       assert.strictEqual(res.body.data[9].type, 'attachments');
 
-      // Attachment 17
+      // Attachment 20
       assert.isOk(res.body.data[10].attributes);
       assert.isOk(res.body.data[10].attributes['created-at']);
       assert.strictEqual(
         res.body.data[10].attributes.name,
-        sampleData.attachments.attachment17.name,
+        sampleData.attachments.attachment20.name,
       );
-      assert.strictEqual(res.body.data[10].id, user1Attachment17Uuid);
+      assert.strictEqual(res.body.data[10].id, user1Attachment20Uuid);
       assert.strictEqual(res.body.data[10].type, 'attachments');
 
       // Attachment 15

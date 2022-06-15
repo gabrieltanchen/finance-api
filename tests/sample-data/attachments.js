@@ -214,7 +214,7 @@ module.exports = {
     body: `
       Morbi tristique senectus et netus et malesuada fames ac. Enim nec dui nunc mattis enim. Pellentesque id nibh tortor id aliquet lectus proin nibh. Accumsan sit amet nulla facilisi morbi tempus iaculis. Fermentum leo vel orci porta non pulvinar neque laoreet. Diam in arcu cursus euismod quis viverra. Cursus sit amet dictum sit. Senectus et netus et malesuada. At auctor urna nunc id cursus metus aliquam eleifend mi. Fames ac turpis egestas integer eget aliquet. Commodo elit at imperdiet dui accumsan sit amet nulla facilisi. Nunc non blandit massa enim. Aliquet bibendum enim facilisis gravida. Tortor vitae purus faucibus ornare suspendisse sed nisi lacus. Gravida cum sociis natoque penatibus et. Sed sed risus pretium quam vulputate. Tellus in hac habitasse platea.
     `,
-    name: 'DIY pork belly normcore kale chips single-origin coffee flexitarian, pour-over tattooed helvetica distillery.',
+    name: 'Glossier master cleanse tbh hoodie DIY.',
   },
   attachment21: {
     aws_bucket: 'QUdwqjYWtJeKCAKP',
