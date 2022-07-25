@@ -77,19 +77,21 @@ module.exports = async({
     throw new AttachmentError('Not found');
   }
 
+  const fingerprintFileName = `${Date.now()}_${fileName}`;
+
   await controllers.AttachmentCtrl.s3Client.send(new PutObjectCommand({
     Bucket: nconf.get('AWS_STORAGE_BUCKET'),
-    Key: fileName,
+    Key: fingerprintFileName,
     Body: fileBody,
   }));
 
   const headResponse = await controllers.AttachmentCtrl.s3Client.send(new HeadObjectCommand({
     Bucket: nconf.get('AWS_STORAGE_BUCKET'),
-    Key: fileName,
+    Key: fingerprintFileName,
   }));
 
   attachment.set('aws_bucket', nconf.get('AWS_STORAGE_BUCKET'));
-  attachment.set('aws_key', fileName);
+  attachment.set('aws_key', fingerprintFileName);
   attachment.set('aws_etag', headResponse.ETag);
   attachment.set('aws_content_length', headResponse.ContentLength);
   attachment.set('aws_content_type', headResponse.ContentType);

@@ -340,7 +340,7 @@ describe('Unit:Controllers - AttachmentCtrl.uploadAttachment', function() {
     assert.strictEqual(attachment.get('aws_content_length'), sampleData.attachments.attachment1.aws_content_length);
     assert.strictEqual(attachment.get('aws_content_type'), sampleData.attachments.attachment1.aws_content_type);
     assert.strictEqual(attachment.get('aws_etag'), sampleData.attachments.attachment1.aws_etag);
-    assert.strictEqual(attachment.get('aws_key'), sampleData.attachments.attachment1.aws_key);
+    assert.include(attachment.get('aws_key'), sampleData.attachments.attachment1.aws_key);
     assert.strictEqual(attachment.get('entity_type'), 'expense');
     assert.strictEqual(attachment.get('entity_uuid'), user1ExpenseUuid);
     assert.strictEqual(attachment.get('name'), sampleData.attachments.attachment1.name);
