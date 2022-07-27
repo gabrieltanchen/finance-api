@@ -1,3 +1,4 @@
+const { DeleteObjectCommand } = require('@aws-sdk/client-s3');
 const Sequelize = require('sequelize');
 
 const { AttachmentError } = require('../../middleware/error-handler');
@@ -39,7 +40,13 @@ module.exports = async({
   }
 
   const attachment = await models.Attachment.findOne({
-    attributes: ['name', 'uuid'],
+    attributes: [
+      'aws_bucket',
+      'aws_key',
+      'entity_type',
+      'entity_uuid',
+      'uuid',
+    ],
     include: [{
       as: 'Expense',
       attributes: ['uuid'],
@@ -65,6 +72,13 @@ module.exports = async({
   });
   if (!attachment) {
     throw new AttachmentError('Not found');
+  }
+
+  if (attachment.get('aws_bucket') && attachment.get('aws_key')) {
+    await controllers.AttachmentCtrl.s3Client.send(new DeleteObjectCommand({
+      Bucket: attachment.get('aws_bucket'),
+      Key: attachment.get('aws_key'),
+    }));
   }
 
   await models.sequelize.transaction({

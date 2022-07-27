@@ -14,6 +14,7 @@ describe('Unit:Controllers - AttachmentCtrl.deleteAttachment', function() {
   let models;
   const testHelper = new TestHelper();
 
+  let s3ClientSendMock;
   let trackChangesSpy;
 
   let user1AttachmentUuid;
@@ -34,10 +35,12 @@ describe('Unit:Controllers - AttachmentCtrl.deleteAttachment', function() {
 
   before('create sinon spies', function() {
     trackChangesSpy = sinon.spy(controllers.AuditCtrl, 'trackChanges');
+    s3ClientSendMock = sinon.mock(controllers.AttachmentCtrl.s3Client);
   });
 
   after('restore sinon spies', function() {
     trackChangesSpy.restore();
+    s3ClientSendMock.restore();
   });
 
   after('cleanup', async function() {
@@ -101,6 +104,11 @@ describe('Unit:Controllers - AttachmentCtrl.deleteAttachment', function() {
 
   beforeEach('create user 1 attachment', async function() {
     const attachment = await models.Attachment.create({
+      aws_bucket: sampleData.attachments.attachment1.aws_bucket,
+      aws_content_length: sampleData.attachments.attachment1.aws_content_length,
+      aws_content_type: sampleData.attachments.attachment1.aws_content_type,
+      aws_etag: sampleData.attachments.attachment1.aws_etag,
+      aws_key: sampleData.attachments.attachment1.aws_key,
       entity_type: 'expense',
       entity_uuid: user1ExpenseUuid,
       name: sampleData.attachments.attachment1.name,
@@ -244,6 +252,8 @@ describe('Unit:Controllers - AttachmentCtrl.deleteAttachment', function() {
   });
 
   it('should resolve when the attachment belongs to the user\'s household', async function() {
+    s3ClientSendMock.expects('send').once().resolves();
+
     const apiCall = await models.Audit.ApiCall.create({
       user_uuid: user1Uuid,
     });
@@ -253,24 +263,63 @@ describe('Unit:Controllers - AttachmentCtrl.deleteAttachment', function() {
     });
 
     // Verify that the Attachment instance is deleted.
-    const attachment = await models.Attachment.findOne({
+    assert.isNull(await models.Attachment.findOne({
       attributes: ['uuid'],
       where: {
         uuid: user1AttachmentUuid,
       },
-    });
-    assert.isNull(attachment);
+    }));
 
     assert.strictEqual(trackChangesSpy.callCount, 1);
     const trackChangesParams = trackChangesSpy.getCall(0).args[0];
     assert.strictEqual(trackChangesParams.auditApiCallUuid, apiCall.get('uuid'));
     assert.isNotOk(trackChangesParams.changeList);
     assert.isOk(trackChangesParams.deleteList);
-    const deleteAttachment = _.find(trackChangesParams.deleteList, (deleteInstance) => {
+    assert.isOk(_.find(trackChangesParams.deleteList, (deleteInstance) => {
       return deleteInstance instanceof models.Attachment
         && deleteInstance.get('uuid') === user1AttachmentUuid;
+    }));
+    assert.strictEqual(trackChangesParams.deleteList.length, 1);
+    assert.isNotOk(trackChangesParams.newList);
+    assert.isOk(trackChangesParams.transaction);
+  });
+
+  it('should not call if the attachment key is missing', async function() {
+    s3ClientSendMock.expects('send').never();
+    await models.Attachment.update({
+      aws_bucket: null,
+      aws_key: null,
+    }, {
+      where: {
+        uuid: user1AttachmentUuid,
+      },
     });
-    assert.isOk(deleteAttachment);
+
+    const apiCall = await models.Audit.ApiCall.create({
+      user_uuid: user1Uuid,
+    });
+    await controllers.AttachmentCtrl.deleteAttachment({
+      attachmentUuid: user1AttachmentUuid,
+      auditApiCallUuid: apiCall.get('uuid'),
+    });
+
+    // Verify that the Attachment instance is deleted.
+    assert.isNull(await models.Attachment.findOne({
+      attributes: ['uuid'],
+      where: {
+        uuid: user1AttachmentUuid,
+      },
+    }));
+
+    assert.strictEqual(trackChangesSpy.callCount, 1);
+    const trackChangesParams = trackChangesSpy.getCall(0).args[0];
+    assert.strictEqual(trackChangesParams.auditApiCallUuid, apiCall.get('uuid'));
+    assert.isNotOk(trackChangesParams.changeList);
+    assert.isOk(trackChangesParams.deleteList);
+    assert.isOk(_.find(trackChangesParams.deleteList, (deleteInstance) => {
+      return deleteInstance instanceof models.Attachment
+        && deleteInstance.get('uuid') === user1AttachmentUuid;
+    }));
     assert.strictEqual(trackChangesParams.deleteList.length, 1);
     assert.isNotOk(trackChangesParams.newList);
     assert.isOk(trackChangesParams.transaction);

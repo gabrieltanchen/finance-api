@@ -570,7 +570,7 @@ describe('Unit:Controllers - ExpenseCtrl.deleteExpense', function() {
     });
 
     it('should resolve and delete the attachment in db and not call AWS', async function() {
-      s3ClientSendMock.expects('send').never().resolves();
+      s3ClientSendMock.expects('send').never();
 
       const apiCall = await models.Audit.ApiCall.create({
         user_uuid: user1Uuid,
