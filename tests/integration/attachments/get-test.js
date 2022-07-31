@@ -1,5 +1,6 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
+const sinon = require('sinon');
 const { v4: uuidv4 } = require('uuid');
 
 const sampleData = require('../../sample-data');
@@ -476,7 +477,10 @@ describe('Integration - GET /attachments', function() {
     await testHelper.cleanup();
   });
 
-  it('should return 401 with no auth token', async function() {
+  it('should return 401 cith no auth token', async function() {
+    const attachmentCtrlMock = sinon.mock(controllers.AttachmentCtrl);
+    attachmentCtrlMock.expects('s3GetSignedUrl').never();
+
     const res = await chai.request(server)
       .get('/attachments')
       .set('Content-Type', 'application/vnd.api+json');
@@ -486,9 +490,13 @@ describe('Integration - GET /attachments', function() {
         detail: 'Unauthorized',
       }],
     });
+    attachmentCtrlMock.verify();
   });
 
   it('should return 403 with no expense id', async function() {
+    const attachmentCtrlMock = sinon.mock(controllers.AttachmentCtrl);
+    attachmentCtrlMock.expects('s3GetSignedUrl').never();
+
     const res = await chai.request(server)
       .get('/attachments')
       .set('Content-Type', 'application/vnd.api+json')
@@ -499,10 +507,14 @@ describe('Integration - GET /attachments', function() {
         detail: 'Expense ID is required.',
       }],
     });
+    attachmentCtrlMock.verify();
   });
 
   describe('when called with the expense_id query param', function() {
     it('should return 404 when the expense does not exist', async function() {
+      const attachmentCtrlMock = sinon.mock(controllers.AttachmentCtrl);
+      attachmentCtrlMock.expects('s3GetSignedUrl').never();
+
       const res = await chai.request(server)
         .get(`/attachments?expense_id=${uuidv4()}`)
         .set('Content-Type', 'application/vnd.api+json')
@@ -513,9 +525,13 @@ describe('Integration - GET /attachments', function() {
           detail: 'Unable to find expense.',
         }],
       });
+      attachmentCtrlMock.verify();
     });
 
     it('should return 404 when the expense belongs to a different household', async function() {
+      const attachmentCtrlMock = sinon.mock(controllers.AttachmentCtrl);
+      attachmentCtrlMock.expects('s3GetSignedUrl').never();
+
       const res = await chai.request(server)
         .get(`/attachments?expense_id=${user1Expense1Uuid}`)
         .set('Content-Type', 'application/vnd.api+json')
@@ -526,9 +542,13 @@ describe('Integration - GET /attachments', function() {
           detail: 'Unable to find expense.',
         }],
       });
+      attachmentCtrlMock.verify();
     });
 
     it('should return 200 and 25 attachments as user 1 with expense 1 and no limit or page specified', async function() {
+      const attachmentCtrlMock = sinon.mock(controllers.AttachmentCtrl);
+      attachmentCtrlMock.expects('s3GetSignedUrl').exactly(25).resolves('http://www.example.com');
+
       const res = await chai.request(server)
         .get(`/attachments?expense_id=${user1Expense1Uuid}`)
         .set('Content-Type', 'application/vnd.api+json')
@@ -787,12 +807,20 @@ describe('Integration - GET /attachments', function() {
       assert.strictEqual(res.body.data[24].id, user1Attachment3Uuid);
       assert.strictEqual(res.body.data[24].type, 'attachments');
 
+      for (const attachment of res.body.data) {
+        assert.strictEqual(attachment.attributes['download-url'], 'http://www.example.com');
+      }
+      attachmentCtrlMock.verify();
+
       assert.isOk(res.body.meta);
       assert.strictEqual(res.body.meta.pages, 2);
       assert.strictEqual(res.body.meta.total, 27);
     });
 
     it('should return 200 and 2 attachments as user 1 with expense 1 and no limit and page=2', async function() {
+      const attachmentCtrlMock = sinon.mock(controllers.AttachmentCtrl);
+      attachmentCtrlMock.expects('s3GetSignedUrl').twice().resolves('http://www.example.com');
+
       const res = await chai.request(server)
         .get(`/attachments?expense_id=${user1Expense1Uuid}&page=2`)
         .set('Content-Type', 'application/vnd.api+json')
@@ -821,12 +849,20 @@ describe('Integration - GET /attachments', function() {
       assert.strictEqual(res.body.data[1].id, user1Attachment4Uuid);
       assert.strictEqual(res.body.data[1].type, 'attachments');
 
+      for (const attachment of res.body.data) {
+        assert.strictEqual(attachment.attributes['download-url'], 'http://www.example.com');
+      }
+      attachmentCtrlMock.verify();
+
       assert.isOk(res.body.meta);
       assert.strictEqual(res.body.meta.pages, 2);
       assert.strictEqual(res.body.meta.total, 27);
     });
 
     it('should return 200 and 5 attachments as user 1 with expense 1 limit=5 and page=4', async function() {
+      const attachmentCtrlMock = sinon.mock(controllers.AttachmentCtrl);
+      attachmentCtrlMock.expects('s3GetSignedUrl').exactly(5).resolves('http://www.example.com');
+
       const res = await chai.request(server)
         .get(`/attachments?expense_id=${user1Expense1Uuid}&limit=5&page=4`)
         .set('Content-Type', 'application/vnd.api+json')
@@ -885,12 +921,20 @@ describe('Integration - GET /attachments', function() {
       assert.strictEqual(res.body.data[4].id, user1Attachment21Uuid);
       assert.strictEqual(res.body.data[4].type, 'attachments');
 
+      for (const attachment of res.body.data) {
+        assert.strictEqual(attachment.attributes['download-url'], 'http://www.example.com');
+      }
+      attachmentCtrlMock.verify();
+
       assert.isOk(res.body.meta);
       assert.strictEqual(res.body.meta.pages, 6);
       assert.strictEqual(res.body.meta.total, 27);
     });
 
     it('should return 200 and 1 attachment as user 1 with expense 2', async function() {
+      const attachmentCtrlMock = sinon.mock(controllers.AttachmentCtrl);
+      attachmentCtrlMock.expects('s3GetSignedUrl').once().resolves('http://www.example.com');
+
       const res = await chai.request(server)
         .get(`/attachments?expense_id=${user1Expense2Uuid}`)
         .set('Content-Type', 'application/vnd.api+json')
@@ -903,11 +947,17 @@ describe('Integration - GET /attachments', function() {
       assert.isOk(res.body.data[0].attributes);
       assert.isOk(res.body.data[0].attributes['created-at']);
       assert.strictEqual(
+        res.body.data[0].attributes['download-url'],
+        'http://www.example.com',
+      );
+      assert.strictEqual(
         res.body.data[0].attributes.name,
         sampleData.attachments.attachment28.name,
       );
       assert.strictEqual(res.body.data[0].id, user1Attachment28Uuid);
       assert.strictEqual(res.body.data[0].type, 'attachments');
+
+      attachmentCtrlMock.verify();
 
       assert.isOk(res.body.meta);
       assert.strictEqual(res.body.meta.pages, 1);

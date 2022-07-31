@@ -1,4 +1,5 @@
 const { S3Client } = require('@aws-sdk/client-s3');
+const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
 
 const createAttachment = require('./create-attachment');
 const deleteAttachment = require('./delete-attachment');
@@ -10,6 +11,7 @@ class AttachmentCtrl {
     this.parent = parent;
     this.models = models;
     this.s3Client = new S3Client({ region: 'us-east-1' });
+    this.s3GetSignedUrl = getSignedUrl;
   }
 
   async createAttachment(params) {

@@ -1,6 +1,9 @@
+const { GetObjectCommand } = require('@aws-sdk/client-s3');
+const nconf = require('nconf');
 const { AttachmentError, ExpenseError } = require('../../middleware/error-handler');
 
 module.exports = (app) => {
+  const controllers = app.get('controllers');
   const models = app.get('models');
 
   /**
@@ -74,7 +77,12 @@ module.exports = (app) => {
       }
 
       const attachments = await models.Attachment.findAndCountAll({
-        attributes: ['created_at', 'name', 'uuid'],
+        attributes: [
+          'aws_key',
+          'created_at',
+          'name',
+          'uuid',
+        ],
         limit,
         offset,
         order: [['name', 'ASC']],
@@ -82,16 +90,25 @@ module.exports = (app) => {
       });
 
       return res.status(200).json({
-        'data': attachments.rows.map((attachment) => {
+        'data': await Promise.all(attachments.rows.map(async(attachment) => {
+          const presignedUrl = await controllers.AttachmentCtrl.s3GetSignedUrl(
+            controllers.AttachmentCtrl.s3Client,
+            new GetObjectCommand({
+              Bucket: nconf.get('AWS_STORAGE_BUCKET'),
+              Key: attachment.get('aws_key'),
+            }),
+            { expiresIn: 3600 },
+          );
           return {
             'attributes': {
               'created-at': attachment.get('created_at'),
+              'download-url': presignedUrl,
               'name': attachment.get('name'),
             },
             'id': attachment.get('uuid'),
             'type': 'attachments',
           };
-        }),
+        })),
         'meta': {
           'pages': Math.ceil(attachments.count / limit),
           'total': attachments.count,
