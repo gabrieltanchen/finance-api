@@ -76,6 +76,20 @@ module.exports = (app) => {
         throw new AttachmentError('No open queries');
       }
 
+      let attachmentOrder = [['name', 'ASC']];
+      let sortField = [];
+      if (req.query.sort && req.query.sort === 'name') {
+        sortField = ['name'];
+      }
+      if (sortField.length) {
+        attachmentOrder = [];
+        if (req.query.sortDirection && req.query.sortDirection === 'desc') {
+          attachmentOrder.push([...sortField, 'DESC']);
+        } else {
+          attachmentOrder.push([...sortField, 'ASC']);
+        }
+      }
+
       const attachments = await models.Attachment.findAndCountAll({
         attributes: [
           'aws_key',
@@ -85,7 +99,7 @@ module.exports = (app) => {
         ],
         limit,
         offset,
-        order: [['name', 'ASC']],
+        order: attachmentOrder,
         where: attachmentWhere,
       });
 

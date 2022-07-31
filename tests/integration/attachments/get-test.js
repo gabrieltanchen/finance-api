@@ -963,5 +963,781 @@ describe('Integration - GET /attachments', function() {
       assert.strictEqual(res.body.meta.pages, 1);
       assert.strictEqual(res.body.meta.total, 1);
     });
+
+    describe('with expense 1 and sort=name and sortDirection=asc', function() {
+      it('should return 200 and 25 attachments as user 1 with no limit or page specified', async function() {
+        const attachmentCtrlMock = sinon.mock(controllers.AttachmentCtrl);
+        attachmentCtrlMock.expects('s3GetSignedUrl').exactly(25).resolves('http://www.example.com');
+
+        const res = await chai.request(server)
+          .get(`/attachments?expense_id=${user1Expense1Uuid}&sort=name&sortDirection=asc`)
+          .set('Content-Type', 'application/vnd.api+json')
+          .set('Authorization', `Bearer ${user1Token}`);
+        expect(res).to.have.status(200);
+        assert.isOk(res.body.data);
+        assert.strictEqual(res.body.data.length, 25);
+
+        // Attachment 19
+        assert.isOk(res.body.data[0].attributes);
+        assert.isOk(res.body.data[0].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[0].attributes.name,
+          sampleData.attachments.attachment19.name,
+        );
+        assert.strictEqual(res.body.data[0].id, user1Attachment19Uuid);
+        assert.strictEqual(res.body.data[0].type, 'attachments');
+
+        // Attachment 16
+        assert.isOk(res.body.data[1].attributes);
+        assert.isOk(res.body.data[1].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[1].attributes.name,
+          sampleData.attachments.attachment16.name,
+        );
+        assert.strictEqual(res.body.data[1].id, user1Attachment16Uuid);
+        assert.strictEqual(res.body.data[1].type, 'attachments');
+
+        // Attachment 1
+        assert.isOk(res.body.data[2].attributes);
+        assert.isOk(res.body.data[2].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[2].attributes.name,
+          sampleData.attachments.attachment1.name,
+        );
+        assert.strictEqual(res.body.data[2].id, user1Attachment1Uuid);
+        assert.strictEqual(res.body.data[2].type, 'attachments');
+
+        // Attachment 22
+        assert.isOk(res.body.data[3].attributes);
+        assert.isOk(res.body.data[3].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[3].attributes.name,
+          sampleData.attachments.attachment22.name,
+        );
+        assert.strictEqual(res.body.data[3].id, user1Attachment22Uuid);
+        assert.strictEqual(res.body.data[3].type, 'attachments');
+
+        // Attachment 14
+        assert.isOk(res.body.data[4].attributes);
+        assert.isOk(res.body.data[4].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[4].attributes.name,
+          sampleData.attachments.attachment14.name,
+        );
+        assert.strictEqual(res.body.data[4].id, user1Attachment14Uuid);
+        assert.strictEqual(res.body.data[4].type, 'attachments');
+
+        // Attachment 18
+        assert.isOk(res.body.data[5].attributes);
+        assert.isOk(res.body.data[5].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[5].attributes.name,
+          sampleData.attachments.attachment18.name,
+        );
+        assert.strictEqual(res.body.data[5].id, user1Attachment18Uuid);
+        assert.strictEqual(res.body.data[5].type, 'attachments');
+
+        // Attachment 7
+        assert.isOk(res.body.data[6].attributes);
+        assert.isOk(res.body.data[6].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[6].attributes.name,
+          sampleData.attachments.attachment7.name,
+        );
+        assert.strictEqual(res.body.data[6].id, user1Attachment7Uuid);
+        assert.strictEqual(res.body.data[6].type, 'attachments');
+
+        // Attachment 5
+        assert.isOk(res.body.data[7].attributes);
+        assert.isOk(res.body.data[7].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[7].attributes.name,
+          sampleData.attachments.attachment5.name,
+        );
+        assert.strictEqual(res.body.data[7].id, user1Attachment5Uuid);
+        assert.strictEqual(res.body.data[7].type, 'attachments');
+
+        // Attachment 10
+        assert.isOk(res.body.data[8].attributes);
+        assert.isOk(res.body.data[8].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[8].attributes.name,
+          sampleData.attachments.attachment10.name,
+        );
+        assert.strictEqual(res.body.data[8].id, user1Attachment10Uuid);
+        assert.strictEqual(res.body.data[8].type, 'attachments');
+
+        // Attachment 17
+        assert.isOk(res.body.data[9].attributes);
+        assert.isOk(res.body.data[9].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[9].attributes.name,
+          sampleData.attachments.attachment17.name,
+        );
+        assert.strictEqual(res.body.data[9].id, user1Attachment17Uuid);
+        assert.strictEqual(res.body.data[9].type, 'attachments');
+
+        // Attachment 20
+        assert.isOk(res.body.data[10].attributes);
+        assert.isOk(res.body.data[10].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[10].attributes.name,
+          sampleData.attachments.attachment20.name,
+        );
+        assert.strictEqual(res.body.data[10].id, user1Attachment20Uuid);
+        assert.strictEqual(res.body.data[10].type, 'attachments');
+
+        // Attachment 15
+        assert.isOk(res.body.data[11].attributes);
+        assert.isOk(res.body.data[11].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[11].attributes.name,
+          sampleData.attachments.attachment15.name,
+        );
+        assert.strictEqual(res.body.data[11].id, user1Attachment15Uuid);
+        assert.strictEqual(res.body.data[11].type, 'attachments');
+
+        // Attachment 25
+        assert.isOk(res.body.data[12].attributes);
+        assert.isOk(res.body.data[12].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[12].attributes.name,
+          sampleData.attachments.attachment25.name,
+        );
+        assert.strictEqual(res.body.data[12].id, user1Attachment25Uuid);
+        assert.strictEqual(res.body.data[12].type, 'attachments');
+
+        // Attachment 24
+        assert.isOk(res.body.data[13].attributes);
+        assert.isOk(res.body.data[13].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[13].attributes.name,
+          sampleData.attachments.attachment24.name,
+        );
+        assert.strictEqual(res.body.data[13].id, user1Attachment24Uuid);
+        assert.strictEqual(res.body.data[13].type, 'attachments');
+
+        // Attachment 27
+        assert.isOk(res.body.data[14].attributes);
+        assert.isOk(res.body.data[14].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[14].attributes.name,
+          sampleData.attachments.attachment27.name,
+        );
+        assert.strictEqual(res.body.data[14].id, user1Attachment27Uuid);
+        assert.strictEqual(res.body.data[14].type, 'attachments');
+
+        // Attachment 11
+        assert.isOk(res.body.data[15].attributes);
+        assert.isOk(res.body.data[15].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[15].attributes.name,
+          sampleData.attachments.attachment11.name,
+        );
+        assert.strictEqual(res.body.data[15].id, user1Attachment11Uuid);
+        assert.strictEqual(res.body.data[15].type, 'attachments');
+
+        // Attachment 23
+        assert.isOk(res.body.data[16].attributes);
+        assert.isOk(res.body.data[16].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[16].attributes.name,
+          sampleData.attachments.attachment23.name,
+        );
+        assert.strictEqual(res.body.data[16].id, user1Attachment23Uuid);
+        assert.strictEqual(res.body.data[16].type, 'attachments');
+
+        // Attachment 2
+        assert.isOk(res.body.data[17].attributes);
+        assert.isOk(res.body.data[17].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[17].attributes.name,
+          sampleData.attachments.attachment2.name,
+        );
+        assert.strictEqual(res.body.data[17].id, user1Attachment2Uuid);
+        assert.strictEqual(res.body.data[17].type, 'attachments');
+
+        // Attachment 8
+        assert.isOk(res.body.data[18].attributes);
+        assert.isOk(res.body.data[18].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[18].attributes.name,
+          sampleData.attachments.attachment8.name,
+        );
+        assert.strictEqual(res.body.data[18].id, user1Attachment8Uuid);
+        assert.strictEqual(res.body.data[18].type, 'attachments');
+
+        // Attachment 21
+        assert.isOk(res.body.data[19].attributes);
+        assert.isOk(res.body.data[19].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[19].attributes.name,
+          sampleData.attachments.attachment21.name,
+        );
+        assert.strictEqual(res.body.data[19].id, user1Attachment21Uuid);
+        assert.strictEqual(res.body.data[19].type, 'attachments');
+
+        // Attachment 26
+        assert.isOk(res.body.data[20].attributes);
+        assert.isOk(res.body.data[20].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[20].attributes.name,
+          sampleData.attachments.attachment26.name,
+        );
+        assert.strictEqual(res.body.data[20].id, user1Attachment26Uuid);
+        assert.strictEqual(res.body.data[20].type, 'attachments');
+
+        // Attachment 9
+        assert.isOk(res.body.data[21].attributes);
+        assert.isOk(res.body.data[21].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[21].attributes.name,
+          sampleData.attachments.attachment9.name,
+        );
+        assert.strictEqual(res.body.data[21].id, user1Attachment9Uuid);
+        assert.strictEqual(res.body.data[21].type, 'attachments');
+
+        // Attachment 12
+        assert.isOk(res.body.data[22].attributes);
+        assert.isOk(res.body.data[22].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[22].attributes.name,
+          sampleData.attachments.attachment12.name,
+        );
+        assert.strictEqual(res.body.data[22].id, user1Attachment12Uuid);
+        assert.strictEqual(res.body.data[22].type, 'attachments');
+
+        // Attachment 13
+        assert.isOk(res.body.data[23].attributes);
+        assert.isOk(res.body.data[23].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[23].attributes.name,
+          sampleData.attachments.attachment13.name,
+        );
+        assert.strictEqual(res.body.data[23].id, user1Attachment13Uuid);
+        assert.strictEqual(res.body.data[23].type, 'attachments');
+
+        // Attachment 3
+        assert.isOk(res.body.data[24].attributes);
+        assert.isOk(res.body.data[24].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[24].attributes.name,
+          sampleData.attachments.attachment3.name,
+        );
+        assert.strictEqual(res.body.data[24].id, user1Attachment3Uuid);
+        assert.strictEqual(res.body.data[24].type, 'attachments');
+
+        for (const attachment of res.body.data) {
+          assert.strictEqual(attachment.attributes['download-url'], 'http://www.example.com');
+        }
+        attachmentCtrlMock.verify();
+
+        assert.isOk(res.body.meta);
+        assert.strictEqual(res.body.meta.pages, 2);
+        assert.strictEqual(res.body.meta.total, 27);
+      });
+
+      it('should return 200 and 2 attachments as user 1 with no limit and page=2', async function() {
+        const attachmentCtrlMock = sinon.mock(controllers.AttachmentCtrl);
+        attachmentCtrlMock.expects('s3GetSignedUrl').twice().resolves('http://www.example.com');
+
+        const res = await chai.request(server)
+          .get(`/attachments?expense_id=${user1Expense1Uuid}&page=2&sort=name&sortDirection='asc'`)
+          .set('Content-Type', 'application/vnd.api+json')
+          .set('Authorization', `Bearer ${user1Token}`);
+        expect(res).to.have.status(200);
+        assert.isOk(res.body.data);
+        assert.strictEqual(res.body.data.length, 2);
+
+        // Attachment 6
+        assert.isOk(res.body.data[0].attributes);
+        assert.isOk(res.body.data[0].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[0].attributes.name,
+          sampleData.attachments.attachment6.name,
+        );
+        assert.strictEqual(res.body.data[0].id, user1Attachment6Uuid);
+        assert.strictEqual(res.body.data[0].type, 'attachments');
+
+        // Attachment 4
+        assert.isOk(res.body.data[1].attributes);
+        assert.isOk(res.body.data[1].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[1].attributes.name,
+          sampleData.attachments.attachment4.name,
+        );
+        assert.strictEqual(res.body.data[1].id, user1Attachment4Uuid);
+        assert.strictEqual(res.body.data[1].type, 'attachments');
+
+        for (const attachment of res.body.data) {
+          assert.strictEqual(attachment.attributes['download-url'], 'http://www.example.com');
+        }
+        attachmentCtrlMock.verify();
+
+        assert.isOk(res.body.meta);
+        assert.strictEqual(res.body.meta.pages, 2);
+        assert.strictEqual(res.body.meta.total, 27);
+      });
+
+      it('should return 200 and 5 attachments as user 1 with limit=5 and page=4', async function() {
+        const attachmentCtrlMock = sinon.mock(controllers.AttachmentCtrl);
+        attachmentCtrlMock.expects('s3GetSignedUrl').exactly(5).resolves('http://www.example.com');
+
+        const res = await chai.request(server)
+          .get(`/attachments?expense_id=${user1Expense1Uuid}&limit=5&page=4&sort=name&sortDirection=asc`)
+          .set('Content-Type', 'application/vnd.api+json')
+          .set('Authorization', `Bearer ${user1Token}`);
+        expect(res).to.have.status(200);
+        assert.isOk(res.body.data);
+        assert.strictEqual(res.body.data.length, 5);
+
+        // Attachment 11
+        assert.isOk(res.body.data[0].attributes);
+        assert.isOk(res.body.data[0].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[0].attributes.name,
+          sampleData.attachments.attachment11.name,
+        );
+        assert.strictEqual(res.body.data[0].id, user1Attachment11Uuid);
+        assert.strictEqual(res.body.data[0].type, 'attachments');
+
+        // Attachment 23
+        assert.isOk(res.body.data[1].attributes);
+        assert.isOk(res.body.data[1].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[1].attributes.name,
+          sampleData.attachments.attachment23.name,
+        );
+        assert.strictEqual(res.body.data[1].id, user1Attachment23Uuid);
+        assert.strictEqual(res.body.data[1].type, 'attachments');
+
+        // Attachment 2
+        assert.isOk(res.body.data[2].attributes);
+        assert.isOk(res.body.data[2].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[2].attributes.name,
+          sampleData.attachments.attachment2.name,
+        );
+        assert.strictEqual(res.body.data[2].id, user1Attachment2Uuid);
+        assert.strictEqual(res.body.data[2].type, 'attachments');
+
+        // Attachment 8
+        assert.isOk(res.body.data[3].attributes);
+        assert.isOk(res.body.data[3].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[3].attributes.name,
+          sampleData.attachments.attachment8.name,
+        );
+        assert.strictEqual(res.body.data[3].id, user1Attachment8Uuid);
+        assert.strictEqual(res.body.data[3].type, 'attachments');
+
+        // Attachment 21
+        assert.isOk(res.body.data[4].attributes);
+        assert.isOk(res.body.data[4].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[4].attributes.name,
+          sampleData.attachments.attachment21.name,
+        );
+        assert.strictEqual(res.body.data[4].id, user1Attachment21Uuid);
+        assert.strictEqual(res.body.data[4].type, 'attachments');
+
+        for (const attachment of res.body.data) {
+          assert.strictEqual(attachment.attributes['download-url'], 'http://www.example.com');
+        }
+        attachmentCtrlMock.verify();
+
+        assert.isOk(res.body.meta);
+        assert.strictEqual(res.body.meta.pages, 6);
+        assert.strictEqual(res.body.meta.total, 27);
+      });
+    });
+
+    describe('with expense 1 and sort=name and sortDirection=desc', function() {
+      it('should return 200 and 25 attachments as user 1 with no limit or page specified', async function() {
+        const attachmentCtrlMock = sinon.mock(controllers.AttachmentCtrl);
+        attachmentCtrlMock.expects('s3GetSignedUrl').exactly(25).resolves('http://www.example.com');
+
+        const res = await chai.request(server)
+          .get(`/attachments?expense_id=${user1Expense1Uuid}&sort=name&sortDirection=desc`)
+          .set('Content-Type', 'application/vnd.api+json')
+          .set('Authorization', `Bearer ${user1Token}`);
+        expect(res).to.have.status(200);
+        assert.isOk(res.body.data);
+        assert.strictEqual(res.body.data.length, 25);
+
+        // Attachment 4
+        assert.isOk(res.body.data[0].attributes);
+        assert.isOk(res.body.data[0].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[0].attributes.name,
+          sampleData.attachments.attachment4.name,
+        );
+        assert.strictEqual(res.body.data[0].id, user1Attachment4Uuid);
+        assert.strictEqual(res.body.data[0].type, 'attachments');
+
+        // Attachment 6
+        assert.isOk(res.body.data[1].attributes);
+        assert.isOk(res.body.data[1].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[1].attributes.name,
+          sampleData.attachments.attachment6.name,
+        );
+        assert.strictEqual(res.body.data[1].id, user1Attachment6Uuid);
+        assert.strictEqual(res.body.data[1].type, 'attachments');
+
+        // Attachment 3
+        assert.isOk(res.body.data[2].attributes);
+        assert.isOk(res.body.data[2].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[2].attributes.name,
+          sampleData.attachments.attachment3.name,
+        );
+        assert.strictEqual(res.body.data[2].id, user1Attachment3Uuid);
+        assert.strictEqual(res.body.data[2].type, 'attachments');
+
+        // Attachment 13
+        assert.isOk(res.body.data[3].attributes);
+        assert.isOk(res.body.data[3].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[3].attributes.name,
+          sampleData.attachments.attachment13.name,
+        );
+        assert.strictEqual(res.body.data[3].id, user1Attachment13Uuid);
+        assert.strictEqual(res.body.data[3].type, 'attachments');
+
+        // Attachment 12
+        assert.isOk(res.body.data[4].attributes);
+        assert.isOk(res.body.data[4].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[4].attributes.name,
+          sampleData.attachments.attachment12.name,
+        );
+        assert.strictEqual(res.body.data[4].id, user1Attachment12Uuid);
+        assert.strictEqual(res.body.data[4].type, 'attachments');
+
+        // Attachment 9
+        assert.isOk(res.body.data[5].attributes);
+        assert.isOk(res.body.data[5].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[5].attributes.name,
+          sampleData.attachments.attachment9.name,
+        );
+        assert.strictEqual(res.body.data[5].id, user1Attachment9Uuid);
+        assert.strictEqual(res.body.data[5].type, 'attachments');
+
+        // Attachment 26
+        assert.isOk(res.body.data[6].attributes);
+        assert.isOk(res.body.data[6].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[6].attributes.name,
+          sampleData.attachments.attachment26.name,
+        );
+        assert.strictEqual(res.body.data[6].id, user1Attachment26Uuid);
+        assert.strictEqual(res.body.data[6].type, 'attachments');
+
+        // Attachment 21
+        assert.isOk(res.body.data[7].attributes);
+        assert.isOk(res.body.data[7].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[7].attributes.name,
+          sampleData.attachments.attachment21.name,
+        );
+        assert.strictEqual(res.body.data[7].id, user1Attachment21Uuid);
+        assert.strictEqual(res.body.data[7].type, 'attachments');
+
+        // Attachment 8
+        assert.isOk(res.body.data[8].attributes);
+        assert.isOk(res.body.data[8].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[8].attributes.name,
+          sampleData.attachments.attachment8.name,
+        );
+        assert.strictEqual(res.body.data[8].id, user1Attachment8Uuid);
+        assert.strictEqual(res.body.data[8].type, 'attachments');
+
+        // Attachment 2
+        assert.isOk(res.body.data[9].attributes);
+        assert.isOk(res.body.data[9].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[9].attributes.name,
+          sampleData.attachments.attachment2.name,
+        );
+        assert.strictEqual(res.body.data[9].id, user1Attachment2Uuid);
+        assert.strictEqual(res.body.data[9].type, 'attachments');
+
+        // Attachment 23
+        assert.isOk(res.body.data[10].attributes);
+        assert.isOk(res.body.data[10].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[10].attributes.name,
+          sampleData.attachments.attachment23.name,
+        );
+        assert.strictEqual(res.body.data[10].id, user1Attachment23Uuid);
+        assert.strictEqual(res.body.data[10].type, 'attachments');
+
+        // Attachment 11
+        assert.isOk(res.body.data[11].attributes);
+        assert.isOk(res.body.data[11].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[11].attributes.name,
+          sampleData.attachments.attachment11.name,
+        );
+        assert.strictEqual(res.body.data[11].id, user1Attachment11Uuid);
+        assert.strictEqual(res.body.data[11].type, 'attachments');
+
+        // Attachment 27
+        assert.isOk(res.body.data[12].attributes);
+        assert.isOk(res.body.data[12].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[12].attributes.name,
+          sampleData.attachments.attachment27.name,
+        );
+        assert.strictEqual(res.body.data[12].id, user1Attachment27Uuid);
+        assert.strictEqual(res.body.data[12].type, 'attachments');
+
+        // Attachment 24
+        assert.isOk(res.body.data[13].attributes);
+        assert.isOk(res.body.data[13].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[13].attributes.name,
+          sampleData.attachments.attachment24.name,
+        );
+        assert.strictEqual(res.body.data[13].id, user1Attachment24Uuid);
+        assert.strictEqual(res.body.data[13].type, 'attachments');
+
+        // Attachment 25
+        assert.isOk(res.body.data[14].attributes);
+        assert.isOk(res.body.data[14].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[14].attributes.name,
+          sampleData.attachments.attachment25.name,
+        );
+        assert.strictEqual(res.body.data[14].id, user1Attachment25Uuid);
+        assert.strictEqual(res.body.data[14].type, 'attachments');
+
+        // Attachment 15
+        assert.isOk(res.body.data[15].attributes);
+        assert.isOk(res.body.data[15].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[15].attributes.name,
+          sampleData.attachments.attachment15.name,
+        );
+        assert.strictEqual(res.body.data[15].id, user1Attachment15Uuid);
+        assert.strictEqual(res.body.data[15].type, 'attachments');
+
+        // Attachment 20
+        assert.isOk(res.body.data[16].attributes);
+        assert.isOk(res.body.data[16].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[16].attributes.name,
+          sampleData.attachments.attachment20.name,
+        );
+        assert.strictEqual(res.body.data[16].id, user1Attachment20Uuid);
+        assert.strictEqual(res.body.data[16].type, 'attachments');
+
+        // Attachment 17
+        assert.isOk(res.body.data[17].attributes);
+        assert.isOk(res.body.data[17].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[17].attributes.name,
+          sampleData.attachments.attachment17.name,
+        );
+        assert.strictEqual(res.body.data[17].id, user1Attachment17Uuid);
+        assert.strictEqual(res.body.data[17].type, 'attachments');
+
+        // Attachment 10
+        assert.isOk(res.body.data[18].attributes);
+        assert.isOk(res.body.data[18].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[18].attributes.name,
+          sampleData.attachments.attachment10.name,
+        );
+        assert.strictEqual(res.body.data[18].id, user1Attachment10Uuid);
+        assert.strictEqual(res.body.data[18].type, 'attachments');
+
+        // Attachment 5
+        assert.isOk(res.body.data[19].attributes);
+        assert.isOk(res.body.data[19].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[19].attributes.name,
+          sampleData.attachments.attachment5.name,
+        );
+        assert.strictEqual(res.body.data[19].id, user1Attachment5Uuid);
+        assert.strictEqual(res.body.data[19].type, 'attachments');
+
+        // Attachment 7
+        assert.isOk(res.body.data[20].attributes);
+        assert.isOk(res.body.data[20].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[20].attributes.name,
+          sampleData.attachments.attachment7.name,
+        );
+        assert.strictEqual(res.body.data[20].id, user1Attachment7Uuid);
+        assert.strictEqual(res.body.data[20].type, 'attachments');
+
+        // Attachment 18
+        assert.isOk(res.body.data[21].attributes);
+        assert.isOk(res.body.data[21].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[21].attributes.name,
+          sampleData.attachments.attachment18.name,
+        );
+        assert.strictEqual(res.body.data[21].id, user1Attachment18Uuid);
+        assert.strictEqual(res.body.data[21].type, 'attachments');
+
+        // Attachment 14
+        assert.isOk(res.body.data[22].attributes);
+        assert.isOk(res.body.data[22].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[22].attributes.name,
+          sampleData.attachments.attachment14.name,
+        );
+        assert.strictEqual(res.body.data[22].id, user1Attachment14Uuid);
+        assert.strictEqual(res.body.data[22].type, 'attachments');
+
+        // Attachment 22
+        assert.isOk(res.body.data[23].attributes);
+        assert.isOk(res.body.data[23].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[23].attributes.name,
+          sampleData.attachments.attachment22.name,
+        );
+        assert.strictEqual(res.body.data[23].id, user1Attachment22Uuid);
+        assert.strictEqual(res.body.data[23].type, 'attachments');
+
+        // Attachment 1
+        assert.isOk(res.body.data[24].attributes);
+        assert.isOk(res.body.data[24].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[24].attributes.name,
+          sampleData.attachments.attachment1.name,
+        );
+        assert.strictEqual(res.body.data[24].id, user1Attachment1Uuid);
+        assert.strictEqual(res.body.data[24].type, 'attachments');
+
+        for (const attachment of res.body.data) {
+          assert.strictEqual(attachment.attributes['download-url'], 'http://www.example.com');
+        }
+        attachmentCtrlMock.verify();
+
+        assert.isOk(res.body.meta);
+        assert.strictEqual(res.body.meta.pages, 2);
+        assert.strictEqual(res.body.meta.total, 27);
+      });
+
+      it('should return 200 and 2 attachments as user 1 with no limit and page=2', async function() {
+        const attachmentCtrlMock = sinon.mock(controllers.AttachmentCtrl);
+        attachmentCtrlMock.expects('s3GetSignedUrl').twice().resolves('http://www.example.com');
+
+        const res = await chai.request(server)
+          .get(`/attachments?expense_id=${user1Expense1Uuid}&page=2&sort=name&sortDirection=desc`)
+          .set('Content-Type', 'application/vnd.api+json')
+          .set('Authorization', `Bearer ${user1Token}`);
+        expect(res).to.have.status(200);
+        assert.isOk(res.body.data);
+        assert.strictEqual(res.body.data.length, 2);
+
+        // Attachment 16
+        assert.isOk(res.body.data[0].attributes);
+        assert.isOk(res.body.data[0].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[0].attributes.name,
+          sampleData.attachments.attachment16.name,
+        );
+        assert.strictEqual(res.body.data[0].id, user1Attachment16Uuid);
+        assert.strictEqual(res.body.data[0].type, 'attachments');
+
+        // Attachment 19
+        assert.isOk(res.body.data[1].attributes);
+        assert.isOk(res.body.data[1].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[1].attributes.name,
+          sampleData.attachments.attachment19.name,
+        );
+        assert.strictEqual(res.body.data[1].id, user1Attachment19Uuid);
+        assert.strictEqual(res.body.data[1].type, 'attachments');
+
+        for (const attachment of res.body.data) {
+          assert.strictEqual(attachment.attributes['download-url'], 'http://www.example.com');
+        }
+        attachmentCtrlMock.verify();
+
+        assert.isOk(res.body.meta);
+        assert.strictEqual(res.body.meta.pages, 2);
+        assert.strictEqual(res.body.meta.total, 27);
+      });
+
+      it('should return 200 and 5 attachments as user 1 with limit=5 and page=4', async function() {
+        const attachmentCtrlMock = sinon.mock(controllers.AttachmentCtrl);
+        attachmentCtrlMock.expects('s3GetSignedUrl').exactly(5).resolves('http://www.example.com');
+
+        const res = await chai.request(server)
+          .get(`/attachments?expense_id=${user1Expense1Uuid}&limit=5&page=4&sort=name&sortDirection=desc`)
+          .set('Content-Type', 'application/vnd.api+json')
+          .set('Authorization', `Bearer ${user1Token}`);
+        expect(res).to.have.status(200);
+        assert.isOk(res.body.data);
+        assert.strictEqual(res.body.data.length, 5);
+
+        // Attachment 15
+        assert.isOk(res.body.data[0].attributes);
+        assert.isOk(res.body.data[0].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[0].attributes.name,
+          sampleData.attachments.attachment15.name,
+        );
+        assert.strictEqual(res.body.data[0].id, user1Attachment15Uuid);
+        assert.strictEqual(res.body.data[0].type, 'attachments');
+
+        // Attachment 20
+        assert.isOk(res.body.data[1].attributes);
+        assert.isOk(res.body.data[1].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[1].attributes.name,
+          sampleData.attachments.attachment20.name,
+        );
+        assert.strictEqual(res.body.data[1].id, user1Attachment20Uuid);
+        assert.strictEqual(res.body.data[1].type, 'attachments');
+
+        // Attachment 17
+        assert.isOk(res.body.data[2].attributes);
+        assert.isOk(res.body.data[2].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[2].attributes.name,
+          sampleData.attachments.attachment17.name,
+        );
+        assert.strictEqual(res.body.data[2].id, user1Attachment17Uuid);
+        assert.strictEqual(res.body.data[2].type, 'attachments');
+
+        // Attachment 10
+        assert.isOk(res.body.data[3].attributes);
+        assert.isOk(res.body.data[3].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[3].attributes.name,
+          sampleData.attachments.attachment10.name,
+        );
+        assert.strictEqual(res.body.data[3].id, user1Attachment10Uuid);
+        assert.strictEqual(res.body.data[3].type, 'attachments');
+
+        // Attachment 5
+        assert.isOk(res.body.data[4].attributes);
+        assert.isOk(res.body.data[4].attributes['created-at']);
+        assert.strictEqual(
+          res.body.data[4].attributes.name,
+          sampleData.attachments.attachment5.name,
+        );
+        assert.strictEqual(res.body.data[4].id, user1Attachment5Uuid);
+        assert.strictEqual(res.body.data[4].type, 'attachments');
+
+        for (const attachment of res.body.data) {
+          assert.strictEqual(attachment.attributes['download-url'], 'http://www.example.com');
+        }
+        attachmentCtrlMock.verify();
+
+        assert.isOk(res.body.meta);
+        assert.strictEqual(res.body.meta.pages, 6);
+        assert.strictEqual(res.body.meta.total, 27);
+      });
+    });
   });
 });
