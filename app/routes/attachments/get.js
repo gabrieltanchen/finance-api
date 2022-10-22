@@ -15,6 +15,7 @@ module.exports = (app) => {
    * @apiSuccess (200) {object[]} data.attachments
    * @apiSuccess (200) {object} data.attachments[].attributes
    * @apiSuccess (200) {string} data.attachments[].attributes[created-at]
+   * @apiSuccess (200) {string} data.attachments[].attributes[download-url]
    * @apiSuccess (200) {string} data.attachments[].attributes.name
    * @apiSuccess (200) {string} data.attachments[].id
    * @apiSuccess (200) {string} data.attachments[].type
