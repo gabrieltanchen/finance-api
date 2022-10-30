@@ -1,3 +1,4 @@
+const attachments = require('./attachments');
 const budgets = require('./budgets');
 const categories = require('./categories');
 const deposits = require('./deposits');
@@ -8,6 +9,7 @@ const users = require('./users');
 const vendors = require('./vendors');
 
 module.exports = {
+  attachments,
   budgets,
   categories,
   deposits,

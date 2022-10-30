@@ -22,6 +22,8 @@ jobs:
         run: npm run lint
 
   test:
+    env:
+      AWS_STORAGE_BUCKET: finance_bucket
 
     strategy:
       matrix:

@@ -122,7 +122,7 @@ module.exports = (app) => {
         throw new ExpenseError('No open queries');
       }
 
-      let incomeOrder = [['date', 'DESC']];
+      let expenseOrder = [['date', 'DESC']];
       let sortField = [];
       if (req.query.sort && req.query.sort === 'amount') {
         sortField = ['amount_cents'];
@@ -142,14 +142,14 @@ module.exports = (app) => {
         sortField = ['Vendor', 'name'];
       }
       if (sortField.length) {
-        incomeOrder = [];
+        expenseOrder = [];
         if (req.query.sortDirection && req.query.sortDirection === 'desc') {
-          incomeOrder.push([...sortField, 'DESC']);
+          expenseOrder.push([...sortField, 'DESC']);
         } else {
-          incomeOrder.push([...sortField, 'ASC']);
+          expenseOrder.push([...sortField, 'ASC']);
         }
         if (sortField[0] !== 'date') {
-          incomeOrder.push(['date', 'DESC']);
+          expenseOrder.push(['date', 'DESC']);
         }
       }
 
@@ -181,7 +181,7 @@ module.exports = (app) => {
         }],
         limit,
         offset,
-        order: incomeOrder,
+        order: expenseOrder,
         where: expenseWhere,
       });
 

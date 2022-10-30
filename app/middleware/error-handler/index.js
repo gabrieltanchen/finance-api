@@ -1,3 +1,4 @@
+const AttachmentError = require('./attachment-error');
 const AuditError = require('./audit-error');
 const BudgetError = require('./budget-error');
 const CategoryError = require('./category-error');
@@ -10,6 +11,7 @@ const UserError = require('./user-error');
 const VendorError = require('./vendor-error');
 
 const errorClasses = {
+  AttachmentError,
   AuditError,
   BudgetError,
   CategoryError,
