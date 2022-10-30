@@ -1,3 +1,4 @@
+const { DeleteObjectCommand } = require('@aws-sdk/client-s3');
 const Sequelize = require('sequelize');
 
 const { ExpenseError } = require('../../middleware/error-handler');
@@ -41,6 +42,16 @@ module.exports = async({
   const expense = await models.Expense.findOne({
     attributes: ['amount_cents', 'fund_uuid', 'reimbursed_cents', 'uuid'],
     include: [{
+      attributes: [
+        'aws_bucket',
+        'aws_key',
+        'entity_type',
+        'entity_uuid',
+        'uuid',
+      ],
+      model: models.Attachment,
+      required: false,
+    }, {
       attributes: ['uuid'],
       model: models.HouseholdMember,
       required: true,
@@ -87,12 +98,24 @@ module.exports = async({
     }
   }
 
+  const deleteList = [expense];
+  for (const attachment of expense.Attachments) {
+    if (attachment.get('aws_bucket') && attachment.get('aws_key')) {
+      // eslint-disable-next-line no-await-in-loop
+      await controllers.AttachmentCtrl.s3Client.send(new DeleteObjectCommand({
+        Bucket: attachment.get('aws_bucket'),
+        Key: attachment.get('aws_key'),
+      }));
+    }
+    deleteList.push(attachment);
+  }
+
   await models.sequelize.transaction({
     isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.REPEATABLE_READ,
   }, async(transaction) => {
     const trackChangesParams = {
       auditApiCallUuid,
-      deleteList: [expense],
+      deleteList,
       transaction,
     };
     if (expense.get('fund_uuid')) {

@@ -99,6 +99,119 @@ describe('Unit:Controllers - AuditCtrl._trackNewInstance', function() {
     }
   });
 
+  it('should track all Attachment attributes', async function() {
+    const household = await models.Household.create({
+      name: sampleData.users.user1.lastName,
+    });
+    const category = await models.Category.create({
+      household_uuid: household.get('uuid'),
+      name: sampleData.categories.category1.name,
+    });
+    const subcategory = await models.Subcategory.create({
+      category_uuid: category.get('uuid'),
+      name: sampleData.categories.category2.name,
+    });
+    const vendor = await models.Vendor.create({
+      household_uuid: household.get('uuid'),
+      name: sampleData.vendors.vendor1.name,
+    });
+    const householdMember = await models.HouseholdMember.create({
+      household_uuid: household.get('uuid'),
+      name: sampleData.users.user1.firstName,
+    });
+    const expense = await models.Expense.create({
+      amount_cents: sampleData.expenses.expense1.amount_cents,
+      date: sampleData.expenses.expense1.date,
+      description: sampleData.expenses.expense1.description,
+      household_member_uuid: householdMember.get('uuid'),
+      reimbursed_cents: sampleData.expenses.expense1.reimbursed_cents,
+      subcategory_uuid: subcategory.get('uuid'),
+      vendor_uuid: vendor.get('uuid'),
+    });
+    const auditLog = await models.Audit.Log.create();
+    const attachment = await models.Attachment.create({
+      entity_type: 'expense',
+      entity_uuid: expense.get('uuid'),
+      name: sampleData.attachments.attachment1.name,
+    });
+
+    await models.sequelize.transaction({
+      isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.REPEATABLE_READ,
+    }, async(transaction) => {
+      await controllers.AuditCtrl._trackNewInstance(auditLog, attachment, transaction);
+    });
+
+    const auditChanges = await models.Audit.Change.findAll({
+      where: {
+        audit_log_uuid: auditLog.get('uuid'),
+      },
+    });
+    shouldTrackAttribute({
+      attribute: 'aws_bucket',
+      auditChanges,
+      key: attachment.get('uuid'),
+      table: 'attachments',
+      value: null,
+    });
+    shouldTrackAttribute({
+      attribute: 'aws_content_length',
+      auditChanges,
+      key: attachment.get('uuid'),
+      table: 'attachments',
+      value: null,
+    });
+    shouldTrackAttribute({
+      attribute: 'aws_content_type',
+      auditChanges,
+      key: attachment.get('uuid'),
+      table: 'attachments',
+      value: null,
+    });
+    shouldTrackAttribute({
+      attribute: 'aws_etag',
+      auditChanges,
+      key: attachment.get('uuid'),
+      table: 'attachments',
+      value: null,
+    });
+    shouldTrackAttribute({
+      attribute: 'aws_key',
+      auditChanges,
+      key: attachment.get('uuid'),
+      table: 'attachments',
+      value: null,
+    });
+    shouldTrackAttribute({
+      attribute: 'deleted_at',
+      auditChanges,
+      key: attachment.get('uuid'),
+      table: 'attachments',
+      value: null,
+    });
+    shouldTrackAttribute({
+      attribute: 'entity_type',
+      auditChanges,
+      key: attachment.get('uuid'),
+      table: 'attachments',
+      value: 'expense',
+    });
+    shouldTrackAttribute({
+      attribute: 'entity_uuid',
+      auditChanges,
+      key: attachment.get('uuid'),
+      table: 'attachments',
+      value: expense.get('uuid'),
+    });
+    shouldTrackAttribute({
+      attribute: 'name',
+      auditChanges,
+      key: attachment.get('uuid'),
+      table: 'attachments',
+      value: sampleData.attachments.attachment1.name,
+    });
+    assert.strictEqual(auditChanges.length, 9);
+  });
+
   it('should track all Budget attributes', async function() {
     const household = await models.Household.create({
       name: sampleData.users.user1.lastName,

@@ -1,3 +1,4 @@
+const AttachmentCtrl = require('./attachment-ctrl');
 const AuditCtrl = require('./audit-ctrl');
 const BudgetCtrl = require('./budget-ctrl');
 const CategoryCtrl = require('./category-ctrl');
@@ -12,6 +13,7 @@ class Controllers {
   constructor(models) {
     this.models = models;
 
+    this.AttachmentCtrl = new AttachmentCtrl(this, models);
     this.AuditCtrl = new AuditCtrl(this, models);
     this.BudgetCtrl = new BudgetCtrl(this, models);
     this.CategoryCtrl = new CategoryCtrl(this, models);
