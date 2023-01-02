@@ -295,4 +295,114 @@ describe('Integration - GET /expenses/:uuid', function() {
     assert.strictEqual(res.body.data.relationships.vendor.data.id, user1VendorUuid);
     assert.strictEqual(res.body.data.type, 'expenses');
   });
+
+  describe('when the expense has a fund', function() {
+    let user1FundUuid;
+    let user2FundUuid;
+
+    beforeEach('create user 1 fund', async function() {
+      const apiCall = await models.Audit.ApiCall.create({
+        user_uuid: user1Uuid,
+      });
+      user1FundUuid = await controllers.FundCtrl.createFund({
+        auditApiCallUuid: apiCall.get('uuid'),
+        name: sampleData.funds.fund1.name,
+      });
+      await models.Expense.update({
+        fund_uuid: user1FundUuid,
+      }, {
+        where: {
+          uuid: expenseUuid,
+        },
+      });
+    });
+
+    beforeEach('create user 2 fund', async function() {
+      const apiCall = await models.Audit.ApiCall.create({
+        user_uuid: user2Uuid,
+      });
+      user2FundUuid = await controllers.FundCtrl.createFund({
+        auditApiCallUuid: apiCall.get('uuid'),
+        name: sampleData.funds.fund2.name,
+      });
+    });
+
+    // This should not happen.
+    it('should return 200 and exclude the fund details when the expense fund belongs to a different household', async function() {
+      await models.Expense.update({
+        fund_uuid: user2FundUuid,
+      }, {
+        where: {
+          uuid: expenseUuid,
+        },
+      });
+      const res = await chai.request(server)
+        .get(`/expenses/${expenseUuid}`)
+        .set('Content-Type', 'application/vnd.api+json')
+        .set('Authorization', `Bearer ${user1Token}`);
+      expect(res).to.have.status(200);
+      assert.isOk(res.body.data);
+      assert.isOk(res.body.data.attributes);
+      assert.strictEqual(
+        res.body.data.attributes.amount,
+        sampleData.expenses.expense1.amount_cents,
+      );
+      assert.isOk(res.body.data.attributes['created-at']);
+      assert.strictEqual(res.body.data.attributes.date, sampleData.expenses.expense1.date);
+      assert.strictEqual(
+        res.body.data.attributes.description,
+        sampleData.expenses.expense1.description,
+      );
+      assert.strictEqual(res.body.data.attributes['reimbursed-amount'], sampleData.expenses.expense1.reimbursed_cents);
+      assert.strictEqual(res.body.data.id, expenseUuid);
+      assert.isOk(res.body.data.relationships);
+      assert.isNotOk(res.body.data.relationships.fund);
+      assert.isOk(res.body.data.relationships['household-member']);
+      assert.isOk(res.body.data.relationships['household-member'].data);
+      assert.strictEqual(res.body.data.relationships['household-member'].data.id, user1HouseholdMemberUuid);
+      assert.isOk(res.body.data.relationships.subcategory);
+      assert.isOk(res.body.data.relationships.subcategory.data);
+      assert.strictEqual(res.body.data.relationships.subcategory.data.id, user1SubcategoryUuid);
+      assert.isOk(res.body.data.relationships.vendor);
+      assert.isOk(res.body.data.relationships.vendor.data);
+      assert.strictEqual(res.body.data.relationships.vendor.data.id, user1VendorUuid);
+      assert.strictEqual(res.body.data.type, 'expenses');
+    });
+
+    it('should return 200 and the fund details', async function() {
+      const res = await chai.request(server)
+        .get(`/expenses/${expenseUuid}`)
+        .set('Content-Type', 'application/vnd.api+json')
+        .set('Authorization', `Bearer ${user1Token}`);
+      expect(res).to.have.status(200);
+      assert.isOk(res.body.data);
+      assert.isOk(res.body.data.attributes);
+      assert.strictEqual(
+        res.body.data.attributes.amount,
+        sampleData.expenses.expense1.amount_cents,
+      );
+      assert.isOk(res.body.data.attributes['created-at']);
+      assert.strictEqual(res.body.data.attributes.date, sampleData.expenses.expense1.date);
+      assert.strictEqual(
+        res.body.data.attributes.description,
+        sampleData.expenses.expense1.description,
+      );
+      assert.strictEqual(res.body.data.attributes['reimbursed-amount'], sampleData.expenses.expense1.reimbursed_cents);
+      assert.strictEqual(res.body.data.id, expenseUuid);
+      assert.isOk(res.body.data.relationships);
+      assert.isOk(res.body.data.relationships.fund);
+      assert.isOk(res.body.data.relationships.fund.data);
+      assert.strictEqual(res.body.data.relationships.fund.data.id, user1FundUuid);
+      assert.isOk(res.body.data.relationships['household-member']);
+      assert.isOk(res.body.data.relationships['household-member'].data);
+      assert.strictEqual(res.body.data.relationships['household-member'].data.id, user1HouseholdMemberUuid);
+      assert.isOk(res.body.data.relationships.subcategory);
+      assert.isOk(res.body.data.relationships.subcategory.data);
+      assert.strictEqual(res.body.data.relationships.subcategory.data.id, user1SubcategoryUuid);
+      assert.isOk(res.body.data.relationships.vendor);
+      assert.isOk(res.body.data.relationships.vendor.data);
+      assert.strictEqual(res.body.data.relationships.vendor.data.id, user1VendorUuid);
+      assert.strictEqual(res.body.data.type, 'expenses');
+    });
+  });
 });
