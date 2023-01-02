@@ -59,6 +59,13 @@ module.exports = (app) => {
         ],
         include: [{
           attributes: ['name', 'uuid'],
+          model: models.Fund,
+          required: false,
+          where: {
+            household_uuid: user.get('household_uuid'),
+          },
+        }, {
+          attributes: ['name', 'uuid'],
           model: models.HouseholdMember,
           required: true,
           where: {
@@ -92,6 +99,34 @@ module.exports = (app) => {
         throw new ExpenseError('Not found');
       }
 
+      const relationships = {
+        'household-member': {
+          'data': {
+            'id': expense.HouseholdMember.get('uuid'),
+            'type': 'household-members',
+          },
+        },
+        'subcategory': {
+          'data': {
+            'id': expense.Subcategory.get('uuid'),
+            'type': 'subcategories',
+          },
+        },
+        'vendor': {
+          'data': {
+            'id': expense.Vendor.get('uuid'),
+            'type': 'vendors',
+          },
+        },
+      };
+      if (expense.Fund) {
+        relationships.fund = {
+          'data': {
+            'id': expense.Fund.get('uuid'),
+            'type': 'funds',
+          },
+        };
+      }
       return res.status(200).json({
         'data': {
           'attributes': {
@@ -102,26 +137,7 @@ module.exports = (app) => {
             'reimbursed-amount': expense.get('reimbursed_cents'),
           },
           'id': expense.get('uuid'),
-          'relationships': {
-            'household-member': {
-              'data': {
-                'id': expense.HouseholdMember.get('uuid'),
-                'type': 'household-members',
-              },
-            },
-            'subcategory': {
-              'data': {
-                'id': expense.Subcategory.get('uuid'),
-                'type': 'subcategories',
-              },
-            },
-            'vendor': {
-              'data': {
-                'id': expense.Vendor.get('uuid'),
-                'type': 'vendors',
-              },
-            },
-          },
+          'relationships': relationships,
           'type': 'expenses',
         },
         'included': [{
