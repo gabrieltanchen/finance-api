@@ -92,23 +92,28 @@ module.exports = async({
   );
 
   const partSize = 1024 * 1024 * 5; // 5MB per part
-  let partNum = 0;
   const multipartUpload = { Parts: [] };
-  for (let rangeStart = 0; rangeStart < fileBody.length; rangeStart += partSize) {
-    partNum += 1;
+  const uploadPartPromises = [];
+  for (
+    let rangeStart = 0, partNum = 1;
+    rangeStart < fileBody.length;
+    rangeStart += partSize, partNum += 1
+  ) {
     const rangeEnd = Math.min(rangeStart + partSize, fileBody.length);
-    const uploadPartOutput = await controllers.AttachmentCtrl.s3Client.send(new UploadPartCommand({
+    uploadPartPromises.push(controllers.AttachmentCtrl.s3Client.send(new UploadPartCommand({
       Body: fileBody.slice(rangeStart, rangeEnd),
       Bucket: nconf.get('AWS_STORAGE_BUCKET'),
       Key: fingerprintFileName,
       PartNumber: String(partNum),
       UploadId: createMultipartUploadOutput.UploadId,
+    })).then((uploadPartOutput) => {
+      multipartUpload.Parts[partNum - 1] = {
+        ETag: uploadPartOutput.ETag,
+        PartNumber: partNum,
+      };
     }));
-    multipartUpload.Parts[partNum - 1] = {
-      ETag: uploadPartOutput.ETag,
-      PartNumber: partNum,
-    };
   }
+  await Promise.all(uploadPartPromises);
   await controllers.AttachmentCtrl.s3Client.send(new CompleteMultipartUploadCommand({
     Bucket: nconf.get('AWS_STORAGE_BUCKET'),
     Key: fingerprintFileName,
