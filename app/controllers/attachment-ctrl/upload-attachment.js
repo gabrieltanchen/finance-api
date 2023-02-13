@@ -1,4 +1,9 @@
-const { HeadObjectCommand, PutObjectCommand } = require('@aws-sdk/client-s3');
+const {
+  CompleteMultipartUploadCommand,
+  CreateMultipartUploadCommand,
+  HeadObjectCommand,
+  UploadPartCommand,
+} = require('@aws-sdk/client-s3');
 const nconf = require('nconf');
 const Sequelize = require('sequelize');
 
@@ -79,22 +84,48 @@ module.exports = async({
 
   const fingerprintFileName = `${Date.now()}_${fileName}`;
 
-  await controllers.AttachmentCtrl.s3Client.send(new PutObjectCommand({
+  const createMultipartUploadOutput = await controllers.AttachmentCtrl.s3Client.send(
+    new CreateMultipartUploadCommand({
+      Bucket: nconf.get('AWS_STORAGE_BUCKET'),
+      Key: fingerprintFileName,
+    }),
+  );
+
+  const partSize = 1024 * 1024 * 5; // 5MB per part
+  let partNum = 0;
+  const multipartUpload = { Parts: [] };
+  for (let rangeStart = 0; rangeStart < fileBody.length; rangeStart += partSize) {
+    partNum += 1;
+    const rangeEnd = Math.min(rangeStart + partSize, fileBody.length);
+    const uploadPartOutput = await controllers.AttachmentCtrl.s3Client.send(new UploadPartCommand({
+      Body: fileBody.slice(rangeStart, rangeEnd),
+      Bucket: nconf.get('AWS_STORAGE_BUCKET'),
+      Key: fingerprintFileName,
+      PartNumber: String(partNum),
+      UploadId: createMultipartUploadOutput.UploadId,
+    }));
+    multipartUpload.Parts[partNum - 1] = {
+      ETag: uploadPartOutput.ETag,
+      PartNumber: partNum,
+    };
+  }
+  await controllers.AttachmentCtrl.s3Client.send(new CompleteMultipartUploadCommand({
     Bucket: nconf.get('AWS_STORAGE_BUCKET'),
     Key: fingerprintFileName,
-    Body: fileBody,
+    MultipartUpload: multipartUpload,
+    UploadId: createMultipartUploadOutput.UploadId,
   }));
 
-  const headResponse = await controllers.AttachmentCtrl.s3Client.send(new HeadObjectCommand({
+  const headObjectOutput = await controllers.AttachmentCtrl.s3Client.send(new HeadObjectCommand({
     Bucket: nconf.get('AWS_STORAGE_BUCKET'),
     Key: fingerprintFileName,
   }));
 
   attachment.set('aws_bucket', nconf.get('AWS_STORAGE_BUCKET'));
   attachment.set('aws_key', fingerprintFileName);
-  attachment.set('aws_etag', headResponse.ETag);
-  attachment.set('aws_content_length', headResponse.ContentLength);
-  attachment.set('aws_content_type', headResponse.ContentType);
+  attachment.set('aws_etag', headObjectOutput.ETag);
+  attachment.set('aws_content_length', headObjectOutput.ContentLength);
+  attachment.set('aws_content_type', headObjectOutput.ContentType);
 
   await models.sequelize.transaction({
     isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.REPEATABLE_READ,

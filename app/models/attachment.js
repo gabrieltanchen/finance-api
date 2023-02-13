@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
     },
     aws_content_length: {
       allowNull: true,
-      type: Sequelize.INTEGER,
+      type: Sequelize.BIGINT,
     },
     aws_content_type: {
       allowNull: true,
