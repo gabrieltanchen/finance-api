@@ -91,7 +91,7 @@ describe('Unit:Model - Attachment', function() {
 
     // aws_content_length
     assert.isOk(attributes.aws_content_length);
-    assert.strictEqual(attributes.aws_content_length.type, 'INTEGER');
+    assert.strictEqual(attributes.aws_content_length.type, 'BIGINT');
     assert.isTrue(attributes.aws_content_length.allowNull);
     assert.isNull(attributes.aws_content_length.defaultValue);
     assert.isFalse(attributes.aws_content_length.primaryKey);

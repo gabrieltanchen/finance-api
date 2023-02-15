@@ -337,7 +337,7 @@ describe('Unit:Controllers - AttachmentCtrl.uploadAttachment', function() {
     });
     assert.isOk(attachment);
     assert.strictEqual(attachment.get('aws_bucket'), nconf.get('AWS_STORAGE_BUCKET'));
-    assert.strictEqual(attachment.get('aws_content_length'), sampleData.attachments.attachment1.aws_content_length);
+    assert.strictEqual(attachment.get('aws_content_length'), String(sampleData.attachments.attachment1.aws_content_length));
     assert.strictEqual(attachment.get('aws_content_type'), sampleData.attachments.attachment1.aws_content_type);
     assert.strictEqual(attachment.get('aws_etag'), sampleData.attachments.attachment1.aws_etag);
     assert.include(attachment.get('aws_key'), sampleData.attachments.attachment1.aws_key);
