@@ -6,6 +6,7 @@ const ExpenseCtrl = require('./expense-ctrl');
 const FundCtrl = require('./fund-ctrl');
 const HouseholdCtrl = require('./household-ctrl');
 const IncomeCtrl = require('./income-ctrl');
+const LoanCtrl = require('./loan-ctrl');
 const UserCtrl = require('./user-ctrl');
 const VendorCtrl = require('./vendor-ctrl');
 
@@ -21,6 +22,7 @@ class Controllers {
     this.FundCtrl = new FundCtrl(this, models);
     this.HouseholdCtrl = new HouseholdCtrl(this, models);
     this.IncomeCtrl = new IncomeCtrl(this, models);
+    this.LoanCtrl = new LoanCtrl(this, models);
     this.UserCtrl = new UserCtrl(this, models);
     this.VendorCtrl = new VendorCtrl(this, models);
   }

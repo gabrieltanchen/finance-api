@@ -6,6 +6,7 @@ const ExpenseError = require('./expense-error');
 const FundError = require('./fund-error');
 const HouseholdError = require('./household-error');
 const IncomeError = require('./income-error');
+const LoanError = require('./loan-error');
 const LoginPasswordFailedError = require('./login-password-failed-error');
 const UserError = require('./user-error');
 const VendorError = require('./vendor-error');
@@ -19,6 +20,7 @@ const errorClasses = {
   FundError,
   HouseholdError,
   IncomeError,
+  LoanError,
   LoginPasswordFailedError,
   UserError,
   VendorError,

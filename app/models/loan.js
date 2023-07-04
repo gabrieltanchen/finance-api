@@ -41,4 +41,4 @@ module.exports = (sequelize) => {
     tableName: 'loans',
     timestamps: true,
   });
-}
+};

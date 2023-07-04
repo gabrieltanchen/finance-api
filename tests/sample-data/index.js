@@ -5,6 +5,7 @@ const deposits = require('./deposits');
 const expenses = require('./expenses');
 const funds = require('./funds');
 const incomes = require('./incomes');
+const loans = require('./loans');
 const users = require('./users');
 const vendors = require('./vendors');
 
@@ -16,6 +17,7 @@ module.exports = {
   expenses,
   funds,
   incomes,
+  loans,
   users,
   vendors,
 };
