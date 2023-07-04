@@ -3,7 +3,7 @@ const TestHelper = require('../../test-helper');
 
 const assert = chai.assert;
 
-describe('Unit:Model - Fund', function() {
+describe('Unit:Model - Loan', function() {
   let models;
   const testHelper = new TestHelper();
 
@@ -18,11 +18,11 @@ describe('Unit:Model - Fund', function() {
   });
 
   it('should have the correct table name', function() {
-    assert.strictEqual(models.Fund.getTableName(), 'funds');
+    assert.strictEqual(models.Loan.getTableName(), 'loans');
   });
 
   it('should have the correct attributes', async function() {
-    const attributes = await models.Fund.describe();
+    const attributes = await models.Loan.describe();
 
     assert.isOk(attributes);
 
@@ -68,13 +68,20 @@ describe('Unit:Model - Fund', function() {
     assert.isNull(attributes.name.defaultValue);
     assert.isFalse(attributes.name.primaryKey);
 
+    // amount_cents
+    assert.isOk(attributes.amount_cents);
+    assert.strictEqual(attributes.amount_cents.type, 'INTEGER');
+    assert.isFalse(attributes.amount_cents.allowNull);
+    assert.isNull(attributes.amount_cents.defaultValue);
+    assert.isFalse(attributes.amount_cents.primaryKey);
+
     // balance_cents
     assert.isOk(attributes.balance_cents);
     assert.strictEqual(attributes.balance_cents.type, 'INTEGER');
     assert.isFalse(attributes.balance_cents.allowNull);
-    assert.strictEqual(attributes.balance_cents.defaultValue, '0');
+    assert.isNull(attributes.balance_cents.defaultValue);
     assert.isFalse(attributes.balance_cents.primaryKey);
 
-    assert.strictEqual(Object.keys(attributes).length, 7);
+    assert.strictEqual(Object.keys(attributes).length, 8);
   });
 });
