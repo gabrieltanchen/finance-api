@@ -2,8 +2,17 @@ const Sequelize = require('sequelize');
 
 const { LoanError } = require('../../middleware/error-handler');
 
+/**
+ * @param {integer} amount
+ * @param {boolean} archived
+ * @param {string} auditApiCallUuid
+ * @param {object} loanCtrl Instance of LoanCtrl
+ * @param {string} loanUuid UUID of the loan to update
+ * @param {string} name
+ */
 module.exports = async({
   amount,
+  archived,
   auditApiCallUuid,
   loanCtrl,
   loanUuid,
@@ -17,6 +26,8 @@ module.exports = async({
     throw new LoanError('Name is required');
   } else if (isNaN(parseInt(amount, 10))) {
     throw new LoanError('Invalid amount');
+  } else if (archived === null) {
+    throw new LoanError('Invalid archived value');
   }
 
   const apiCall = await models.Audit.ApiCall.findOne({
@@ -40,7 +51,7 @@ module.exports = async({
   }
 
   const loan = await models.Loan.findOne({
-    attributes: ['amount_cents', 'balance_cents', 'name', 'uuid'],
+    attributes: ['amount_cents', 'archived_at', 'balance_cents', 'name', 'uuid'],
     where: {
       household_uuid: user.get('household_uuid'),
       uuid: loanUuid,
@@ -56,6 +67,11 @@ module.exports = async({
   if (amount !== loan.get('amount_cents')) {
     loan.set('balance_cents', loan.get('balance_cents') + (amount - loan.get('amount_cents')));
     loan.set('amount_cents', amount);
+  }
+  if (archived && !loan.get('archived_at')) {
+    loan.set('archived_at', new Date());
+  } else if (!archived && !!loan.get('archived_at')) {
+    loan.set('archived_at', null);
   }
 
   if (loan.changed()) {

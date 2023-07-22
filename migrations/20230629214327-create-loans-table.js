@@ -39,6 +39,10 @@ async function up({ context: queryInterface }) {
       allowNull: false,
       type: Sequelize.INTEGER,
     },
+    archived_at: {
+      allowNull: true,
+      type: Sequelize.DATE,
+    },
   });
 }
 

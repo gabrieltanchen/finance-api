@@ -82,6 +82,13 @@ describe('Unit:Model - Loan', function() {
     assert.isNull(attributes.balance_cents.defaultValue);
     assert.isFalse(attributes.balance_cents.primaryKey);
 
-    assert.strictEqual(Object.keys(attributes).length, 8);
+    // archived_at
+    assert.isOk(attributes.archived_at);
+    assert.strictEqual(attributes.archived_at.type, 'TIMESTAMP WITH TIME ZONE');
+    assert.isTrue(attributes.archived_at.allowNull);
+    assert.isNull(attributes.archived_at.defaultValue);
+    assert.isFalse(attributes.archived_at.primaryKey);
+
+    assert.strictEqual(Object.keys(attributes).length, 9);
   });
 });

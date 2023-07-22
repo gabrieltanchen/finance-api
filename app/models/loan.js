@@ -6,6 +6,10 @@ module.exports = (sequelize) => {
       allowNull: false,
       type: Sequelize.INTEGER,
     },
+    archived_at: {
+      allowNull: true,
+      type: Sequelize.DATE,
+    },
     balance_cents: {
       allowNull: false,
       type: Sequelize.INTEGER,
