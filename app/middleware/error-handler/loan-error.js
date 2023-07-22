@@ -6,7 +6,7 @@ module.exports = class LoanError extends Error {
 
   getApiResponse() {
     const message = this.message;
-    switch(message) {
+    switch (message) {
     case 'Not found':
       return {
         message: 'Unable to find loan.',

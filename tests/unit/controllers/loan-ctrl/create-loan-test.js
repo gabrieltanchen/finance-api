@@ -6,7 +6,6 @@ const _ = require('lodash');
 const sampleData = require('../../../sample-data');
 const TestHelper = require('../../../test-helper');
 const { LoanError } = require('../../../../app/middleware/error-handler');
-const trackChanges = require('../../../../app/controllers/audit-ctrl/track-changes');
 
 const assert = chai.assert;
 
@@ -161,8 +160,8 @@ describe('Unit:Controllers - LoanCtrl.createLoan', function() {
       await models.User.destroy({
         where: {
           uuid: userUuid,
-        }
-      })
+        },
+      });
       const apiCall = await models.Audit.ApiCall.create({
         user_uuid: userUuid,
       });

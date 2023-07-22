@@ -6,7 +6,6 @@ const _ = require('lodash');
 const sampleData = require('../../../sample-data');
 const TestHelper = require('../../../test-helper');
 const { LoanError } = require('../../../../app/middleware/error-handler');
-const updateFund = require('../../../../app/controllers/fund-ctrl/update-fund');
 
 const assert = chai.assert;
 
@@ -14,7 +13,7 @@ describe('Unit:Controllers - LoanCtrl.updateLoan', function() {
   let controllers;
   let models;
   const testHelper = new TestHelper();
-  
+
   let trackChangesSpy;
 
   let user1HouseholdUuid;
@@ -327,7 +326,7 @@ describe('Unit:Controllers - LoanCtrl.updateLoan', function() {
       return updateInstance instanceof models.Loan
         && updateInstance.get('uuid') === user1LoanUuid;
     });
-    assert.isOk(updateFund);
+    assert.isOk(updateLoan);
     assert.strictEqual(trackChangesParams.changeList.length, 1);
     assert.isNotOk(trackChangesParams.deleteList);
     assert.isNotOk(trackChangesParams.newList);
@@ -372,7 +371,7 @@ describe('Unit:Controllers - LoanCtrl.updateLoan', function() {
       return updateInstance instanceof models.Loan
         && updateInstance.get('uuid') === user1LoanUuid;
     });
-    assert.isOk(updateFund);
+    assert.isOk(updateLoan);
     assert.strictEqual(trackChangesParams.changeList.length, 1);
     assert.isNotOk(trackChangesParams.deleteList);
     assert.isNotOk(trackChangesParams.newList);
@@ -417,7 +416,7 @@ describe('Unit:Controllers - LoanCtrl.updateLoan', function() {
       return updateInstance instanceof models.Loan
         && updateInstance.get('uuid') === user1LoanUuid;
     });
-    assert.isOk(updateFund);
+    assert.isOk(updateLoan);
     assert.strictEqual(trackChangesParams.changeList.length, 1);
     assert.isNotOk(trackChangesParams.deleteList);
     assert.isNotOk(trackChangesParams.newList);
