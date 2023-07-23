@@ -13,6 +13,7 @@ const Household = require('./household');
 const HouseholdMember = require('./household-member');
 const Income = require('./income');
 const Loan = require('./loan');
+const LoanPayment = require('./loan-payment');
 const Subcategory = require('./subcategory');
 const User = require('./user');
 const UserLogin = require('./user-login');
@@ -51,6 +52,7 @@ class Models {
     this.HouseholdMember = HouseholdMember(this.sequelize);
     this.Income = Income(this.sequelize);
     this.Loan = Loan(this.sequelize);
+    this.LoanPayment = LoanPayment(this.sequelize);
     this.Subcategory = Subcategory(this.sequelize);
     this.User = User(this.sequelize);
     this.UserLogin = UserLogin(this.sequelize);
@@ -173,6 +175,14 @@ class Models {
     // Loan
     this.Loan.belongsTo(this.Household, {
       foreignKey: 'household_uuid',
+    });
+    this.Loan.hasMany(this.LoanPayment, {
+      foreignKey: 'loan_uuid',
+    });
+
+    // LoanPayment
+    this.LoanPayment.belongsTo(this.Loan, {
+      foreignKey: 'loan_uuid',
     });
 
     // Subcategory

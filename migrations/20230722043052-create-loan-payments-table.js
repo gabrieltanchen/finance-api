@@ -1,7 +1,7 @@
 const { Sequelize } = require('sequelize');
 
 async function up({ context: queryInterface }) {
-  await queryInterface.createTable('loans', {
+  await queryInterface.createTable('loan_payments', {
     uuid: {
       allowNull: false,
       primaryKey: true,
@@ -19,35 +19,31 @@ async function up({ context: queryInterface }) {
       allowNull: true,
       type: Sequelize.DATE,
     },
-    household_uuid: {
+    loan_uuid: {
       allowNull: false,
       references: {
         key: 'uuid',
-        model: 'households',
+        model: 'loans',
       },
       type: Sequelize.UUID,
     },
-    name: {
+    date: {
       allowNull: false,
-      type: Sequelize.STRING,
+      type: Sequelize.DATEONLY,
     },
-    amount_cents: {
-      allowNull: false,
-      type: Sequelize.INTEGER,
-    },
-    balance_cents: {
+    principal_cents: {
       allowNull: false,
       type: Sequelize.INTEGER,
     },
-    archived_at: {
-      allowNull: true,
-      type: Sequelize.DATE,
+    interest_cents: {
+      allowNull: false,
+      type: Sequelize.INTEGER,
     },
   });
-}
+};
 
 async function down({ context: queryInterface }) {
-  await queryInterface.dropTable('loans');
+  await queryInterface.dropTable('loan_payments');
 }
 
 module.exports = { up, down };
