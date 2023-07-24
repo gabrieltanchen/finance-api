@@ -1,4 +1,5 @@
 const createLoan = require('./create-loan');
+const createLoanPayment = require('./create-loan-payment');
 const deleteLoan = require('./delete-loan');
 const updateLoan = require('./update-loan');
 
@@ -10,6 +11,13 @@ class LoanCtrl {
 
   async createLoan(params) {
     return createLoan({
+      ...params,
+      loanCtrl: this,
+    });
+  }
+
+  async createLoanPayment(params) {
+    return createLoanPayment({
       ...params,
       loanCtrl: this,
     });

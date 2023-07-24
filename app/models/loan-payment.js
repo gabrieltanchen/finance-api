@@ -14,7 +14,7 @@ module.exports = (sequelize) => {
       allowNull: true,
       type: Sequelize.DATE,
     },
-    interest_cents: {
+    interest_amount_cents: {
       allowNull: false,
       type: Sequelize.INTEGER,
     },
@@ -22,7 +22,7 @@ module.exports = (sequelize) => {
       allowNull: false,
       type: Sequelize.UUID,
     },
-    principal_cents: {
+    principal_amount_cents: {
       allowNull: false,
       type: Sequelize.INTEGER,
     },

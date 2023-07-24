@@ -68,19 +68,19 @@ describe('Unit:Model - LoanPayment', function() {
     assert.isNull(attributes.date.defaultValue);
     assert.isFalse(attributes.date.primaryKey);
 
-    // principal_cents
-    assert.isOk(attributes.principal_cents);
-    assert.strictEqual(attributes.principal_cents.type, 'INTEGER');
-    assert.isFalse(attributes.principal_cents.allowNull);
-    assert.isNull(attributes.principal_cents.defaultValue);
-    assert.isFalse(attributes.principal_cents.primaryKey);
+    // principal_amount_cents
+    assert.isOk(attributes.principal_amount_cents);
+    assert.strictEqual(attributes.principal_amount_cents.type, 'INTEGER');
+    assert.isFalse(attributes.principal_amount_cents.allowNull);
+    assert.isNull(attributes.principal_amount_cents.defaultValue);
+    assert.isFalse(attributes.principal_amount_cents.primaryKey);
 
-    // interest_cents
-    assert.isOk(attributes.interest_cents);
-    assert.strictEqual(attributes.interest_cents.type, 'INTEGER');
-    assert.isFalse(attributes.interest_cents.allowNull);
-    assert.isNull(attributes.interest_cents.defaultValue);
-    assert.isFalse(attributes.interest_cents.primaryKey);
+    // interest_amount_cents
+    assert.isOk(attributes.interest_amount_cents);
+    assert.strictEqual(attributes.interest_amount_cents.type, 'INTEGER');
+    assert.isFalse(attributes.interest_amount_cents.allowNull);
+    assert.isNull(attributes.interest_amount_cents.defaultValue);
+    assert.isFalse(attributes.interest_amount_cents.primaryKey);
 
     assert.strictEqual(Object.keys(attributes).length, 8);
   });

@@ -31,11 +31,11 @@ async function up({ context: queryInterface }) {
       allowNull: false,
       type: Sequelize.DATEONLY,
     },
-    principal_cents: {
+    principal_amount_cents: {
       allowNull: false,
       type: Sequelize.INTEGER,
     },
-    interest_cents: {
+    interest_amount_cents: {
       allowNull: false,
       type: Sequelize.INTEGER,
     },
