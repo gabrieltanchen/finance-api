@@ -2,6 +2,7 @@ const createLoan = require('./create-loan');
 const createLoanPayment = require('./create-loan-payment');
 const deleteLoan = require('./delete-loan');
 const updateLoan = require('./update-loan');
+const updateLoanPayment = require('./update-loan-payment');
 
 class LoanCtrl {
   constructor(parent, models) {
@@ -32,6 +33,13 @@ class LoanCtrl {
 
   async updateLoan(params) {
     return updateLoan({
+      ...params,
+      loanCtrl: this,
+    });
+  }
+
+  async updateLoanPayment(params) {
+    return updateLoanPayment({
       ...params,
       loanCtrl: this,
     });
