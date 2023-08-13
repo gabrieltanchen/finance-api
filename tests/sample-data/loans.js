@@ -33,7 +33,7 @@ module.exports = {
   },
   loan9: {
     amount_cents: 21363,
-    name: 'Shania',
+    name: 'Gertrude',
   },
   loan10: {
     amount_cents: 90417,
