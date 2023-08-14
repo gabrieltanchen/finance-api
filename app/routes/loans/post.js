@@ -3,17 +3,19 @@ module.exports = (app) => {
   const models = app.get('models');
 
   /**
-   * @api {post} /funds
-   * @apiName FundPost
-   * @apiGroup Fund
+   * @api {post} /loans
+   * @apiName LoanPost
+   * @apiGroup Loan
    *
    * @apiParam {object} data
    * @apiParam {object} data.attributes
+   * @apiParam {integer} data.attributes.amount
    * @apiParam {string} data.attributes.name
    * @apiParam {string} data.type
    *
    * @apiSuccess (201) {object} data
    * @apiSuccess (201) {object} data.attributes
+   * @apiSuccess (201) {integer} data.attributes.amount
    * @apiSuccess (201) {integer} data.attributes.balance
    * @apiSuccess (201) {string} data.attributes[created-at]
    * @apiSuccess (201) {string} data.attributes.name
@@ -27,33 +29,35 @@ module.exports = (app) => {
    *        "source": {
    *          "pointer": "/data/attributes/name",
    *        },
-   *        "detail": "Fund name is required.",
+   *        "detail": "Loan name is required.",
    *      }]
    *    }
    */
   return async(req, res, next) => {
     try {
-      const fundUuid = await controllers.FundCtrl.createFund({
+      const loanUuid = await controllers.LoanCtrl.createLoan({
+        amount: req.body.data.attributes.amount,
         auditApiCallUuid: req.auditApiCallUuid,
         name: req.body.data.attributes.name,
       });
 
-      const fund = await models.Fund.findOne({
-        attributes: ['balance_cents', 'created_at', 'name', 'uuid'],
+      const loan = await models.Loan.findOne({
+        attributes: ['amount_cents', 'balance_cents', 'created_at', 'name', 'uuid'],
         where: {
-          uuid: fundUuid,
+          uuid: loanUuid,
         },
       });
 
       return res.status(201).json({
         'data': {
           'attributes': {
-            'balance': fund.get('balance_cents'),
-            'created-at': fund.get('created_at'),
-            'name': fund.get('name'),
+            'amount': loan.get('amount_cents'),
+            'balance': loan.get('balance_cents'),
+            'created-at': loan.get('created_at'),
+            'name': loan.get('name'),
           },
-          'id': fund.get('uuid'),
-          'type': 'funds',
+          'id': loan.get('uuid'),
+          'type': 'loans',
         },
       });
     } catch (err) {
