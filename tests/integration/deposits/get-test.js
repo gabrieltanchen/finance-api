@@ -1111,7 +1111,7 @@ describe('Integration - GET /deposits', function() {
         assert.strictEqual(res.body.meta.total, 27);
       });
 
-      it('should return 200 and 2 deposits as user 1 with no limit or page specified', async function() {
+      it('should return 200 and 2 deposits as user 1 with no limit and page=2', async function() {
         const res = await chai.request(server)
           .get(`/deposits?fund_id=${user1Fund1Uuid}&sort=date&sortDirection=asc&page=2`)
           .set('Content-Type', 'application/vnd.api+json')
