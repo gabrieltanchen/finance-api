@@ -12,6 +12,11 @@ module.exports = class LoanError extends Error {
         message: 'Unable to find loan.',
         status: 404,
       };
+    case 'Loan payment not found':
+      return {
+        message: 'Unable to find loan payment.',
+        status: 404,
+      };
     case 'No open loan payment queries':
       return {
         message: 'Loan ID is required.',

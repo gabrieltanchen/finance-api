@@ -182,6 +182,7 @@ describe('Integration - GET /deposits/:uuid', function() {
     assert.isOk(res.body.data.relationships.fund);
     assert.isOk(res.body.data.relationships.fund.data);
     assert.strictEqual(res.body.data.relationships.fund.data.id, user1FundUuid);
+    assert.strictEqual(res.body.data.relationships.fund.data.type, 'funds');
     assert.strictEqual(res.body.data.type, 'deposits');
   });
 });
