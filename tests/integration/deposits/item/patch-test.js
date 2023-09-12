@@ -392,6 +392,7 @@ describe('Integration - PATCH /deposits/:uuid', function() {
     assert.isOk(res.body.data.relationships.fund);
     assert.isOk(res.body.data.relationships.fund.data);
     assert.strictEqual(res.body.data.relationships.fund.data.id, user1Fund2Uuid);
+    assert.strictEqual(res.body.data.relationships.fund.data.type, 'funds');
     assert.strictEqual(res.body.data.type, 'deposits');
 
     // Validate FundCtrl.updateDeposit call.
