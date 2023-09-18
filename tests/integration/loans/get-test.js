@@ -825,7 +825,7 @@ describe('Integration - GET /loans', function() {
       assert.isOk(res.body.data);
       assert.strictEqual(res.body.data.length, 25);
 
-        // Loan 24
+      // Loan 24
       assert.isOk(res.body.data[0].attributes);
       assert.strictEqual(res.body.data[0].attributes.amount, sampleData.loans.loan24.amount_cents);
       assert.strictEqual(res.body.data[0].attributes.balance, sampleData.loans.loan24.amount_cents);
@@ -927,7 +927,10 @@ describe('Integration - GET /loans', function() {
       // Loan 23
       assert.isOk(res.body.data[11].attributes);
       assert.strictEqual(res.body.data[11].attributes.amount, sampleData.loans.loan23.amount_cents);
-      assert.strictEqual(res.body.data[11].attributes.balance, sampleData.loans.loan23.amount_cents);
+      assert.strictEqual(
+        res.body.data[11].attributes.balance,
+        sampleData.loans.loan23.amount_cents,
+      );
       assert.isOk(res.body.data[11].attributes['created-at']);
       assert.strictEqual(res.body.data[11].attributes.name, sampleData.loans.loan23.name);
       assert.strictEqual(res.body.data[11].id, user1Loan23Uuid);
@@ -936,7 +939,10 @@ describe('Integration - GET /loans', function() {
       // Loan 25
       assert.isOk(res.body.data[12].attributes);
       assert.strictEqual(res.body.data[12].attributes.amount, sampleData.loans.loan25.amount_cents);
-      assert.strictEqual(res.body.data[12].attributes.balance, sampleData.loans.loan25.amount_cents);
+      assert.strictEqual(
+        res.body.data[12].attributes.balance,
+        sampleData.loans.loan25.amount_cents,
+      );
       assert.isOk(res.body.data[12].attributes['created-at']);
       assert.strictEqual(res.body.data[12].attributes.name, sampleData.loans.loan25.name);
       assert.strictEqual(res.body.data[12].id, user1Loan25Uuid);
@@ -954,7 +960,10 @@ describe('Integration - GET /loans', function() {
       // Loan 18
       assert.isOk(res.body.data[14].attributes);
       assert.strictEqual(res.body.data[14].attributes.amount, sampleData.loans.loan18.amount_cents);
-      assert.strictEqual(res.body.data[14].attributes.balance, sampleData.loans.loan18.amount_cents);
+      assert.strictEqual(
+        res.body.data[14].attributes.balance,
+        sampleData.loans.loan18.amount_cents,
+      );
       assert.isOk(res.body.data[14].attributes['created-at']);
       assert.strictEqual(res.body.data[14].attributes.name, sampleData.loans.loan18.name);
       assert.strictEqual(res.body.data[14].id, user1Loan18Uuid);
@@ -972,7 +981,10 @@ describe('Integration - GET /loans', function() {
       // Loan 16
       assert.isOk(res.body.data[16].attributes);
       assert.strictEqual(res.body.data[16].attributes.amount, sampleData.loans.loan16.amount_cents);
-      assert.strictEqual(res.body.data[16].attributes.balance, sampleData.loans.loan16.amount_cents);
+      assert.strictEqual(
+        res.body.data[16].attributes.balance,
+        sampleData.loans.loan16.amount_cents,
+      );
       assert.isOk(res.body.data[16].attributes['created-at']);
       assert.strictEqual(res.body.data[16].attributes.name, sampleData.loans.loan16.name);
       assert.strictEqual(res.body.data[16].id, user1Loan16Uuid);
@@ -990,7 +1002,10 @@ describe('Integration - GET /loans', function() {
       // Loan 22
       assert.isOk(res.body.data[18].attributes);
       assert.strictEqual(res.body.data[18].attributes.amount, sampleData.loans.loan22.amount_cents);
-      assert.strictEqual(res.body.data[18].attributes.balance, sampleData.loans.loan22.amount_cents);
+      assert.strictEqual(
+        res.body.data[18].attributes.balance,
+        sampleData.loans.loan22.amount_cents,
+      );
       assert.isOk(res.body.data[18].attributes['created-at']);
       assert.strictEqual(res.body.data[18].attributes.name, sampleData.loans.loan22.name);
       assert.strictEqual(res.body.data[18].id, user1Loan22Uuid);
@@ -999,7 +1014,10 @@ describe('Integration - GET /loans', function() {
       // Loan 19
       assert.isOk(res.body.data[19].attributes);
       assert.strictEqual(res.body.data[19].attributes.amount, sampleData.loans.loan19.amount_cents);
-      assert.strictEqual(res.body.data[19].attributes.balance, sampleData.loans.loan19.amount_cents);
+      assert.strictEqual(
+        res.body.data[19].attributes.balance,
+        sampleData.loans.loan19.amount_cents,
+      );
       assert.isOk(res.body.data[19].attributes['created-at']);
       assert.strictEqual(res.body.data[19].attributes.name, sampleData.loans.loan19.name);
       assert.strictEqual(res.body.data[19].id, user1Loan19Uuid);
@@ -1026,7 +1044,10 @@ describe('Integration - GET /loans', function() {
       // Loan 12
       assert.isOk(res.body.data[22].attributes);
       assert.strictEqual(res.body.data[22].attributes.amount, sampleData.loans.loan12.amount_cents);
-      assert.strictEqual(res.body.data[22].attributes.balance, sampleData.loans.loan12.amount_cents);
+      assert.strictEqual(
+        res.body.data[22].attributes.balance,
+        sampleData.loans.loan12.amount_cents,
+      );
       assert.isOk(res.body.data[22].attributes['created-at']);
       assert.strictEqual(res.body.data[22].attributes.name, sampleData.loans.loan12.name);
       assert.strictEqual(res.body.data[22].id, user1Loan12Uuid);
@@ -1035,7 +1056,10 @@ describe('Integration - GET /loans', function() {
       // Loan 21
       assert.isOk(res.body.data[23].attributes);
       assert.strictEqual(res.body.data[23].attributes.amount, sampleData.loans.loan21.amount_cents);
-      assert.strictEqual(res.body.data[23].attributes.balance, sampleData.loans.loan21.amount_cents);
+      assert.strictEqual(
+        res.body.data[23].attributes.balance,
+        sampleData.loans.loan21.amount_cents,
+      );
       assert.isOk(res.body.data[23].attributes['created-at']);
       assert.strictEqual(res.body.data[23].attributes.name, sampleData.loans.loan21.name);
       assert.strictEqual(res.body.data[23].id, user1Loan21Uuid);
@@ -1044,7 +1068,10 @@ describe('Integration - GET /loans', function() {
       // Loan 11
       assert.isOk(res.body.data[24].attributes);
       assert.strictEqual(res.body.data[24].attributes.amount, sampleData.loans.loan11.amount_cents);
-      assert.strictEqual(res.body.data[24].attributes.balance, sampleData.loans.loan11.amount_cents);
+      assert.strictEqual(
+        res.body.data[24].attributes.balance,
+        sampleData.loans.loan11.amount_cents,
+      );
       assert.isOk(res.body.data[24].attributes['created-at']);
       assert.strictEqual(res.body.data[24].attributes.name, sampleData.loans.loan11.name);
       assert.strictEqual(res.body.data[24].id, user1Loan11Uuid);
