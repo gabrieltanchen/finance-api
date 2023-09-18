@@ -3,7 +3,7 @@ const TestHelper = require('../../test-helper');
 
 const assert = chai.assert;
 
-describe('Unit:Model - Fund', function() {
+describe('Unit:Model - LoanPayment', function() {
   let models;
   const testHelper = new TestHelper();
 
@@ -18,11 +18,11 @@ describe('Unit:Model - Fund', function() {
   });
 
   it('should have the correct table name', function() {
-    assert.strictEqual(models.Fund.getTableName(), 'funds');
+    assert.strictEqual(models.LoanPayment.getTableName(), 'loan_payments');
   });
 
   it('should have the correct attributes', async function() {
-    const attributes = await models.Fund.describe();
+    const attributes = await models.LoanPayment.describe();
 
     assert.isOk(attributes);
 
@@ -54,27 +54,34 @@ describe('Unit:Model - Fund', function() {
     assert.isNull(attributes.deleted_at.defaultValue);
     assert.isFalse(attributes.deleted_at.primaryKey);
 
-    // household_uuid
-    assert.isOk(attributes.household_uuid);
-    assert.strictEqual(attributes.household_uuid.type, 'UUID');
-    assert.isFalse(attributes.household_uuid.allowNull);
-    assert.isNull(attributes.household_uuid.defaultValue);
-    assert.isFalse(attributes.household_uuid.primaryKey);
+    // loan_uuid
+    assert.isOk(attributes.loan_uuid);
+    assert.strictEqual(attributes.loan_uuid.type, 'UUID');
+    assert.isFalse(attributes.loan_uuid.allowNull);
+    assert.isNull(attributes.loan_uuid.defaultValue);
+    assert.isFalse(attributes.loan_uuid.primaryKey);
 
-    // name
-    assert.isOk(attributes.name);
-    assert.strictEqual(attributes.name.type, 'CHARACTER VARYING(255)');
-    assert.isFalse(attributes.name.allowNull);
-    assert.isNull(attributes.name.defaultValue);
-    assert.isFalse(attributes.name.primaryKey);
+    // date
+    assert.isOk(attributes.date);
+    assert.strictEqual(attributes.date.type, 'DATE');
+    assert.isFalse(attributes.date.allowNull);
+    assert.isNull(attributes.date.defaultValue);
+    assert.isFalse(attributes.date.primaryKey);
 
-    // balance_cents
-    assert.isOk(attributes.balance_cents);
-    assert.strictEqual(attributes.balance_cents.type, 'INTEGER');
-    assert.isFalse(attributes.balance_cents.allowNull);
-    assert.strictEqual(attributes.balance_cents.defaultValue, '0');
-    assert.isFalse(attributes.balance_cents.primaryKey);
+    // principal_amount_cents
+    assert.isOk(attributes.principal_amount_cents);
+    assert.strictEqual(attributes.principal_amount_cents.type, 'INTEGER');
+    assert.isFalse(attributes.principal_amount_cents.allowNull);
+    assert.isNull(attributes.principal_amount_cents.defaultValue);
+    assert.isFalse(attributes.principal_amount_cents.primaryKey);
 
-    assert.strictEqual(Object.keys(attributes).length, 7);
+    // interest_amount_cents
+    assert.isOk(attributes.interest_amount_cents);
+    assert.strictEqual(attributes.interest_amount_cents.type, 'INTEGER');
+    assert.isFalse(attributes.interest_amount_cents.allowNull);
+    assert.isNull(attributes.interest_amount_cents.defaultValue);
+    assert.isFalse(attributes.interest_amount_cents.primaryKey);
+
+    assert.strictEqual(Object.keys(attributes).length, 8);
   });
 });
