@@ -58,6 +58,12 @@ module.exports = (app) => {
         };
       }
 
+      if (req.query && req.query.open && req.query.open === 'true') {
+        loanWhere.balance_cents = {
+          [Op.gt]: 0,
+        };
+      }
+
       const loans = await models.Loan.findAndCountAll({
         attributes: ['amount_cents', 'balance_cents', 'created_at', 'name', 'uuid'],
         limit,

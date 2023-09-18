@@ -394,6 +394,13 @@ describe('Integration - GET /loans', function() {
       auditApiCallUuid: apiCall.get('uuid'),
       name: sampleData.loans.loan27.name,
     });
+    await controllers.LoanCtrl.createLoanPayment({
+      auditApiCallUuid: apiCall.get('uuid'),
+      date: sampleData.loanPayments.loanPayment1.date,
+      interestAmount: sampleData.loanPayments.loanPayment1.interest_amount_cents,
+      loanUuid: user1Loan27Uuid,
+      principalAmount: sampleData.loans.loan27.amount_cents,
+    });
   });
 
   before('create user 2', async function() {
@@ -536,7 +543,7 @@ describe('Integration - GET /loans', function() {
     // Loan 27
     assert.isOk(res.body.data[9].attributes);
     assert.strictEqual(res.body.data[9].attributes.amount, sampleData.loans.loan27.amount_cents);
-    assert.strictEqual(res.body.data[9].attributes.balance, sampleData.loans.loan27.amount_cents);
+    assert.strictEqual(res.body.data[9].attributes.balance, 0);
     assert.isOk(res.body.data[9].attributes['created-at']);
     assert.strictEqual(res.body.data[9].attributes.name, sampleData.loans.loan27.name);
     assert.strictEqual(res.body.data[9].id, user1Loan27Uuid);
@@ -806,5 +813,269 @@ describe('Integration - GET /loans', function() {
     assert.isOk(res.body.meta);
     assert.strictEqual(res.body.meta.pages, 1);
     assert.strictEqual(res.body.meta.total, 1);
+  });
+
+  describe('when called with the open=true query param', function() {
+    it('should return 200 and 25 loans as user 1 with no limit or page specified', async function() {
+      const res = await chai.request(server)
+        .get('/loans?open=true')
+        .set('Content-Type', 'application/vnd.api+json')
+        .set('Authorization', `Bearer ${user1Token}`);
+      expect(res).to.have.status(200);
+      assert.isOk(res.body.data);
+      assert.strictEqual(res.body.data.length, 25);
+
+        // Loan 24
+      assert.isOk(res.body.data[0].attributes);
+      assert.strictEqual(res.body.data[0].attributes.amount, sampleData.loans.loan24.amount_cents);
+      assert.strictEqual(res.body.data[0].attributes.balance, sampleData.loans.loan24.amount_cents);
+      assert.isOk(res.body.data[0].attributes['created-at']);
+      assert.strictEqual(res.body.data[0].attributes.name, sampleData.loans.loan24.name);
+      assert.strictEqual(res.body.data[0].id, user1Loan24Uuid);
+      assert.strictEqual(res.body.data[0].type, 'loans');
+
+      // Loan 6
+      assert.isOk(res.body.data[1].attributes);
+      assert.strictEqual(res.body.data[1].attributes.amount, sampleData.loans.loan6.amount_cents);
+      assert.strictEqual(res.body.data[1].attributes.balance, sampleData.loans.loan6.amount_cents);
+      assert.isOk(res.body.data[1].attributes['created-at']);
+      assert.strictEqual(res.body.data[1].attributes.name, sampleData.loans.loan6.name);
+      assert.strictEqual(res.body.data[1].id, user1Loan6Uuid);
+      assert.strictEqual(res.body.data[1].type, 'loans');
+
+      // Loan 1
+      assert.isOk(res.body.data[2].attributes);
+      assert.strictEqual(res.body.data[2].attributes.amount, sampleData.loans.loan1.amount_cents);
+      assert.strictEqual(res.body.data[2].attributes.balance, sampleData.loans.loan1.amount_cents);
+      assert.isOk(res.body.data[2].attributes['created-at']);
+      assert.strictEqual(res.body.data[2].attributes.name, sampleData.loans.loan1.name);
+      assert.strictEqual(res.body.data[2].id, user1Loan1Uuid);
+      assert.strictEqual(res.body.data[2].type, 'loans');
+
+      // Loan 8
+      assert.isOk(res.body.data[3].attributes);
+      assert.strictEqual(res.body.data[3].attributes.amount, sampleData.loans.loan8.amount_cents);
+      assert.strictEqual(res.body.data[3].attributes.balance, sampleData.loans.loan8.amount_cents);
+      assert.isOk(res.body.data[3].attributes['created-at']);
+      assert.strictEqual(res.body.data[3].attributes.name, sampleData.loans.loan8.name);
+      assert.strictEqual(res.body.data[3].id, user1Loan8Uuid);
+      assert.strictEqual(res.body.data[3].type, 'loans');
+
+      // Loan 26
+      assert.isOk(res.body.data[4].attributes);
+      assert.strictEqual(res.body.data[4].attributes.amount, sampleData.loans.loan26.amount_cents);
+      assert.strictEqual(res.body.data[4].attributes.balance, sampleData.loans.loan26.amount_cents);
+      assert.isOk(res.body.data[4].attributes['created-at']);
+      assert.strictEqual(res.body.data[4].attributes.name, sampleData.loans.loan26.name);
+      assert.strictEqual(res.body.data[4].id, user1Loan26Uuid);
+      assert.strictEqual(res.body.data[4].type, 'loans');
+
+      // Loan 17
+      assert.isOk(res.body.data[5].attributes);
+      assert.strictEqual(res.body.data[5].attributes.amount, sampleData.loans.loan17.amount_cents);
+      assert.strictEqual(res.body.data[5].attributes.balance, sampleData.loans.loan17.amount_cents);
+      assert.isOk(res.body.data[5].attributes['created-at']);
+      assert.strictEqual(res.body.data[5].attributes.name, sampleData.loans.loan17.name);
+      assert.strictEqual(res.body.data[5].id, user1Loan17Uuid);
+      assert.strictEqual(res.body.data[5].type, 'loans');
+
+      // Loan 15
+      assert.isOk(res.body.data[6].attributes);
+      assert.strictEqual(res.body.data[6].attributes.amount, sampleData.loans.loan15.amount_cents);
+      assert.strictEqual(res.body.data[6].attributes.balance, sampleData.loans.loan15.amount_cents);
+      assert.isOk(res.body.data[6].attributes['created-at']);
+      assert.strictEqual(res.body.data[6].attributes.name, sampleData.loans.loan15.name);
+      assert.strictEqual(res.body.data[6].id, user1Loan15Uuid);
+      assert.strictEqual(res.body.data[6].type, 'loans');
+
+      // Loan 13
+      assert.isOk(res.body.data[7].attributes);
+      assert.strictEqual(res.body.data[7].attributes.amount, sampleData.loans.loan13.amount_cents);
+      assert.strictEqual(res.body.data[7].attributes.balance, sampleData.loans.loan13.amount_cents);
+      assert.isOk(res.body.data[7].attributes['created-at']);
+      assert.strictEqual(res.body.data[7].attributes.name, sampleData.loans.loan13.name);
+      assert.strictEqual(res.body.data[7].id, user1Loan13Uuid);
+      assert.strictEqual(res.body.data[7].type, 'loans');
+
+      // Loan 10
+      assert.isOk(res.body.data[8].attributes);
+      assert.strictEqual(res.body.data[8].attributes.amount, sampleData.loans.loan10.amount_cents);
+      assert.strictEqual(res.body.data[8].attributes.balance, sampleData.loans.loan10.amount_cents);
+      assert.isOk(res.body.data[8].attributes['created-at']);
+      assert.strictEqual(res.body.data[8].attributes.name, sampleData.loans.loan10.name);
+      assert.strictEqual(res.body.data[8].id, user1Loan10Uuid);
+      assert.strictEqual(res.body.data[8].type, 'loans');
+
+      // Loan 14
+      assert.isOk(res.body.data[9].attributes);
+      assert.strictEqual(res.body.data[9].attributes.amount, sampleData.loans.loan14.amount_cents);
+      assert.strictEqual(res.body.data[9].attributes.balance, sampleData.loans.loan14.amount_cents);
+      assert.isOk(res.body.data[9].attributes['created-at']);
+      assert.strictEqual(res.body.data[9].attributes.name, sampleData.loans.loan14.name);
+      assert.strictEqual(res.body.data[9].id, user1Loan14Uuid);
+      assert.strictEqual(res.body.data[9].type, 'loans');
+
+      // Loan 9
+      assert.isOk(res.body.data[10].attributes);
+      assert.strictEqual(res.body.data[10].attributes.amount, sampleData.loans.loan9.amount_cents);
+      assert.strictEqual(res.body.data[10].attributes.balance, sampleData.loans.loan9.amount_cents);
+      assert.isOk(res.body.data[10].attributes['created-at']);
+      assert.strictEqual(res.body.data[10].attributes.name, sampleData.loans.loan9.name);
+      assert.strictEqual(res.body.data[10].id, user1Loan9Uuid);
+      assert.strictEqual(res.body.data[10].type, 'loans');
+
+      // Loan 23
+      assert.isOk(res.body.data[11].attributes);
+      assert.strictEqual(res.body.data[11].attributes.amount, sampleData.loans.loan23.amount_cents);
+      assert.strictEqual(res.body.data[11].attributes.balance, sampleData.loans.loan23.amount_cents);
+      assert.isOk(res.body.data[11].attributes['created-at']);
+      assert.strictEqual(res.body.data[11].attributes.name, sampleData.loans.loan23.name);
+      assert.strictEqual(res.body.data[11].id, user1Loan23Uuid);
+      assert.strictEqual(res.body.data[11].type, 'loans');
+
+      // Loan 25
+      assert.isOk(res.body.data[12].attributes);
+      assert.strictEqual(res.body.data[12].attributes.amount, sampleData.loans.loan25.amount_cents);
+      assert.strictEqual(res.body.data[12].attributes.balance, sampleData.loans.loan25.amount_cents);
+      assert.isOk(res.body.data[12].attributes['created-at']);
+      assert.strictEqual(res.body.data[12].attributes.name, sampleData.loans.loan25.name);
+      assert.strictEqual(res.body.data[12].id, user1Loan25Uuid);
+      assert.strictEqual(res.body.data[12].type, 'loans');
+
+      // Loan 2
+      assert.isOk(res.body.data[13].attributes);
+      assert.strictEqual(res.body.data[13].attributes.amount, sampleData.loans.loan2.amount_cents);
+      assert.strictEqual(res.body.data[13].attributes.balance, sampleData.loans.loan2.amount_cents);
+      assert.isOk(res.body.data[13].attributes['created-at']);
+      assert.strictEqual(res.body.data[13].attributes.name, sampleData.loans.loan2.name);
+      assert.strictEqual(res.body.data[13].id, user1Loan2Uuid);
+      assert.strictEqual(res.body.data[13].type, 'loans');
+
+      // Loan 18
+      assert.isOk(res.body.data[14].attributes);
+      assert.strictEqual(res.body.data[14].attributes.amount, sampleData.loans.loan18.amount_cents);
+      assert.strictEqual(res.body.data[14].attributes.balance, sampleData.loans.loan18.amount_cents);
+      assert.isOk(res.body.data[14].attributes['created-at']);
+      assert.strictEqual(res.body.data[14].attributes.name, sampleData.loans.loan18.name);
+      assert.strictEqual(res.body.data[14].id, user1Loan18Uuid);
+      assert.strictEqual(res.body.data[14].type, 'loans');
+
+      // Loan 7
+      assert.isOk(res.body.data[15].attributes);
+      assert.strictEqual(res.body.data[15].attributes.amount, sampleData.loans.loan7.amount_cents);
+      assert.strictEqual(res.body.data[15].attributes.balance, sampleData.loans.loan7.amount_cents);
+      assert.isOk(res.body.data[15].attributes['created-at']);
+      assert.strictEqual(res.body.data[15].attributes.name, sampleData.loans.loan7.name);
+      assert.strictEqual(res.body.data[15].id, user1Loan7Uuid);
+      assert.strictEqual(res.body.data[15].type, 'loans');
+
+      // Loan 16
+      assert.isOk(res.body.data[16].attributes);
+      assert.strictEqual(res.body.data[16].attributes.amount, sampleData.loans.loan16.amount_cents);
+      assert.strictEqual(res.body.data[16].attributes.balance, sampleData.loans.loan16.amount_cents);
+      assert.isOk(res.body.data[16].attributes['created-at']);
+      assert.strictEqual(res.body.data[16].attributes.name, sampleData.loans.loan16.name);
+      assert.strictEqual(res.body.data[16].id, user1Loan16Uuid);
+      assert.strictEqual(res.body.data[16].type, 'loans');
+
+      // Loan 5
+      assert.isOk(res.body.data[17].attributes);
+      assert.strictEqual(res.body.data[17].attributes.amount, sampleData.loans.loan5.amount_cents);
+      assert.strictEqual(res.body.data[17].attributes.balance, sampleData.loans.loan5.amount_cents);
+      assert.isOk(res.body.data[17].attributes['created-at']);
+      assert.strictEqual(res.body.data[17].attributes.name, sampleData.loans.loan5.name);
+      assert.strictEqual(res.body.data[17].id, user1Loan5Uuid);
+      assert.strictEqual(res.body.data[17].type, 'loans');
+
+      // Loan 22
+      assert.isOk(res.body.data[18].attributes);
+      assert.strictEqual(res.body.data[18].attributes.amount, sampleData.loans.loan22.amount_cents);
+      assert.strictEqual(res.body.data[18].attributes.balance, sampleData.loans.loan22.amount_cents);
+      assert.isOk(res.body.data[18].attributes['created-at']);
+      assert.strictEqual(res.body.data[18].attributes.name, sampleData.loans.loan22.name);
+      assert.strictEqual(res.body.data[18].id, user1Loan22Uuid);
+      assert.strictEqual(res.body.data[18].type, 'loans');
+
+      // Loan 19
+      assert.isOk(res.body.data[19].attributes);
+      assert.strictEqual(res.body.data[19].attributes.amount, sampleData.loans.loan19.amount_cents);
+      assert.strictEqual(res.body.data[19].attributes.balance, sampleData.loans.loan19.amount_cents);
+      assert.isOk(res.body.data[19].attributes['created-at']);
+      assert.strictEqual(res.body.data[19].attributes.name, sampleData.loans.loan19.name);
+      assert.strictEqual(res.body.data[19].id, user1Loan19Uuid);
+      assert.strictEqual(res.body.data[19].type, 'loans');
+
+      // Loan 3
+      assert.isOk(res.body.data[20].attributes);
+      assert.strictEqual(res.body.data[20].attributes.amount, sampleData.loans.loan3.amount_cents);
+      assert.strictEqual(res.body.data[20].attributes.balance, sampleData.loans.loan3.amount_cents);
+      assert.isOk(res.body.data[20].attributes['created-at']);
+      assert.strictEqual(res.body.data[20].attributes.name, sampleData.loans.loan3.name);
+      assert.strictEqual(res.body.data[20].id, user1Loan3Uuid);
+      assert.strictEqual(res.body.data[20].type, 'loans');
+
+      // Loan 4
+      assert.isOk(res.body.data[21].attributes);
+      assert.strictEqual(res.body.data[21].attributes.amount, sampleData.loans.loan4.amount_cents);
+      assert.strictEqual(res.body.data[21].attributes.balance, sampleData.loans.loan4.amount_cents);
+      assert.isOk(res.body.data[21].attributes['created-at']);
+      assert.strictEqual(res.body.data[21].attributes.name, sampleData.loans.loan4.name);
+      assert.strictEqual(res.body.data[21].id, user1Loan4Uuid);
+      assert.strictEqual(res.body.data[21].type, 'loans');
+
+      // Loan 12
+      assert.isOk(res.body.data[22].attributes);
+      assert.strictEqual(res.body.data[22].attributes.amount, sampleData.loans.loan12.amount_cents);
+      assert.strictEqual(res.body.data[22].attributes.balance, sampleData.loans.loan12.amount_cents);
+      assert.isOk(res.body.data[22].attributes['created-at']);
+      assert.strictEqual(res.body.data[22].attributes.name, sampleData.loans.loan12.name);
+      assert.strictEqual(res.body.data[22].id, user1Loan12Uuid);
+      assert.strictEqual(res.body.data[22].type, 'loans');
+
+      // Loan 21
+      assert.isOk(res.body.data[23].attributes);
+      assert.strictEqual(res.body.data[23].attributes.amount, sampleData.loans.loan21.amount_cents);
+      assert.strictEqual(res.body.data[23].attributes.balance, sampleData.loans.loan21.amount_cents);
+      assert.isOk(res.body.data[23].attributes['created-at']);
+      assert.strictEqual(res.body.data[23].attributes.name, sampleData.loans.loan21.name);
+      assert.strictEqual(res.body.data[23].id, user1Loan21Uuid);
+      assert.strictEqual(res.body.data[23].type, 'loans');
+
+      // Loan 11
+      assert.isOk(res.body.data[24].attributes);
+      assert.strictEqual(res.body.data[24].attributes.amount, sampleData.loans.loan11.amount_cents);
+      assert.strictEqual(res.body.data[24].attributes.balance, sampleData.loans.loan11.amount_cents);
+      assert.isOk(res.body.data[24].attributes['created-at']);
+      assert.strictEqual(res.body.data[24].attributes.name, sampleData.loans.loan11.name);
+      assert.strictEqual(res.body.data[24].id, user1Loan11Uuid);
+      assert.strictEqual(res.body.data[24].type, 'loans');
+
+      assert.isOk(res.body.meta);
+      assert.strictEqual(res.body.meta.pages, 2);
+      assert.strictEqual(res.body.meta.total, 26);
+    });
+
+    it('should return 200 and 1 loan as user 1 with no limit and page=2', async function() {
+      const res = await chai.request(server)
+        .get('/loans?open=true&page=2')
+        .set('Content-Type', 'application/vnd.api+json')
+        .set('Authorization', `Bearer ${user1Token}`);
+      expect(res).to.have.status(200);
+      assert.isOk(res.body.data);
+      assert.strictEqual(res.body.data.length, 1);
+
+      // Loan 20
+      assert.isOk(res.body.data[0].attributes);
+      assert.strictEqual(res.body.data[0].attributes.amount, sampleData.loans.loan20.amount_cents);
+      assert.strictEqual(res.body.data[0].attributes.balance, sampleData.loans.loan20.amount_cents);
+      assert.isOk(res.body.data[0].attributes['created-at']);
+      assert.strictEqual(res.body.data[0].attributes.name, sampleData.loans.loan20.name);
+      assert.strictEqual(res.body.data[0].id, user1Loan20Uuid);
+      assert.strictEqual(res.body.data[0].type, 'loans');
+
+      assert.isOk(res.body.meta);
+      assert.strictEqual(res.body.meta.pages, 2);
+      assert.strictEqual(res.body.meta.total, 26);
+    });
   });
 });
