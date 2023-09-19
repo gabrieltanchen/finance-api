@@ -10,7 +10,7 @@ module.exports = {
           errors: _.map(errors.array(), (error) => {
             return {
               source: {
-                pointer: `/${error.param.replace(/\./g, '/')}`,
+                pointer: `/${error.path.replace(/\./g, '/')}`,
               },
               detail: error.msg,
             };
