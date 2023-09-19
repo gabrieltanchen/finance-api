@@ -53,7 +53,7 @@ module.exports = async({
     throw new FundError('Not found');
   }
 
-  if (!name !== fund.get('name')) {
+  if (name !== fund.get('name')) {
     fund.set('name', name);
   }
 

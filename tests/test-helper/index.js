@@ -89,6 +89,11 @@ class TestHelper {
       force: true,
       truncate: true,
     });
+    await models.Loan.destroy({
+      cascade: true,
+      force: true,
+      truncate: true,
+    });
     await models.User.destroy({
       cascade: true,
       force: true,
