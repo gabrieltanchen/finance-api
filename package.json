@@ -47,7 +47,7 @@
   "devDependencies": {
     "@babel/core": "7.22.17",
     "@babel/eslint-parser": "7.22.15",
-    "chai": "4.3.7",
+    "chai": "4.3.9",
     "chai-http": "4.3.0",
     "coveralls": "3.1.1",
     "eslint": "8.49.0",
