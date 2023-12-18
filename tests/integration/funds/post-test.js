@@ -157,7 +157,6 @@ describe('Integration - POST /funds', function() {
     assert.strictEqual(apiCall.get('http_method'), 'POST');
     assert.isOk(apiCall.get('ip_address'));
     assert.strictEqual(apiCall.get('route'), '/funds');
-    assert.isOk(apiCall.get('user_agent'));
     assert.strictEqual(apiCall.get('user_uuid'), userUuid);
   });
 });

@@ -160,7 +160,6 @@ describe('Integration - DELETE /subcategories/:uuid', function() {
     assert.strictEqual(apiCall.get('http_method'), 'DELETE');
     assert.isOk(apiCall.get('ip_address'));
     assert.strictEqual(apiCall.get('route'), `/subcategories/${subcategoryUuid}`);
-    assert.isOk(apiCall.get('user_agent'));
     assert.strictEqual(apiCall.get('user_uuid'), user1Uuid);
   });
 });

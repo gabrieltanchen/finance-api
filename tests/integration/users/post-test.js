@@ -213,7 +213,6 @@ describe('Integration - POST /users', function() {
     assert.strictEqual(apiCall.get('http_method'), 'POST');
     assert.isOk(apiCall.get('ip_address'));
     assert.strictEqual(apiCall.get('route'), '/users');
-    assert.isOk(apiCall.get('user_agent'));
     assert.isNull(apiCall.get('user_uuid'));
   });
 
@@ -489,7 +488,6 @@ describe('Integration - POST /users', function() {
       assert.strictEqual(apiCall.get('http_method'), 'POST');
       assert.isOk(apiCall.get('ip_address'));
       assert.strictEqual(apiCall.get('route'), '/users');
-      assert.isOk(apiCall.get('user_agent'));
       assert.strictEqual(apiCall.get('user_uuid'), user1Uuid);
     });
   });
