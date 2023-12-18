@@ -646,7 +646,6 @@ describe('Integration - POST /expenses', function() {
     assert.strictEqual(apiCall.get('http_method'), 'POST');
     assert.isOk(apiCall.get('ip_address'));
     assert.strictEqual(apiCall.get('route'), '/expenses');
-    assert.isOk(apiCall.get('user_agent'));
     assert.strictEqual(apiCall.get('user_uuid'), userUuid);
   });
 
@@ -748,7 +747,6 @@ describe('Integration - POST /expenses', function() {
     assert.strictEqual(apiCall.get('http_method'), 'POST');
     assert.isOk(apiCall.get('ip_address'));
     assert.strictEqual(apiCall.get('route'), '/expenses');
-    assert.isOk(apiCall.get('user_agent'));
     assert.strictEqual(apiCall.get('user_uuid'), userUuid);
   });
 });

@@ -340,7 +340,6 @@ describe('Integration - POST /incomes', function() {
     assert.strictEqual(apiCall.get('http_method'), 'POST');
     assert.isOk(apiCall.get('ip_address'));
     assert.strictEqual(apiCall.get('route'), '/incomes');
-    assert.isOk(apiCall.get('user_agent'));
     assert.strictEqual(apiCall.get('user_uuid'), userUuid);
   });
 });

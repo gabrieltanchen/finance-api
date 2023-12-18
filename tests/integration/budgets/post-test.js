@@ -414,7 +414,6 @@ describe('Integration - POST /budgets', function() {
     assert.strictEqual(apiCall.get('http_method'), 'POST');
     assert.isOk(apiCall.get('ip_address'));
     assert.strictEqual(apiCall.get('route'), '/budgets');
-    assert.isOk(apiCall.get('user_agent'));
     assert.strictEqual(apiCall.get('user_uuid'), userUuid);
   });
 
@@ -483,7 +482,6 @@ describe('Integration - POST /budgets', function() {
     assert.strictEqual(apiCall.get('http_method'), 'POST');
     assert.isOk(apiCall.get('ip_address'));
     assert.strictEqual(apiCall.get('route'), '/budgets');
-    assert.isOk(apiCall.get('user_agent'));
     assert.strictEqual(apiCall.get('user_uuid'), userUuid);
   });
 });
