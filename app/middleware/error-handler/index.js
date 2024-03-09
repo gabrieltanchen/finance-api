@@ -2,6 +2,7 @@ const AttachmentError = require('./attachment-error');
 const AuditError = require('./audit-error');
 const BudgetError = require('./budget-error');
 const CategoryError = require('./category-error');
+const EmployerError = require('./employer-error');
 const ExpenseError = require('./expense-error');
 const FundError = require('./fund-error');
 const HouseholdError = require('./household-error');
@@ -16,6 +17,7 @@ const errorClasses = {
   AuditError,
   BudgetError,
   CategoryError,
+  EmployerError,
   ExpenseError,
   FundError,
   HouseholdError,
