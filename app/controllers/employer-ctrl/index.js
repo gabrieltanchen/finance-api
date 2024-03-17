@@ -1,4 +1,5 @@
 const createEmployer = require('./create-employer');
+const deleteEmployer = require('./delete-employer');
 const updateEmployer = require('./update-employer');
 
 class EmployerCtrl {
@@ -15,6 +16,17 @@ class EmployerCtrl {
       auditApiCallUuid,
       employerCtrl: this,
       name,
+    });
+  }
+
+  async deleteEmployer({
+    auditApiCallUuid,
+    employerUuid,
+  }) {
+    return deleteEmployer({
+      auditApiCallUuid,
+      employerCtrl: this,
+      employerUuid,
     });
   }
 
