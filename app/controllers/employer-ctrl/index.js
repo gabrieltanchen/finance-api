@@ -1,4 +1,5 @@
 const createEmployer = require('./create-employer');
+const updateEmployer = require('./update-employer');
 
 class EmployerCtrl {
   constructor(parent, models) {
@@ -13,6 +14,19 @@ class EmployerCtrl {
     return createEmployer({
       auditApiCallUuid,
       employerCtrl: this,
+      name,
+    });
+  }
+
+  async updateEmployer({
+    auditApiCallUuid,
+    employerUuid,
+    name,
+  }) {
+    return updateEmployer({
+      auditApiCallUuid,
+      employerCtrl: this,
+      employerUuid,
       name,
     });
   }
