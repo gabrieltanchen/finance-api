@@ -49,7 +49,15 @@ module.exports = async({
     throw new EmployerError('Not found');
   }
 
-  // @todo search for any income records
+  // Search for any incomes. If any exist, don't allow deletion.
+  const incomeCount = await models.Income.count({
+    where: {
+      employer_uuid: employer.get('uuid'),
+    },
+  });
+  if (incomeCount > 0) {
+    throw new EmployerError('Cannot delete with incomes.');
+  }
 
   await models.sequelize.transaction({
     isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.REPEATABLE_READ,

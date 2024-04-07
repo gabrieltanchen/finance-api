@@ -229,4 +229,86 @@ describe('Unit:Controllers - EmployerCtrl.deleteEmployer', function() {
     assert.isNotOk(trackChangesParams.newList);
     assert.isOk(trackChangesParams.transaction);
   });
+
+  describe('when the employer has an income', function() {
+    let user1HouseholdMemberUuid;
+    let user1IncomeUuid;
+
+    beforeEach('create user 1 household member', async function() {
+      const householdMember = await models.HouseholdMember.create({
+        household_uuid: user1HouseholdUuid,
+        name: sampleData.users.user1.firstName,
+      });
+      user1HouseholdMemberUuid = householdMember.get('uuid');
+    });
+
+    beforeEach('create user 1 income', async function() {
+      const income = await models.Income.create({
+        amount_cents: sampleData.incomes.income1.amount_cents,
+        date: sampleData.incomes.income1.date,
+        description: sampleData.incomes.income1.description,
+        employer_uuid: user1EmployerUuid,
+        household_member_uuid: user1HouseholdMemberUuid,
+      });
+      user1IncomeUuid = income.get('uuid');
+    });
+
+    it('should reject when deleting the employer', async function() {
+      try {
+        const apiCall = await models.Audit.ApiCall.create({
+          user_uuid: user1Uuid,
+        });
+        await controllers.EmployerCtrl.deleteEmployer({
+          auditApiCallUuid: apiCall.get('uuid'),
+          employerUuid: user1EmployerUuid,
+        });
+        /* istanbul ignore next */
+        throw new Error('Expected to reject not resolve.');
+      } catch (err) {
+        assert.isOk(err);
+        assert.strictEqual(err.message, 'Cannot delete with incomes.');
+        assert.isTrue(err instanceof EmployerError);
+      }
+      assert.strictEqual(trackChangesSpy.callCount, 0);
+    });
+
+    it('should resolve if the income is deleted', async function() {
+      await models.Income.destroy({
+        where: {
+          uuid: user1IncomeUuid,
+        },
+      });
+
+      const apiCall = await models.Audit.ApiCall.create({
+        user_uuid: user1Uuid,
+      });
+      await controllers.EmployerCtrl.deleteEmployer({
+        auditApiCallUuid: apiCall.get('uuid'),
+        employerUuid: user1EmployerUuid,
+      });
+
+      // Verify that the Employer instance is deleted.
+      const employer = await models.Employer.findOne({
+        attributes: ['uuid'],
+        where: {
+          uuid: user1EmployerUuid,
+        },
+      });
+      assert.isNull(employer);
+
+      assert.strictEqual(trackChangesSpy.callCount, 1);
+      const trackChangesParams = trackChangesSpy.getCall(0).args[0];
+      assert.strictEqual(trackChangesParams.auditApiCallUuid, apiCall.get('uuid'));
+      assert.isNotOk(trackChangesParams.changeList);
+      assert.isOk(trackChangesParams.deleteList);
+      const deleteCategory = _.find(trackChangesParams.deleteList, (deleteInstance) => {
+        return deleteInstance instanceof models.Employer
+          && deleteInstance.get('uuid') === user1EmployerUuid;
+      });
+      assert.isOk(deleteCategory);
+      assert.strictEqual(trackChangesParams.deleteList.length, 1);
+      assert.isNotOk(trackChangesParams.newList);
+      assert.isOk(trackChangesParams.transaction);
+    });
+  });
 });

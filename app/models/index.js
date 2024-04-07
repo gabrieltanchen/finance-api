@@ -110,6 +110,9 @@ class Models {
     this.Employer.belongsTo(this.Household, {
       foreignKey: 'household_uuid',
     });
+    this.Employer.hasMany(this.Income, {
+      foreignKey: 'employer_uuid',
+    });
 
     // Expense
     this.Expense.hasMany(this.Attachment, {
@@ -178,6 +181,9 @@ class Models {
     });
 
     // Income
+    this.Income.belongsTo(this.Employer, {
+      foreignKey: 'employer_uuid',
+    });
     this.Income.belongsTo(this.HouseholdMember, {
       foreignKey: 'household_member_uuid',
     });
