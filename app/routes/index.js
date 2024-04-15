@@ -5,6 +5,7 @@ const budgetReports = require('./budget-reports');
 const budgets = require('./budgets');
 const categories = require('./categories');
 const deposits = require('./deposits');
+const employers = require('./employers');
 const expenses = require('./expenses');
 const funds = require('./funds');
 const householdMembers = require('./household-members');
@@ -24,6 +25,7 @@ module.exports = (app) => {
   app.use('/budgets', budgets(express.Router(), app));
   app.use('/categories', categories(express.Router(), app));
   app.use('/deposits', deposits(express.Router(), app));
+  app.use('/employers', employers(express.Router(), app));
   app.use('/expenses', expenses(express.Router(), app));
   app.use('/funds', funds(express.Router(), app));
   app.use('/household-members', householdMembers(express.Router(), app));
