@@ -18,6 +18,7 @@ describe('Integration - POST /incomes', function() {
 
   let createIncomeSpy;
 
+  let employerUuid;
   let householdMemberUuid;
   let userToken;
   let userUuid;
@@ -64,6 +65,16 @@ describe('Integration - POST /incomes', function() {
     householdMemberUuid = await controllers.HouseholdCtrl.createMember({
       auditApiCallUuid: apiCall.get('uuid'),
       name: sampleData.users.user1.firstName,
+    });
+  });
+
+  beforeEach('create employer', async function() {
+    const apiCall = await models.Audit.ApiCall.create({
+      user_uuid: userUuid,
+    });
+    employerUuid = await controllers.EmployerCtrl.createEmployer({
+      auditApiCallUuid: apiCall.get('uuid'),
+      name: sampleData.employers.employer1.name,
     });
   });
 
@@ -308,6 +319,7 @@ describe('Integration - POST /incomes', function() {
     );
     assert.isOk(res.body.data.id);
     assert.isOk(res.body.data.relationships);
+    assert.isNotOk(res.body.data.relationships.employer);
     assert.isOk(res.body.data.relationships['household-member']);
     assert.isOk(res.body.data.relationships['household-member'].data);
     assert.strictEqual(res.body.data.relationships['household-member'].data.id, householdMemberUuid);
@@ -320,6 +332,84 @@ describe('Integration - POST /incomes', function() {
     assert.isOk(createIncomeParams.auditApiCallUuid);
     assert.strictEqual(createIncomeParams.date, sampleData.incomes.income1.date);
     assert.strictEqual(createIncomeParams.description, sampleData.incomes.income1.description);
+    assert.isNotOk(createIncomeParams.employerUuid);
+    assert.strictEqual(createIncomeParams.householdMemberUuid, householdMemberUuid);
+
+    // Validate Audit API call.
+    const apiCall = await models.Audit.ApiCall.findOne({
+      attributes: [
+        'http_method',
+        'ip_address',
+        'route',
+        'user_agent',
+        'user_uuid',
+        'uuid',
+      ],
+      where: {
+        uuid: createIncomeParams.auditApiCallUuid,
+      },
+    });
+    assert.isOk(apiCall);
+    assert.strictEqual(apiCall.get('http_method'), 'POST');
+    assert.isOk(apiCall.get('ip_address'));
+    assert.strictEqual(apiCall.get('route'), '/incomes');
+    assert.strictEqual(apiCall.get('user_uuid'), userUuid);
+  });
+
+  it('should return 201 including an employer', async function() {
+    const res = await chai.request(server)
+      .post('/incomes')
+      .set('Content-Type', 'application/vnd.api+json')
+      .set('Authorization', `Bearer ${userToken}`)
+      .send({
+        'data': {
+          'attributes': {
+            'amount': sampleData.incomes.income1.amount_cents,
+            'date': sampleData.incomes.income1.date,
+            'description': sampleData.incomes.income1.description,
+          },
+          'relationships': {
+            'employer': {
+              'data': {
+                'id': employerUuid,
+              },
+            },
+            'household-member': {
+              'data': {
+                'id': householdMemberUuid,
+              },
+            },
+          },
+        },
+      });
+    expect(res).to.have.status(201);
+    assert.isOk(res.body.data);
+    assert.isOk(res.body.data.attributes);
+    assert.strictEqual(res.body.data.attributes.amount, sampleData.incomes.income1.amount_cents);
+    assert.isOk(res.body.data.attributes['created-at']);
+    assert.strictEqual(res.body.data.attributes.date, sampleData.incomes.income1.date);
+    assert.strictEqual(
+      res.body.data.attributes.description,
+      sampleData.incomes.income1.description,
+    );
+    assert.isOk(res.body.data.id);
+    assert.isOk(res.body.data.relationships);
+    assert.isOk(res.body.data.relationships.employer);
+    assert.isOk(res.body.data.relationships.employer.data);
+    assert.strictEqual(res.body.data.relationships.employer.data.id, employerUuid);
+    assert.isOk(res.body.data.relationships['household-member']);
+    assert.isOk(res.body.data.relationships['household-member'].data);
+    assert.strictEqual(res.body.data.relationships['household-member'].data.id, householdMemberUuid);
+    assert.strictEqual(res.body.data.type, 'incomes');
+
+    // Validate IncomeCtrl.createIncome call.
+    assert.strictEqual(createIncomeSpy.callCount, 1);
+    const createIncomeParams = createIncomeSpy.getCall(0).args[0];
+    assert.strictEqual(createIncomeParams.amount, sampleData.incomes.income1.amount_cents);
+    assert.isOk(createIncomeParams.auditApiCallUuid);
+    assert.strictEqual(createIncomeParams.date, sampleData.incomes.income1.date);
+    assert.strictEqual(createIncomeParams.description, sampleData.incomes.income1.description);
+    assert.strictEqual(createIncomeParams.employerUuid, employerUuid);
     assert.strictEqual(createIncomeParams.householdMemberUuid, householdMemberUuid);
 
     // Validate Audit API call.
