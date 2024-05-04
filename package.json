@@ -55,7 +55,7 @@
     "eslint-plugin-import": "2.29.1",
     "eslint-plugin-jsx-a11y": "6.8.0",
     "eslint-plugin-react": "7.34.1",
-    "mocha": "10.2.0",
+    "mocha": "10.4.0",
     "mocha-lcov-reporter": "1.3.0",
     "nyc": "15.1.0",
     "sinon": "17.0.1"
