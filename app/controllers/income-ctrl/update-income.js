@@ -9,6 +9,7 @@ const { IncomeError } = require('../../middleware/error-handler');
  * @param {string} auditApiCallUuid
  * @param {string} date
  * @param {string} description
+ * @param {string} employerUuid
  * @param {string} householdMemberUuid
  * @param {object} incomeCtrl Instance of IncomeCtrl
  * @param {string} incomeUuid
@@ -18,6 +19,7 @@ module.exports = async({
   auditApiCallUuid,
   date,
   description,
+  employerUuid = null,
   householdMemberUuid,
   incomeCtrl,
   incomeUuid,
@@ -61,6 +63,7 @@ module.exports = async({
       'amount_cents',
       'date',
       'description',
+      'employer_uuid',
       'household_member_uuid',
       'uuid',
     ],
@@ -103,6 +106,25 @@ module.exports = async({
       throw new IncomeError('Household member not found');
     }
     income.set('household_member_uuid', householdMember.get('uuid'));
+  }
+
+  // Validate employer UUID.
+  if (employerUuid !== income.get('employer_uuid')) {
+    if (employerUuid) {
+      const employer = await models.Employer.findOne({
+        attributes: ['uuid'],
+        where: {
+          household_uuid: user.get('household_uuid'),
+          uuid: employerUuid,
+        },
+      });
+      if (!employer) {
+        throw new IncomeError('Employer not found');
+      }
+      income.set('employer_uuid', employer.get('uuid'));
+    } else {
+      income.set('employer_uuid', null);
+    }
   }
 
   if (income.changed()) {

@@ -1,4 +1,5 @@
 const {
+  EmployerError,
   HouseholdError,
 } = require('../../middleware/error-handler');
 
@@ -64,12 +65,26 @@ module.exports = (app) => {
           throw new HouseholdError('Not found');
         }
         incomeWhere.household_member_uuid = householdMember.get('uuid');
+      } else if (req.query.employer_id) {
+        const employer = await models.Employer.findOne({
+          attributes: ['uuid'],
+          where: {
+            household_uuid: user.get('household_uuid'),
+            uuid: req.query.employer_id,
+          },
+        });
+        if (!employer) {
+          throw new EmployerError('Not found');
+        }
+        incomeWhere.employer_uuid = employer.get('uuid');
       }
 
       let incomeOrder = [['date', 'DESC']];
       let sortField = [];
       if (req.query.sort && req.query.sort === 'date') {
         sortField = ['date'];
+      } else if (req.query.sort && req.query.sort === 'employer') {
+        sortField = ['Employer', 'name'];
       } else if (req.query.sort && req.query.sort === 'member') {
         sortField = ['HouseholdMember', 'name'];
       } else if (req.query.sort && req.query.sort === 'description') {
@@ -99,6 +114,10 @@ module.exports = (app) => {
         ],
         include: [{
           attributes: ['name', 'uuid'],
+          model: models.Employer,
+          required: false,
+        }, {
+          attributes: ['name', 'uuid'],
           model: models.HouseholdMember,
           required: true,
           where: {
@@ -112,8 +131,21 @@ module.exports = (app) => {
       });
 
       const included = [];
+      const employerIds = [];
       const householdMemberIds = [];
       incomes.rows.forEach((income) => {
+        if (income.Employer) {
+          if (!employerIds.includes(income.Employer.get('uuid'))) {
+            employerIds.push(income.Employer.get('uuid'));
+            included.push({
+              'attributes': {
+                'name': income.Employer.get('name'),
+              },
+              'id': income.Employer.get('uuid'),
+              'type': 'employers',
+            });
+          }
+        }
         if (!householdMemberIds.includes(income.HouseholdMember.get('uuid'))) {
           householdMemberIds.push(income.HouseholdMember.get('uuid'));
           included.push({
@@ -128,6 +160,22 @@ module.exports = (app) => {
 
       return res.status(200).json({
         'data': incomes.rows.map((income) => {
+          const relationships = {
+            'household-member': {
+              'data': {
+                'id': income.HouseholdMember.get('uuid'),
+                'type': 'household-member',
+              },
+            },
+          };
+          if (income.Employer) {
+            relationships.employer = {
+              'data': {
+                'id': income.Employer.get('uuid'),
+                'type': 'employers',
+              },
+            };
+          }
           return {
             'attributes': {
               'amount': income.get('amount_cents'),
@@ -136,14 +184,7 @@ module.exports = (app) => {
               'description': income.get('description'),
             },
             'id': income.get('uuid'),
-            'relationships': {
-              'household-member': {
-                'data': {
-                  'id': income.HouseholdMember.get('uuid'),
-                  'type': 'household-member',
-                },
-              },
-            },
+            'relationships': relationships,
             'type': 'incomes',
           };
         }),

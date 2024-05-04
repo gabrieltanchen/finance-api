@@ -184,9 +184,57 @@ describe('Integration - GET /incomes/:uuid', function() {
     );
     assert.strictEqual(res.body.data.id, user1IncomeUuid);
     assert.isOk(res.body.data.relationships);
+    assert.isNotOk(res.body.data.relationships.employer);
     assert.isOk(res.body.data.relationships['household-member']);
     assert.isOk(res.body.data.relationships['household-member'].data);
     assert.strictEqual(res.body.data.relationships['household-member'].data.id, user1HouseholdMemberUuid);
     assert.strictEqual(res.body.data.type, 'incomes');
+  });
+
+  describe('when the income has an employer', function() {
+    let user1EmployerUuid;
+
+    beforeEach('create user 1 employer', async function() {
+      const apiCall = await models.Audit.ApiCall.create({
+        user_uuid: user1Uuid,
+      });
+      user1EmployerUuid = await controllers.EmployerCtrl.createEmployer({
+        auditApiCallUuid: apiCall.get('uuid'),
+        name: sampleData.employers.employer1.name,
+      });
+      await models.Income.update({
+        employer_uuid: user1EmployerUuid,
+      }, {
+        where: {
+          uuid: user1IncomeUuid,
+        },
+      });
+    });
+
+    it('should return 200 and the income details', async function() {
+      const res = await chai.request(server)
+        .get(`/incomes/${user1IncomeUuid}`)
+        .set('Content-Type', 'application/vnd.api+json')
+        .set('Authorization', `Bearer ${user1Token}`);
+      expect(res).to.have.status(200);
+      assert.isOk(res.body.data);
+      assert.isOk(res.body.data.attributes);
+      assert.strictEqual(res.body.data.attributes.amount, sampleData.incomes.income1.amount_cents);
+      assert.isOk(res.body.data.attributes['created-at']);
+      assert.strictEqual(res.body.data.attributes.date, sampleData.incomes.income1.date);
+      assert.strictEqual(
+        res.body.data.attributes.description,
+        sampleData.incomes.income1.description,
+      );
+      assert.strictEqual(res.body.data.id, user1IncomeUuid);
+      assert.isOk(res.body.data.relationships);
+      assert.isOk(res.body.data.relationships.employer);
+      assert.isOk(res.body.data.relationships.employer.data);
+      assert.strictEqual(res.body.data.relationships.employer.data.id, user1EmployerUuid);
+      assert.isOk(res.body.data.relationships['household-member']);
+      assert.isOk(res.body.data.relationships['household-member'].data);
+      assert.strictEqual(res.body.data.relationships['household-member'].data.id, user1HouseholdMemberUuid);
+      assert.strictEqual(res.body.data.type, 'incomes');
+    });
   });
 });
