@@ -2,6 +2,7 @@ const attachments = require('./attachments');
 const budgets = require('./budgets');
 const categories = require('./categories');
 const deposits = require('./deposits');
+const employers = require('./employers');
 const expenses = require('./expenses');
 const funds = require('./funds');
 const incomes = require('./incomes');
@@ -15,6 +16,7 @@ module.exports = {
   budgets,
   categories,
   deposits,
+  employers,
   expenses,
   funds,
   incomes,

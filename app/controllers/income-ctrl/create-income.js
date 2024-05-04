@@ -9,6 +9,7 @@ const { IncomeError } = require('../../middleware/error-handler');
  * @param {string} auditApiCallUuid
  * @param {string} date
  * @param {string} description
+ * @param {string} employerUuid
  * @param {string} householdMemberUuid
  * @param {object} incomeCtrl Instance of IncomeCtrl
  */
@@ -17,6 +18,7 @@ module.exports = async({
   auditApiCallUuid,
   date,
   description,
+  employerUuid,
   householdMemberUuid,
   incomeCtrl,
 }) => {
@@ -70,6 +72,21 @@ module.exports = async({
     description,
     household_member_uuid: householdMember.get('uuid'),
   });
+
+  if (employerUuid) {
+    // Validate employer belongs to household.
+    const employer = await models.Employer.findOne({
+      attributes: ['uuid'],
+      where: {
+        household_uuid: user.get('household_uuid'),
+        uuid: employerUuid,
+      },
+    });
+    if (!employer) {
+      throw new IncomeError('Employer not found');
+    }
+    newIncome.set('employer_uuid', employer.get('uuid'));
+  }
 
   await models.sequelize.transaction({
     isolationLevel: Sequelize.Transaction.ISOLATION_LEVELS.REPEATABLE_READ,
