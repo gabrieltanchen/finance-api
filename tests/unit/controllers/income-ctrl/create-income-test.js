@@ -376,6 +376,7 @@ describe('Unit:Controllers - IncomeCtrl.createIncome', function() {
       attributes: [
         'amount_cents',
         'description',
+        'employer_uuid',
         'household_member_uuid',
         'uuid',
       ],
@@ -386,6 +387,7 @@ describe('Unit:Controllers - IncomeCtrl.createIncome', function() {
     assert.isOk(income);
     assert.strictEqual(income.get('amount_cents'), sampleData.incomes.income1.amount_cents);
     assert.strictEqual(income.get('description'), sampleData.incomes.income1.description);
+    assert.isNull(income.get('employer_uuid'));
     assert.strictEqual(income.get('household_member_uuid'), user1HouseholdMemberUuid);
 
     assert.strictEqual(trackChangesSpy.callCount, 1);
@@ -401,5 +403,121 @@ describe('Unit:Controllers - IncomeCtrl.createIncome', function() {
     assert.isOk(newExpense);
     assert.strictEqual(trackChangesParams.newList.length, 1);
     assert.isOk(trackChangesParams.transaction);
+  });
+
+  describe('when creating an income for an employer', function() {
+    let user1EmployerUuid;
+    let user2EmployerUuid;
+
+    beforeEach('create user 1 employer', async function() {
+      const employer = await models.Employer.create({
+        household_uuid: user1HouseholdUuid,
+        name: sampleData.employers.employer1.name,
+      });
+      user1EmployerUuid = employer.get('uuid');
+    });
+
+    beforeEach('create user 2 employer', async function() {
+      const employer = await models.Employer.create({
+        household_uuid: user2HouseholdUuid,
+        name: sampleData.employers.employer2.name,
+      });
+      user2EmployerUuid = employer.get('uuid');
+    });
+
+    it('should reject when the employer does not exist', async function() {
+      try {
+        const apiCall = await models.Audit.ApiCall.create({
+          user_uuid: user1Uuid,
+        });
+        await controllers.IncomeCtrl.createIncome({
+          amount: sampleData.incomes.income1.amount_cents,
+          auditApiCallUuid: apiCall.get('uuid'),
+          date: sampleData.incomes.income1.date,
+          description: sampleData.incomes.income1.description,
+          employerUuid: uuidv4(),
+          householdMemberUuid: user1HouseholdMemberUuid,
+        });
+        /* istanbul ignore next */
+        throw new Error('Expected to reject not resolve.');
+      } catch (err) {
+        assert.isOk(err);
+        assert.strictEqual(err.message, 'Employer not found');
+        assert.isTrue(err instanceof IncomeError);
+      }
+      assert.strictEqual(trackChangesSpy.callCount, 0);
+    });
+
+    it('should reject when the employer belongs to a different household', async function() {
+      try {
+        const apiCall = await models.Audit.ApiCall.create({
+          user_uuid: user1Uuid,
+        });
+        await controllers.IncomeCtrl.createIncome({
+          amount: sampleData.incomes.income1.amount_cents,
+          auditApiCallUuid: apiCall.get('uuid'),
+          date: sampleData.incomes.income1.date,
+          description: sampleData.incomes.income1.description,
+          employerUuid: user2EmployerUuid,
+          householdMemberUuid: user1HouseholdMemberUuid,
+        });
+        /* istanbul ignore next */
+        throw new Error('Expected to reject not resolve.');
+      } catch (err) {
+        assert.isOk(err);
+        assert.strictEqual(err.message, 'Employer not found');
+        assert.isTrue(err instanceof IncomeError);
+      }
+      assert.strictEqual(trackChangesSpy.callCount, 0);
+    });
+
+    it('should resolve when the employer belongs to the user\'s household', async function() {
+      const apiCall = await models.Audit.ApiCall.create({
+        user_uuid: user1Uuid,
+      });
+      const incomeUuid = await controllers.IncomeCtrl.createIncome({
+        amount: sampleData.incomes.income1.amount_cents,
+        auditApiCallUuid: apiCall.get('uuid'),
+        date: sampleData.incomes.income1.date,
+        description: sampleData.incomes.income1.description,
+        employerUuid: user1EmployerUuid,
+        householdMemberUuid: user1HouseholdMemberUuid,
+      });
+
+      assert.isOk(incomeUuid);
+
+      // Verify the Income instance.
+      const income = await models.Income.findOne({
+        attributes: [
+          'amount_cents',
+          'description',
+          'employer_uuid',
+          'household_member_uuid',
+          'uuid',
+        ],
+        where: {
+          uuid: incomeUuid,
+        },
+      });
+      assert.isOk(income);
+      assert.strictEqual(income.get('amount_cents'), sampleData.incomes.income1.amount_cents);
+      assert.strictEqual(income.get('description'), sampleData.incomes.income1.description);
+      assert.strictEqual(income.get('employer_uuid'), user1EmployerUuid);
+      assert.strictEqual(income.get('household_member_uuid'), user1HouseholdMemberUuid);
+
+      assert.strictEqual(trackChangesSpy.callCount, 1);
+      const trackChangesParams = trackChangesSpy.getCall(0).args[0];
+      assert.strictEqual(trackChangesParams.auditApiCallUuid, apiCall.get('uuid'));
+      assert.isNotOk(trackChangesParams.changeList);
+      assert.isNotOk(trackChangesParams.deleteList);
+      assert.isOk(trackChangesParams.newList);
+      const newExpense = _.find(trackChangesParams.newList, (newInstance) => {
+        return newInstance instanceof models.Income
+          && newInstance.get('uuid') === income.get('uuid');
+      });
+      assert.isOk(newExpense);
+      assert.strictEqual(trackChangesParams.newList.length, 1);
+      assert.isOk(trackChangesParams.transaction);
+    });
   });
 });

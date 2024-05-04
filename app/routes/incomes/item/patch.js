@@ -30,11 +30,19 @@ module.exports = (app) => {
    */
   return async(req, res, next) => {
     try {
+      let employerUuid = null;
+      if (req.body.data.relationships
+          && req.body.data.relationships.employer
+          && req.body.data.relationships.employer.data
+          && req.body.data.relationships.employer.data.id) {
+        employerUuid = req.body.data.relationships.employer.data.id;
+      }
       await controllers.IncomeCtrl.updateIncome({
         amount: req.body.data.attributes.amount,
         auditApiCallUuid: req.auditApiCallUuid,
         date: req.body.data.attributes.date,
         description: req.body.data.attributes.description,
+        employerUuid,
         householdMemberUuid: req.body.data.relationships['household-member'].data.id,
         incomeUuid: req.params.uuid,
       });
@@ -49,6 +57,10 @@ module.exports = (app) => {
         ],
         include: [{
           attributes: ['name', 'uuid'],
+          model: models.Employer,
+          required: false,
+        }, {
+          attributes: ['name', 'uuid'],
           model: models.HouseholdMember,
           required: true,
         }],
@@ -56,6 +68,23 @@ module.exports = (app) => {
           uuid: req.params.uuid,
         },
       });
+
+      const relationships = {
+        'household-member': {
+          'data': {
+            'id': income.HouseholdMember.get('uuid'),
+            'type': 'household-members',
+          },
+        },
+      };
+      if (income.Employer) {
+        relationships.employer = {
+          'data': {
+            'id': income.Employer.get('uuid'),
+            'type': 'employers',
+          },
+        };
+      }
 
       return res.status(200).json({
         'data': {
@@ -66,14 +95,7 @@ module.exports = (app) => {
             'description': income.get('description'),
           },
           'id': income.get('uuid'),
-          'relationships': {
-            'household-member': {
-              'data': {
-                'id': income.HouseholdMember.get('uuid'),
-                'type': 'household-members',
-              },
-            },
-          },
+          'relationships': relationships,
           'type': 'incomes',
         },
       });

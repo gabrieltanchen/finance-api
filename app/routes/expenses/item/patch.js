@@ -18,7 +18,7 @@ module.exports = (app) => {
    * @apiSuccess (200) {object} data.relationships
    * @apiSuccess (200) {object} data.relationships[household-member]
    * @apiSuccess (200) {object} data.relationships[household-member].data
-   * @apiSuccess (200) {string} data.relatinoships[household-member].data.id
+   * @apiSuccess (200) {string} data.relationships[household-member].data.id
    * @apiSuccess (200) {object} data.relationships.subcategory
    * @apiSuccess (200) {object} data.relationships.subcategory.data
    * @apiSuccess (200) {string} data.relationships.subcategory.data.id

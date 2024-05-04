@@ -13,6 +13,7 @@ class IncomeCtrl {
     auditApiCallUuid,
     date,
     description,
+    employerUuid,
     householdMemberUuid,
   }) {
     return createIncome({
@@ -20,6 +21,7 @@ class IncomeCtrl {
       auditApiCallUuid,
       date,
       description,
+      employerUuid,
       householdMemberUuid,
       incomeCtrl: this,
     });
@@ -41,6 +43,7 @@ class IncomeCtrl {
     auditApiCallUuid,
     date,
     description,
+    employerUuid,
     householdMemberUuid,
     incomeUuid,
   }) {
@@ -49,6 +52,7 @@ class IncomeCtrl {
       auditApiCallUuid,
       date,
       description,
+      employerUuid,
       householdMemberUuid,
       incomeCtrl: this,
       incomeUuid,

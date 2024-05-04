@@ -82,6 +82,13 @@ describe('Unit:Model - Income', function() {
     assert.isNull(attributes.description.defaultValue);
     assert.isFalse(attributes.description.primaryKey);
 
-    assert.strictEqual(Object.keys(attributes).length, 8);
+    // employer_uuid
+    assert.isOk(attributes.employer_uuid);
+    assert.strictEqual(attributes.employer_uuid.type, 'UUID');
+    assert.isTrue(attributes.employer_uuid.allowNull);
+    assert.isNull(attributes.employer_uuid.defaultValue);
+    assert.isFalse(attributes.employer_uuid.primaryKey);
+
+    assert.strictEqual(Object.keys(attributes).length, 9);
   });
 });
