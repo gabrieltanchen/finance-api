@@ -696,7 +696,7 @@ describe('Unit:Controllers - ExpenseCtrl.createExpense', function() {
     assert.isOk(trackChangesParams.transaction);
   });
 
-  describe('when creating an expense for a fund', async function() {
+  describe('when creating an expense for a fund', function() {
     const FUND_INITIAL_BALANCE = 100000;
 
     let user1FundUuid;

@@ -51,6 +51,10 @@ module.exports = (app) => {
         ],
         include: [{
           attributes: ['uuid'],
+          model: models.Employer,
+          required: false,
+        }, {
+          attributes: ['uuid'],
           model: models.HouseholdMember,
           required: true,
           where: {
@@ -65,6 +69,22 @@ module.exports = (app) => {
         throw new IncomeError('Not found');
       }
 
+      const relationships = {
+        'household-member': {
+          'data': {
+            'id': income.HouseholdMember.get('uuid'),
+            'type': 'household-members',
+          },
+        },
+      };
+      if (income.Employer) {
+        relationships.employer = {
+          'data': {
+            'id': income.Employer.get('uuid'),
+            'type': 'employers',
+          },
+        };
+      }
       return res.status(200).json({
         'data': {
           'attributes': {
@@ -74,14 +94,7 @@ module.exports = (app) => {
             'description': income.get('description'),
           },
           'id': income.get('uuid'),
-          'relationships': {
-            'household-member': {
-              'data': {
-                'id': income.HouseholdMember.get('uuid'),
-                'type': 'household-members',
-              },
-            },
-          },
+          'relationships': relationships,
           'type': 'incomes',
         },
       });
