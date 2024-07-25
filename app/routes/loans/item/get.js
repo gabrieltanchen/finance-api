@@ -48,6 +48,17 @@ module.exports = (app) => {
         throw new LoanError('Not found');
       }
 
+      const sumInterestAmountCents = await models.LoanPayment.sum('interest_amount_cents', {
+        where: {
+          loan_uuid: loan.get('uuid'),
+        },
+      });
+      const sumPrincipalAmountCents = await models.LoanPayment.sum('principal_amount_cents', {
+        where: {
+          loan_uuid: loan.get('uuid'),
+        },
+      });
+
       return res.status(200).json({
         'data': {
           'attributes': {
@@ -55,6 +66,8 @@ module.exports = (app) => {
             'balance': loan.get('balance_cents'),
             'created-at': loan.get('created_at'),
             'name': loan.get('name'),
+            'sum-interest-amount': sumInterestAmountCents || 0,
+            'sum-principal-amount': sumPrincipalAmountCents || 0,
           },
           'id': loan.get('uuid'),
           'type': 'loans',
