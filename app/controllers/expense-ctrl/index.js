@@ -1,8 +1,8 @@
-const createExpense = require('./create-expense');
-const deleteExpense = require('./delete-expense');
-const updateExpense = require('./update-expense');
+import createExpense from './create-expense.js';
+import deleteExpense from './delete-expense.js';
+import updateExpense from './update-expense.js';
 
-class ExpenseCtrl {
+export default class ExpenseCtrl {
   constructor(parent, models) {
     this.parent = parent;
     this.models = models;
@@ -29,5 +29,3 @@ class ExpenseCtrl {
     });
   }
 }
-
-module.exports = ExpenseCtrl;

@@ -1,4 +1,4 @@
-class Auditor {
+export default class Auditor {
   constructor(models) {
     this.models = models;
   }
@@ -21,5 +21,3 @@ class Auditor {
     };
   }
 }
-
-module.exports = Auditor;

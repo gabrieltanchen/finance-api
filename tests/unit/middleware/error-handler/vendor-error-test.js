@@ -1,8 +1,8 @@
-const chai = require('chai');
+import chai from 'chai';
 
 const assert = chai.assert;
 
-const { VendorError } = require('../../../../app/middleware/error-handler');
+import { VendorError } from '../../../../app/middleware/error-handler/index.js';
 
 describe('Unit:Middleware - ErrorHandler - VendorError', function() {
   it('should return not found message', function() {

@@ -3,6 +3,7 @@
   "version": "2.9.1",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "lint": "eslint . --ext .js",

@@ -1,8 +1,8 @@
-const createIncome = require('./create-income');
-const deleteIncome = require('./delete-income');
-const updateIncome = require('./update-income');
+import createIncome from './create-income.js';
+import deleteIncome from './delete-income.js';
+import updateIncome from './update-income.js';
 
-class IncomeCtrl {
+export default class IncomeCtrl {
   constructor(parent, models) {
     this.parent = parent;
     this.models = models;
@@ -59,5 +59,3 @@ class IncomeCtrl {
     });
   }
 }
-
-module.exports = IncomeCtrl;

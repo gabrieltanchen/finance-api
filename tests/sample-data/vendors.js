@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   vendor1: {
     name: 'Honey & Gin',
   },

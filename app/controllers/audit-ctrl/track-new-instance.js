@@ -1,4 +1,4 @@
-const { AuditError } = require('../../middleware/error-handler');
+import { AuditError } from '../../middleware/error-handler/index.js';
 
 /**
  * Save audit changes for all attributes for this instance. Use
@@ -11,7 +11,7 @@ const { AuditError } = require('../../middleware/error-handler');
  * @param {object} instance The Sequelize instance to track
  * @param {object} transaction Sequelize transaction
  */
-module.exports = async({
+export default async({
   auditCtrl,
   auditLog,
   instance,

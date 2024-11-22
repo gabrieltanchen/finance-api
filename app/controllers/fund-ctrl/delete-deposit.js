@@ -1,13 +1,13 @@
-const Sequelize = require('sequelize');
+import Sequelize from 'sequelize';
 
-const { FundError } = require('../../middleware/error-handler');
+import { FundError } from '../../middleware/error-handler/index.js';
 
 /**
  * @param {string} auditApiCallUuid
  * @param {string} depositUuid UUID of the deposit to delete
  * @param {object} fundCtrl Instance of FundCtrl
  */
-module.exports = async({
+export default async({
   auditApiCallUuid,
   depositUuid,
   fundCtrl,

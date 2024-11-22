@@ -1,13 +1,13 @@
-const Sequelize = require('sequelize');
+import Sequelize from 'sequelize';
 
-const { LoanError } = require('../../middleware/error-handler');
+import { LoanError } from '../../middleware/error-handler/index.js';
 
 /**
  * @param {string} auditApiCallUuid
  * @param {object} loanCtrl Instance of LoanCtrl
  * @param {string} loanUuid UUID of the loan to delete
  */
-module.exports = async({
+export default async({
   auditApiCallUuid,
   loanCtrl,
   loanUuid,

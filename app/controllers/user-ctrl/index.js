@@ -1,11 +1,11 @@
-const addUserToHousehold = require('./add-user-to-household');
-const getToken = require('./get-token');
-const loginWithPassword = require('./login-with-password');
-const loginWithToken = require('./login-with-token');
-const signUp = require('./sign-up');
-const updateUserDetails = require('./update-user-details');
+import addUserToHousehold from './add-user-to-household.js';
+import getToken from './get-token.js';
+import loginWithPassword from './login-with-password.js';
+import loginWithToken from './login-with-token.js';
+import signUp from './sign-up.js';
+import updateUserDetails from './update-user-details.js';
 
-class UserCtrl {
+export default class UserCtrl {
   constructor(parent, models) {
     this.parent = parent;
     this.models = models;
@@ -81,5 +81,3 @@ class UserCtrl {
     });
   }
 }
-
-module.exports = UserCtrl;

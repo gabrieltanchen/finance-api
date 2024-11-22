@@ -1,5 +1,4 @@
-const { query } = require('express');
-const { Sequelize } = require('sequelize');
+import { Sequelize } from 'sequelize';
 
 async function up({ context: queryInterface }) {
   await queryInterface.changeColumn('attachments', 'aws_content_length', {
@@ -13,4 +12,4 @@ async function down({ context: queryInterface }) {
   });
 }
 
-module.exports = { up, down };
+export { up, down };

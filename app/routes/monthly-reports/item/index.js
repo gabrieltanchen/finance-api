@@ -1,6 +1,6 @@
-const getFn = require('./get');
+import getFn from './get.js';
 
-module.exports = (router, app) => {
+export default (router, app) => {
   const Authentication = app.get('Authentication');
 
   return router.route('/:uuid')

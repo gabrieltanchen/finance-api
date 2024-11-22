@@ -1,17 +1,17 @@
-const AttachmentCtrl = require('./attachment-ctrl');
-const AuditCtrl = require('./audit-ctrl');
-const BudgetCtrl = require('./budget-ctrl');
-const CategoryCtrl = require('./category-ctrl');
-const EmployerCtrl = require('./employer-ctrl');
-const ExpenseCtrl = require('./expense-ctrl');
-const FundCtrl = require('./fund-ctrl');
-const HouseholdCtrl = require('./household-ctrl');
-const IncomeCtrl = require('./income-ctrl');
-const LoanCtrl = require('./loan-ctrl');
-const UserCtrl = require('./user-ctrl');
-const VendorCtrl = require('./vendor-ctrl');
+import AttachmentCtrl from './attachment-ctrl/index.js';
+import AuditCtrl from './audit-ctrl/index.js';
+import BudgetCtrl from './budget-ctrl/index.js';
+import CategoryCtrl from './category-ctrl/index.js';
+import EmployerCtrl from './employer-ctrl/index.js';
+import ExpenseCtrl from './expense-ctrl/index.js';
+import FundCtrl from './fund-ctrl/index.js';
+import HouseholdCtrl from './household-ctrl/index.js';
+import IncomeCtrl from './income-ctrl/index.js';
+import LoanCtrl from './loan-ctrl/index.js';
+import UserCtrl from './user-ctrl/index.js';
+import VendorCtrl from './vendor-ctrl/index.js';
 
-class Controllers {
+export default class Controllers {
   constructor(models) {
     this.models = models;
 
@@ -29,5 +29,3 @@ class Controllers {
     this.VendorCtrl = new VendorCtrl(this, models);
   }
 }
-
-module.exports = Controllers;

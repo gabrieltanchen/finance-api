@@ -1,13 +1,13 @@
-const Sequelize = require('sequelize');
+import Sequelize from 'sequelize';
 
-const { EmployerError } = require('../../middleware/error-handler');
+import { EmployerError } from '../../middleware/error-handler/index.js';
 
 /**
  * @param {string} auditApiCallUuid
  * @param {object} employerCtrl Instance of EmployerCtrl
  * @param {string} employerUuid UUID of the employer to delete
  */
-module.exports = async({
+export default async({
   auditApiCallUuid,
   employerCtrl,
   employerUuid,

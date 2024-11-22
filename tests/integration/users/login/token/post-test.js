@@ -1,9 +1,9 @@
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-const jwt = require('jsonwebtoken');
-const sinon = require('sinon');
-const sampleData = require('../../../../sample-data');
-const TestHelper = require('../../../../test-helper');
+import chai from 'chai';
+import chaiHttp from 'chai-http';
+import jwt from 'jsonwebtoken';
+import sinon from 'sinon';
+import sampleData from '../../../../sample-data/index.js';
+import TestHelper from '../../../../test-helper/index.js';
 
 const assert = chai.assert;
 const expect = chai.expect;

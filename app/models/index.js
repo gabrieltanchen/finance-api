@@ -1,26 +1,26 @@
-const nconf = require('nconf');
-const Sequelize = require('sequelize');
+import nconf from 'nconf';
+import Sequelize from 'sequelize';
 
-const Attachment = require('./attachment');
-const Audit = require('./audit');
-const Budget = require('./budget');
-const Category = require('./category');
-const Deposit = require('./deposit');
-const Employer = require('./employer');
-const Expense = require('./expense');
-const Fund = require('./fund');
-const Hash = require('./hash');
-const Household = require('./household');
-const HouseholdMember = require('./household-member');
-const Income = require('./income');
-const Loan = require('./loan');
-const LoanPayment = require('./loan-payment');
-const Subcategory = require('./subcategory');
-const User = require('./user');
-const UserLogin = require('./user-login');
-const Vendor = require('./vendor');
+import Attachment from './attachment.js';
+import Audit from './audit/index.js';
+import Budget from './budget.js';
+import Category from './category.js';
+import Deposit from './deposit.js';
+import Employer from './employer.js';
+import Expense from './expense.js';
+import Fund from './fund.js';
+import Hash from './hash.js';
+import Household from './household.js';
+import HouseholdMember from './household-member.js';
+import Income from './income.js';
+import Loan from './loan.js';
+import LoanPayment from './loan-payment.js';
+import Subcategory from './subcategory.js';
+import User from './user.js';
+import UserLogin from './user-login.js';
+import Vendor from './vendor.js';
 
-class Models {
+export default class Models {
   constructor(databaseUrl) {
     let logging = console.log; // eslint-disable-line no-console
     if (nconf.get('NODE_ENV') === 'test') {
@@ -237,5 +237,3 @@ class Models {
     });
   }
 }
-
-module.exports = Models;

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   income1: {
     amount: 9210.91,
     amount_cents: 921091,

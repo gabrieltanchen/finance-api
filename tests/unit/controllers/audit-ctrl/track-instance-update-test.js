@@ -1,11 +1,11 @@
-const chai = require('chai');
-const crypto = require('crypto');
-const Sequelize = require('sequelize');
-const _ = require('lodash');
+import chai from 'chai';
+import crypto from 'crypto';
+import Sequelize from 'sequelize';
+import _ from 'lodash';
 
-const sampleData = require('../../../sample-data');
-const TestHelper = require('../../../test-helper');
-const { AuditError } = require('../../../../app/middleware/error-handler');
+import sampleData from '../../../sample-data/index.js';
+import TestHelper from '../../../test-helper/index.js';
+import { AuditError } from '../../../../app/middleware/error-handler/index.js';
 
 const assert = chai.assert;
 

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   loan1: {
     amount_cents: 61239,
     name: 'Arlene',

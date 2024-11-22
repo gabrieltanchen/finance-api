@@ -1,8 +1,8 @@
-const chai = require('chai');
+import chai from 'chai';
 
 const assert = chai.assert;
 
-const { LoginPasswordFailedError } = require('../../../../app/middleware/error-handler');
+import { LoginPasswordFailedError } from '../../../../app/middleware/error-handler/index.js';
 
 describe('Unit:Middleware - ErrorHandler - LoginPasswordFailedError', function() {
   it('should return invalid combination even for an unknown error', function() {

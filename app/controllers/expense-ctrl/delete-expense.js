@@ -1,14 +1,14 @@
-const { DeleteObjectCommand } = require('@aws-sdk/client-s3');
-const Sequelize = require('sequelize');
+import { DeleteObjectCommand } from '@aws-sdk/client-s3';
+import Sequelize from 'sequelize';
 
-const { ExpenseError } = require('../../middleware/error-handler');
+import { ExpenseError } from '../../middleware/error-handler/index.js';
 
 /**
  * @param {string} auditApiCallUuid
  * @param {object} expenseCtrl Instance of ExpenseCtrl
  * @param {string} expenseUuid UUID of the expense to delete
  */
-module.exports = async({
+export default async({
   auditApiCallUuid,
   expenseCtrl,
   expenseUuid,

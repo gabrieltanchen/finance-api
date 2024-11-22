@@ -1,4 +1,4 @@
-module.exports = class ExpenseError extends Error {
+export class ExpenseError extends Error {
   constructor(message) {
     super(message);
     this.name = 'ExpenseError';

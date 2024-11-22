@@ -1,4 +1,4 @@
-module.exports = class FundError extends Error {
+export class FundError extends Error {
   constructor(message) {
     super(message);
     this.name = 'FundError';

@@ -1,6 +1,6 @@
-const Sequelize = require('sequelize');
+import Sequelize from 'sequelize';
 
-const { EmployerError } = require('../../middleware/error-handler');
+import { EmployerError } from '../../middleware/error-handler/index.js';
 
 /**
  * @param {string} auditApiCallUuid
@@ -8,7 +8,7 @@ const { EmployerError } = require('../../middleware/error-handler');
  * @param {string} employerUuid
  * @param {string} name
  */
-module.exports = async({
+export default async({
   auditApiCallUuid,
   employerCtrl,
   employerUuid,

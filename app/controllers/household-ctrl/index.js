@@ -1,8 +1,8 @@
-const createMember = require('./create-member');
-const deleteMember = require('./delete-member');
-const updateMember = require('./update-member');
+import createMember from './create-member.js';
+import deleteMember from './delete-member.js';
+import updateMember from './update-member.js';
 
-class HouseholdCtrl {
+export default class HouseholdCtrl {
   constructor(parent, models) {
     this.parent = parent;
     this.models = models;
@@ -43,5 +43,3 @@ class HouseholdCtrl {
     });
   }
 }
-
-module.exports = HouseholdCtrl;

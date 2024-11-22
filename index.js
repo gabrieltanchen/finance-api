@@ -1,8 +1,8 @@
-require('./config');
-const nconf = require('nconf');
-const winston = require('winston');
+import './config/index.js';
+import nconf from 'nconf';
+import winston from 'winston';
 
-const App = require('./app');
+import App from './app/index.js';
 
 const logger = winston.createLogger({
   format: winston.format.combine(

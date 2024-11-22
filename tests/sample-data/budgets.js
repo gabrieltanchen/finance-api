@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   budget1: {
     amount_cents: 99763,
     month: 11,

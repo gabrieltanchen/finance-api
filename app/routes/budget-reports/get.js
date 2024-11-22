@@ -1,9 +1,9 @@
-const moment = require('moment');
-const Sequelize = require('sequelize');
+import moment from 'moment';
+import Sequelize from 'sequelize';
 
 const Op = Sequelize.Op;
 
-module.exports = (app) => {
+export default (app) => {
   const models = app.get('models');
 
   return async(req, res, next) => {

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   employer1: {
     name: 'Marrow & Chick',
   },

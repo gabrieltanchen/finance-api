@@ -1,8 +1,8 @@
-const Sequelize = require('sequelize');
+import Sequelize from 'sequelize';
 
 const Op = Sequelize.Op;
 
-module.exports = (app) => {
+export default (app) => {
   const models = app.get('models');
 
   return async(req, res, next) => {

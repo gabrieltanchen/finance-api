@@ -1,6 +1,6 @@
-const Sequelize = require('sequelize');
+import Sequelize from 'sequelize';
 
-module.exports = (sequelize) => {
+export default (sequelize) => {
   return sequelize.define('Loan', {
     amount_cents: {
       allowNull: false,

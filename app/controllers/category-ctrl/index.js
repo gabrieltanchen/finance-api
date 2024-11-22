@@ -1,11 +1,11 @@
-const createCategory = require('./create-category');
-const createSubcategory = require('./create-subcategory');
-const deleteCategory = require('./delete-category');
-const deleteSubcategory = require('./delete-subcategory');
-const updateCategory = require('./update-category');
-const updateSubcategory = require('./update-subcategory');
+import createCategory from './create-category.js';
+import createSubcategory from './create-subcategory.js';
+import deleteCategory from './delete-category.js';
+import deleteSubcategory from './delete-subcategory.js';
+import updateCategory from './update-category.js';
+import updateSubcategory from './update-subcategory.js';
 
-class CategoryCtrl {
+export default class CategoryCtrl {
   constructor(parent, models) {
     this.parent = parent;
     this.models = models;
@@ -85,5 +85,3 @@ class CategoryCtrl {
     });
   }
 }
-
-module.exports = CategoryCtrl;

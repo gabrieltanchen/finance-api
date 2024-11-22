@@ -1,7 +1,7 @@
-const Sequelize = require('sequelize');
-const _ = require('lodash');
+import Sequelize from 'sequelize';
+import _ from 'lodash';
 
-const { BudgetError } = require('../../middleware/error-handler');
+import { BudgetError } from '../../middleware/error-handler/index.js';
 
 const Op = Sequelize.Op;
 
@@ -15,7 +15,7 @@ const Op = Sequelize.Op;
  * @param {string} subcategoryUuid
  * @param {integer} year
  */
-module.exports = async({
+export default async({
   amount,
   auditApiCallUuid,
   budgetCtrl,

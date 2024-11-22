@@ -1,6 +1,6 @@
-const Sequelize = require('sequelize');
+import Sequelize from 'sequelize';
 
-const { AttachmentError } = require('../../middleware/error-handler');
+import { AttachmentError } from '../../middleware/error-handler/index.js';
 
 /**
  * @param {object} attachmentCtrl Instance of AttachmentCtrl
@@ -9,7 +9,7 @@ const { AttachmentError } = require('../../middleware/error-handler');
  * @param {string} name
  *
  */
-module.exports = async({
+export default async({
   attachmentCtrl,
   attachmentUuid,
   auditApiCallUuid,

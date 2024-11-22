@@ -1,4 +1,4 @@
-module.exports = class LoanError extends Error {
+export class LoanError extends Error {
   constructor(message) {
     super(message);
     this.name = 'LoanError';

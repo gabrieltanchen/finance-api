@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   loanPayment1: {
     date: '2023-01-23',
     interest_amount_cents: 38271,

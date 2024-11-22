@@ -1,7 +1,7 @@
-const jwt = require('jsonwebtoken');
-const nconf = require('nconf');
+import jwt from 'jsonwebtoken';
+import nconf from 'nconf';
 
-module.exports = async({
+export default async({
   token,
   userCtrl,
 }) => {

@@ -1,7 +1,7 @@
-const { validationResult } = require('express-validator');
-const _ = require('lodash');
+import { validationResult } from 'express-validator';
+import _ from 'lodash';
 
-module.exports = {
+export default class Validator {
   validateRequest() {
     return (req, res, next) => {
       const errors = validationResult(req);
@@ -19,5 +19,5 @@ module.exports = {
       }
       return next();
     };
-  },
-};
+  }
+}

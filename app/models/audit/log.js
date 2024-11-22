@@ -1,6 +1,6 @@
-const Sequelize = require('sequelize');
+import Sequelize from 'sequelize';
 
-module.exports = (sequelize) => {
+export default (sequelize) => {
   return sequelize.define('AuditLog', {
     audit_api_call_uuid: {
       allowNull: true,

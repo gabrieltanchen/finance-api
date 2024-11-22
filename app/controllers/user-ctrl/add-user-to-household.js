@@ -1,10 +1,10 @@
-const crypto = require('crypto');
-const Sequelize = require('sequelize');
-const _ = require('lodash');
+import crypto from 'crypto';
+import Sequelize from 'sequelize';
+import _ from 'lodash';
 
-const { UserError } = require('../../middleware/error-handler');
+import { UserError } from '../../middleware/error-handler/index.js';
 
-module.exports = async({
+export default async({
   auditApiCallUuid,
   email,
   firstName,

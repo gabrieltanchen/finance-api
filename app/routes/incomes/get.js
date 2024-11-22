@@ -1,9 +1,9 @@
-const {
+import {
   EmployerError,
   HouseholdError,
-} = require('../../middleware/error-handler');
+} from '../../middleware/error-handler/index.js';
 
-module.exports = (app) => {
+export default (app) => {
   const models = app.get('models');
 
   /**

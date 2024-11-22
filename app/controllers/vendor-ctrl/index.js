@@ -1,8 +1,8 @@
-const createVendor = require('./create-vendor');
-const deleteVendor = require('./delete-vendor');
-const updateVendor = require('./update-vendor');
+import createVendor from './create-vendor.js';
+import deleteVendor from './delete-vendor.js';
+import updateVendor from './update-vendor.js';
 
-class VendorCtrl {
+export default class VendorCtrl {
   constructor(parent, models) {
     this.parent = parent;
     this.models = models;
@@ -43,5 +43,3 @@ class VendorCtrl {
     });
   }
 }
-
-module.exports = VendorCtrl;

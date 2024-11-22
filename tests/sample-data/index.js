@@ -1,17 +1,17 @@
-const attachments = require('./attachments');
-const budgets = require('./budgets');
-const categories = require('./categories');
-const deposits = require('./deposits');
-const employers = require('./employers');
-const expenses = require('./expenses');
-const funds = require('./funds');
-const incomes = require('./incomes');
-const loanPayments = require('./loan-payments');
-const loans = require('./loans');
-const users = require('./users');
-const vendors = require('./vendors');
+import attachments from './attachments.js';
+import budgets from './budgets.js';
+import categories from './categories.js';
+import deposits from './deposits.js';
+import employers from './employers.js';
+import expenses from './expenses.js';
+import funds from './funds.js';
+import incomes from './incomes.js';
+import loanPayments from './loan-payments.js';
+import loans from './loans.js';
+import users from './users.js';
+import vendors from './vendors.js';
 
-module.exports = {
+export default {
   attachments,
   budgets,
   categories,

@@ -1,13 +1,13 @@
-const Sequelize = require('sequelize');
+import Sequelize from 'sequelize';
 
-const { IncomeError } = require('../../middleware/error-handler');
+import { IncomeError } from '../../middleware/error-handler/index.js';
 
 /**
  * @param {string} auditApiCallUuid
  * @param {object} incomeCtrl Instance of IncomeCtrl
  * @param {string} incomeUuid UUID of the income to delete
  */
-module.exports = async({
+export default async({
   auditApiCallUuid,
   incomeCtrl,
   incomeUuid,

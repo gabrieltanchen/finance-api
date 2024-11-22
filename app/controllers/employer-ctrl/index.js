@@ -1,8 +1,8 @@
-const createEmployer = require('./create-employer');
-const deleteEmployer = require('./delete-employer');
-const updateEmployer = require('./update-employer');
+import createEmployer from './create-employer.js';
+import deleteEmployer from './delete-employer.js';
+import updateEmployer from './update-employer.js';
 
-class EmployerCtrl {
+export default class EmployerCtrl {
   constructor(parent, models) {
     this.parent = parent;
     this.models = models;
@@ -43,5 +43,3 @@ class EmployerCtrl {
     });
   }
 }
-
-module.exports = EmployerCtrl;

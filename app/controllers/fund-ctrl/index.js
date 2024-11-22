@@ -1,11 +1,11 @@
-const createDeposit = require('./create-deposit');
-const createFund = require('./create-fund');
-const deleteDeposit = require('./delete-deposit');
-const deleteFund = require('./delete-fund');
-const updateDeposit = require('./update-deposit');
-const updateFund = require('./update-fund');
+import createDeposit from './create-deposit.js';
+import createFund from './create-fund.js';
+import deleteDeposit from './delete-deposit.js';
+import deleteFund from './delete-fund.js';
+import updateDeposit from './update-deposit.js';
+import updateFund from './update-fund.js';
 
-class FundCtrl {
+export default class FundCtrl {
   constructor(parent, models) {
     this.parent = parent;
     this.models = models;
@@ -53,5 +53,3 @@ class FundCtrl {
     });
   }
 }
-
-module.exports = FundCtrl;

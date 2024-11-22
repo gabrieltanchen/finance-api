@@ -1,8 +1,8 @@
-const crypto = require('crypto');
+import crypto from 'crypto';
 
-const { LoginPasswordFailedError } = require('../../middleware/error-handler');
+import { LoginPasswordFailedError } from '../../middleware/error-handler/index.js';
 
-module.exports = async({
+export default async({
   email,
   password,
   userCtrl,

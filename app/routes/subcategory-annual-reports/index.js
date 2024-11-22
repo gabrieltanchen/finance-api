@@ -1,7 +1,7 @@
-const getFn = require('./get');
-const routeItem = require('./item');
+import getFn from './get.js';
+import routeItem from './item/index.js';
 
-module.exports = (router, app) => {
+export default (router, app) => {
   const Authentication = app.get('Authentication');
 
   router.route('/')

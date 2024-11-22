@@ -1,9 +1,9 @@
-const multer = require('multer');
-const postFn = require('./post');
+import multer from 'multer';
+import postFn from './post.js';
 
 const upload = multer();
 
-module.exports = (router, app) => {
+export default (router, app) => {
   const Auditor = app.get('Auditor');
   const Authentication = app.get('Authentication');
 

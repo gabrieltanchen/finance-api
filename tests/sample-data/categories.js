@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   category1: {
     name: 'Roland',
   },

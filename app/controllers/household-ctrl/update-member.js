@@ -1,6 +1,6 @@
-const Sequelize = require('sequelize');
+import Sequelize from 'sequelize';
 
-const { HouseholdError } = require('../../middleware/error-handler');
+import { HouseholdError } from '../../middleware/error-handler/index.js';
 
 /**
  * @param {string} auditApiCallUuid
@@ -8,7 +8,7 @@ const { HouseholdError } = require('../../middleware/error-handler');
  * @param {string} householdMemberUuid
  * @param {string} name
  */
-module.exports = async({
+export default async({
   auditApiCallUuid,
   householdCtrl,
   householdMemberUuid,

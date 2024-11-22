@@ -1,4 +1,4 @@
-const { Sequelize } = require('sequelize');
+import { Sequelize } from 'sequelize';
 
 async function up({ context: queryInterface }) {
   await queryInterface.addColumn('budgets', 'notes', {
@@ -12,4 +12,4 @@ async function down({ context: queryInterface }) {
   await queryInterface.removeColumn('budgets', 'notes');
 }
 
-module.exports = { up, down } ;
+export { up, down };

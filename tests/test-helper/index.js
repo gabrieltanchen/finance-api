@@ -1,7 +1,7 @@
-require('../../config');
-const App = require('../../app');
+import '../../config/index.js';
+import App from '../../app/index.js';
 
-class TestHelper {
+export default class TestHelper {
   async cleanup() {
     /* istanbul ignore if */
     if (!this.app || !this.server) {
@@ -111,5 +111,3 @@ class TestHelper {
     });
   }
 }
-
-module.exports = TestHelper;

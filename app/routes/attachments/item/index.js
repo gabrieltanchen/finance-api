@@ -1,10 +1,10 @@
-const { body } = require('express-validator');
-const deleteFn = require('./delete');
-const getFn = require('./get');
-const patchFn = require('./patch');
-const routeUpload = require('./upload');
+import { body } from 'express-validator';
+import deleteFn from './delete.js';
+import getFn from './get.js';
+import patchFn from './patch.js';
+import routeUpload from './upload/index.js';
 
-module.exports = (router, app) => {
+export default (router, app) => {
   const Auditor = app.get('Auditor');
   const Authentication = app.get('Authentication');
   const Validator = app.get('Validator');

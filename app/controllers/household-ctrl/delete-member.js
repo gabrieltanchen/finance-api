@@ -1,13 +1,13 @@
-const Sequelize = require('sequelize');
+import Sequelize from 'sequelize';
 
-const { HouseholdError } = require('../../middleware/error-handler');
+import { HouseholdError } from '../../middleware/error-handler/index.js';
 
 /**
  * @param {string} auditApiCallUuid
  * @param {object} householdCtrl Instance of HouseholdCtrl
  * @param {string} householdMemberUuid UUID of the household member to delete
  */
-module.exports = async({
+export default async({
   auditApiCallUuid,
   householdCtrl,
   householdMemberUuid,

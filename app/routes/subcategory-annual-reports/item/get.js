@@ -1,10 +1,10 @@
-const Sequelize = require('sequelize');
+import Sequelize from 'sequelize';
 
 const Op = Sequelize.Op;
 
-const { CategoryError } = require('../../../middleware/error-handler');
+import { CategoryError } from '../../../middleware/error-handler/index.js';
 
-module.exports = (app) => {
+export default (app) => {
   const models = app.get('models');
 
   return async(req, res, next) => {

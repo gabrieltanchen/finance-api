@@ -1,4 +1,4 @@
-const { Sequelize } = require('sequelize');
+import { Sequelize } from 'sequelize';
 
 async function up({ context: queryInterface }) {
   await queryInterface.removeColumn('categories', 'parent_uuid');
@@ -15,4 +15,4 @@ async function down({ context: queryInterface }) {
   });
 }
 
-module.exports = { up, down };
+export { up, down };

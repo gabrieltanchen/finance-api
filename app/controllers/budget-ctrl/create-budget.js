@@ -1,9 +1,9 @@
-const Sequelize = require('sequelize');
-const _ = require('lodash');
+import Sequelize from 'sequelize';
+import _ from 'lodash';
 
-const { BudgetError } = require('../../middleware/error-handler');
+import { BudgetError } from '../../middleware/error-handler/index.js';
 
-module.exports = async({
+export default async({
   amount,
   auditApiCallUuid,
   budgetCtrl,
