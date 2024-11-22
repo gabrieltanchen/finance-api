@@ -1,6 +1,6 @@
-const { IncomeError } = require('../../../middleware/error-handler');
+import { IncomeError } from '../../../middleware/error-handler/index.js';
 
-module.exports = (app) => {
+export default (app) => {
   const models = app.get('models');
 
   /**

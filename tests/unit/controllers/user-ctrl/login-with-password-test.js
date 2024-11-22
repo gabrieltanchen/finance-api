@@ -1,8 +1,8 @@
-const chai = require('chai');
+import chai from 'chai';
 
-const sampleData = require('../../../sample-data');
-const TestHelper = require('../../../test-helper');
-const { LoginPasswordFailedError } = require('../../../../app/middleware/error-handler');
+import sampleData from '../../../sample-data/index.js';
+import TestHelper from '../../../test-helper/index.js';
+import { LoginPasswordFailedError } from '../../../../app/middleware/error-handler/index.js';
 
 const assert = chai.assert;
 

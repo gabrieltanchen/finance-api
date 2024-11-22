@@ -1,9 +1,9 @@
-const trackChanges = require('./track-changes');
-const trackInstanceDestroy = require('./track-instance-destroy');
-const trackInstanceUpdate = require('./track-instance-update');
-const trackNewInstance = require('./track-new-instance');
+import trackChanges from './track-changes.js';
+import trackInstanceDestroy from './track-instance-destroy.js';
+import trackInstanceUpdate from './track-instance-update.js';
+import trackNewInstance from './track-new-instance.js';
 
-class AuditCtrl {
+export default class AuditCtrl {
   constructor(parent, models) {
     this.parent = parent;
     this.models = models;
@@ -117,5 +117,3 @@ class AuditCtrl {
     });
   }
 }
-
-module.exports = AuditCtrl;

@@ -1,5 +1,5 @@
-require('dotenv').config();
-const nconf = require('nconf');
+import 'dotenv/config'
+import nconf from 'nconf';
 
 nconf.use('memory');
 nconf.argv();

@@ -1,8 +1,8 @@
-const moment = require('moment');
-const Sequelize = require('sequelize');
-const _ = require('lodash');
+import moment from 'moment';
+import Sequelize from 'sequelize';
+import _ from 'lodash';
 
-const { ExpenseError } = require('../../middleware/error-handler');
+import { ExpenseError } from '../../middleware/error-handler/index.js';
 
 /**
  * @param {integer} amount
@@ -16,7 +16,7 @@ const { ExpenseError } = require('../../middleware/error-handler');
  * @param {string} subcategoryUuid
  * @param {string} vendorUuid
  */
-module.exports = async({
+export default async({
   amount,
   auditApiCallUuid,
   date,

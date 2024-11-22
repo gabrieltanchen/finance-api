@@ -1,11 +1,11 @@
-const createLoan = require('./create-loan');
-const createLoanPayment = require('./create-loan-payment');
-const deleteLoan = require('./delete-loan');
-const deleteLoanPayment = require('./delete-loan-payment');
-const updateLoan = require('./update-loan');
-const updateLoanPayment = require('./update-loan-payment');
+import createLoan from './create-loan.js';
+import createLoanPayment from './create-loan-payment.js';
+import deleteLoan from './delete-loan.js';
+import deleteLoanPayment from './delete-loan-payment.js';
+import updateLoan from './update-loan.js';
+import updateLoanPayment from './update-loan-payment.js';
 
-class LoanCtrl {
+export default class LoanCtrl {
   constructor(parent, models) {
     this.parent = parent;
     this.models = models;
@@ -53,5 +53,3 @@ class LoanCtrl {
     });
   }
 }
-
-module.exports = LoanCtrl;

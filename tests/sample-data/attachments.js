@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   attachment1: {
     aws_bucket: 'LGfuHdZgHXLddeKC',
     aws_content_length: 22757,

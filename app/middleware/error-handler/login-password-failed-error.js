@@ -1,4 +1,4 @@
-module.exports = class LoginPasswordFailedError extends Error {
+export class LoginPasswordFailedError extends Error {
   constructor(message) {
     super(message);
     this.name = 'LoginPasswordFailedError';

@@ -1,4 +1,4 @@
-module.exports = (app) => {
+export default (app) => {
   const controllers = app.get('controllers');
 
   return async(req, res, next) => {

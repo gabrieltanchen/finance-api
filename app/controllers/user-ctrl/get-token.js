@@ -1,9 +1,9 @@
-const jwt = require('jsonwebtoken');
-const nconf = require('nconf');
+import jwt from 'jsonwebtoken';
+import nconf from 'nconf';
 
-const { UserError } = require('../../middleware/error-handler');
+import { UserError } from '../../middleware/error-handler/index.js';
 
-module.exports = async({
+export default async({
   userCtrl,
   userUuid,
 }) => {

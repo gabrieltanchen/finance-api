@@ -1,11 +1,11 @@
-const chai = require('chai');
-const nconf = require('nconf');
-const jwt = require('jsonwebtoken');
-const { v4: uuidv4 } = require('uuid');
+import chai from 'chai';
+import nconf from 'nconf';
+import jwt from 'jsonwebtoken';
+import { v4 as uuidv4 } from 'uuid';
 
-const sampleData = require('../../../sample-data');
-const TestHelper = require('../../../test-helper');
-const { UserError } = require('../../../../app/middleware/error-handler');
+import sampleData from '../../../sample-data/index.js';
+import TestHelper from '../../../test-helper/index.js';
+import { UserError } from '../../../../app/middleware/error-handler/index.js';
 
 const assert = chai.assert;
 

@@ -1,6 +1,6 @@
-const routeItem = require('./item');
+import routeItem from './item/index.js';
 
-module.exports = (router, app) => {
+export default (router, app) => {
   routeItem(router, app);
 
   return router;

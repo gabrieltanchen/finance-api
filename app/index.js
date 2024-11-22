@@ -1,24 +1,29 @@
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const express = require('express');
-const nconf = require('nconf');
-const { Umzug, SequelizeStorage } = require('umzug');
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import express from 'express';
+import nconf from 'nconf';
+import { Umzug, SequelizeStorage } from 'umzug';
 
-const Controllers = require('./controllers');
-const Middleware = require('./middleware');
-const Models = require('./models');
-const routes = require('./routes');
+import Controllers from './controllers/index.js';
+import {
+  Auditor,
+  Authentication,
+  ErrorHandlerMiddleware,
+  Validator,
+} from './middleware/index.js';
+import Models from './models/index.js';
+import routes from './routes/index.js';
 
-class App {
+export default class App {
   constructor({ logger }) {
     this.app = express();
     this.app.set('logger', logger);
     this.app.set('models', new Models(nconf.get('DATABASE_URL')));
     this.app.set('controllers', new Controllers(this.app.get('models')));
-    this.app.set('Auditor', new Middleware.Auditor(this.app.get('models')));
-    const Authentication = Middleware.Authentication(logger);
-    this.app.set('Authentication', Authentication);
-    this.app.set('Validator', Middleware.Validator);
+    this.app.set('Auditor', new Auditor(this.app.get('models')));
+    const auth = Authentication(logger);
+    this.app.set('Authentication', auth);
+    this.app.set('Validator', new Validator());
 
     this.app.use(bodyParser.urlencoded({
       extended: true,
@@ -42,11 +47,11 @@ class App {
       return next();
     });
 
-    this.app.use(Authentication.checkBearerAuth);
+    this.app.use(auth.checkBearerAuth);
 
     routes(this.app);
 
-    this.app.use(Middleware.ErrorHandler.middleware);
+    this.app.use(ErrorHandlerMiddleware);
 
     this.app.use((err, req, res, next) => {
       if (err) {
@@ -84,5 +89,3 @@ class App {
     });
   }
 }
-
-module.exports = App;

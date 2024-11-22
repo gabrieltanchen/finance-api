@@ -1,4 +1,4 @@
-module.exports = (app) => {
+export default (app) => {
   const controllers = app.get('controllers');
   const models = app.get('models');
 

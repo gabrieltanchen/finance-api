@@ -1,8 +1,8 @@
-const chai = require('chai');
+import chai from 'chai';
 
 const assert = chai.assert;
 
-const { UserError } = require('../../../../app/middleware/error-handler');
+import { UserError } from '../../../../app/middleware/error-handler/index.js';
 
 describe('Unit:Middleware - ErrorHandler - UserError', function() {
   it('should return not found message', function() {

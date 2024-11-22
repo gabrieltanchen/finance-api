@@ -1,6 +1,6 @@
-const { CategoryError } = require('../../../middleware/error-handler');
+import { CategoryError } from '../../../middleware/error-handler/index.js';
 
-module.exports = (app) => {
+export default (app) => {
   const models = app.get('models');
 
   /**

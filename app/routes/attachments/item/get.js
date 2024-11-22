@@ -1,8 +1,8 @@
-const { GetObjectCommand } = require('@aws-sdk/client-s3');
-const nconf = require('nconf');
-const { AttachmentError } = require('../../../middleware/error-handler');
+import { GetObjectCommand } from '@aws-sdk/client-s3';
+import nconf from 'nconf';
+import { AttachmentError } from '../../../middleware/error-handler/index.js';
 
-module.exports = (app) => {
+export default (app) => {
   const controllers = app.get('controllers');
   const models = app.get('models');
 

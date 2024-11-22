@@ -1,14 +1,14 @@
-const { DeleteObjectCommand } = require('@aws-sdk/client-s3');
-const Sequelize = require('sequelize');
+import { DeleteObjectCommand } from '@aws-sdk/client-s3';
+import Sequelize from 'sequelize';
 
-const { AttachmentError } = require('../../middleware/error-handler');
+import { AttachmentError } from '../../middleware/error-handler/index.js';
 
 /**
  * @param {object} attachmentCtrl Instance of AttachmentCtrl
  * @param {string} attachmentUuid UUID of attachment to delete
  * @param {string} auditApiCallUuid
  */
-module.exports = async({
+export default async({
   attachmentCtrl,
   attachmentUuid,
   auditApiCallUuid,

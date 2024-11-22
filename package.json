@@ -3,6 +3,7 @@
   "version": "2.9.2",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "coveralls": "c8 report --reporter=text-lcov | coveralls",
     "lint": "eslint . --ext .js",

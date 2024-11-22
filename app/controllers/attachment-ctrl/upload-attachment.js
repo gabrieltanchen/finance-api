@@ -1,13 +1,13 @@
-const {
+import {
   CompleteMultipartUploadCommand,
   CreateMultipartUploadCommand,
   HeadObjectCommand,
   UploadPartCommand,
-} = require('@aws-sdk/client-s3');
-const nconf = require('nconf');
-const Sequelize = require('sequelize');
+} from '@aws-sdk/client-s3';
+import nconf from 'nconf';
+import Sequelize from 'sequelize';
 
-const { AttachmentError } = require('../../middleware/error-handler');
+import { AttachmentError } from '../../middleware/error-handler/index.js';
 
 /**
  * @param {object} attachmentCtrl Instance of AttachmentCtrl
@@ -16,7 +16,7 @@ const { AttachmentError } = require('../../middleware/error-handler');
  * @param {buffer} fileBody
  * @param {string} fileName
  */
-module.exports = async({
+export default async({
   attachmentCtrl,
   attachmentUuid,
   auditApiCallUuid,

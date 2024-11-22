@@ -1,12 +1,12 @@
-const { S3Client } = require('@aws-sdk/client-s3');
-const { getSignedUrl } = require('@aws-sdk/s3-request-presigner');
+import { S3Client } from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
-const createAttachment = require('./create-attachment');
-const deleteAttachment = require('./delete-attachment');
-const updateAttachment = require('./update-attachment');
-const uploadAttachment = require('./upload-attachment');
+import createAttachment from './create-attachment.js';
+import deleteAttachment from './delete-attachment.js';
+import updateAttachment from './update-attachment.js';
+import uploadAttachment from './upload-attachment.js';
 
-class AttachmentCtrl {
+export default class AttachmentCtrl {
   constructor(parent, models) {
     this.parent = parent;
     this.models = models;
@@ -42,5 +42,3 @@ class AttachmentCtrl {
     });
   }
 }
-
-module.exports = AttachmentCtrl;

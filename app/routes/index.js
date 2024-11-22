@@ -1,25 +1,25 @@
-const express = require('express');
+import express from 'express';
 
-const attachments = require('./attachments');
-const budgetReports = require('./budget-reports');
-const budgets = require('./budgets');
-const categories = require('./categories');
-const deposits = require('./deposits');
-const employers = require('./employers');
-const expenses = require('./expenses');
-const funds = require('./funds');
-const householdMembers = require('./household-members');
-const households = require('./households');
-const incomes = require('./incomes');
-const loanPayments = require('./loan-payments');
-const loans = require('./loans');
-const monthlyReports = require('./monthly-reports');
-const subcategories = require('./subcategories');
-const subcategoryAnnualReports = require('./subcategory-annual-reports');
-const users = require('./users');
-const vendors = require('./vendors');
+import attachments from './attachments/index.js';
+import budgetReports from './budget-reports/index.js';
+import budgets from './budgets/index.js';
+import categories from './categories/index.js';
+import deposits from './deposits/index.js';
+import employers from './employers/index.js';
+import expenses from './expenses/index.js';
+import funds from './funds/index.js';
+import householdMembers from './household-members/index.js';
+import households from './households/index.js';
+import incomes from './incomes/index.js';
+import loanPayments from './loan-payments/index.js';
+import loans from './loans/index.js';
+import monthlyReports from './monthly-reports/index.js';
+import subcategories from './subcategories/index.js';
+import subcategoryAnnualReports from './subcategory-annual-reports/index.js';
+import users from './users/index.js';
+import vendors from './vendors/index.js';
 
-module.exports = (app) => {
+export default (app) => {
   app.use('/attachments', attachments(express.Router(), app));
   app.use('/budget-reports', budgetReports(express.Router(), app));
   app.use('/budgets', budgets(express.Router(), app));

@@ -1,9 +1,9 @@
-const { body } = require('express-validator');
-const getFn = require('./get');
-const postFn = require('./post');
-const routeItem = require('./item');
+import { body } from 'express-validator';
+import getFn from './get.js';
+import postFn from './post.js';
+import routeItem from './item/index.js';
 
-module.exports = (router, app) => {
+export default (router, app) => {
   const Auditor = app.get('Auditor');
   const Authentication = app.get('Authentication');
   const Validator = app.get('Validator');

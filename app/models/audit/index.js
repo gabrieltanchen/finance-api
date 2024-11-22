@@ -1,8 +1,8 @@
-const ApiCall = require('./api-call');
-const Change = require('./change');
-const Log = require('./log');
+import ApiCall from './api-call.js';
+import Change from './change.js';
+import Log from './log.js';
 
-module.exports = (sequelize) => {
+export default (sequelize) => {
   return {
     ApiCall: ApiCall(sequelize),
     Change: Change(sequelize),

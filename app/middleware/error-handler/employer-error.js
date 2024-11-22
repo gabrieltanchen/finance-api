@@ -1,4 +1,4 @@
-module.exports = class EmployerError extends Error {
+export class EmployerError extends Error {
   constructor(message) {
     super(message);
     this.name = 'EmployerError';

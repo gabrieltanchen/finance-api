@@ -1,6 +1,6 @@
-const Sequelize = require('sequelize');
+import Sequelize from 'sequelize';
 
-const { FundError } = require('../../middleware/error-handler');
+import { FundError } from '../../middleware/error-handler/index.js';
 
 /**
  * @param {string} auditApiCallUuid
@@ -8,7 +8,7 @@ const { FundError } = require('../../middleware/error-handler');
  * @param {string} fundUuid UUID of the fund to update
  * @param {string} name
  */
-module.exports = async({
+export default async({
   auditApiCallUuid,
   fundCtrl,
   fundUuid,

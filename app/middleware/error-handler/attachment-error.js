@@ -1,4 +1,4 @@
-module.exports = class AttachmentError extends Error {
+export class AttachmentError extends Error {
   constructor(message) {
     super(message);
     this.name = 'AttachmentError';

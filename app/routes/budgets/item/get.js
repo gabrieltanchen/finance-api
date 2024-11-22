@@ -1,6 +1,6 @@
-const { BudgetError } = require('../../../middleware/error-handler');
+import { BudgetError } from '../../../middleware/error-handler/index.js';
 
-module.exports = (app) => {
+export default (app) => {
   const models = app.get('models');
 
   /**

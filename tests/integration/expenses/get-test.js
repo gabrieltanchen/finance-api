@@ -1,11 +1,11 @@
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-const Sequelize = require('sequelize');
-const { v4: uuidv4 } = require('uuid');
-const _ = require('lodash');
+import chai from 'chai';
+import chaiHttp from 'chai-http';
+import Sequelize from 'sequelize';
+import { v4 as uuidv4 } from 'uuid';
+import _ from 'lodash';
 
-const sampleData = require('../../sample-data');
-const TestHelper = require('../../test-helper');
+import sampleData from '../../sample-data/index.js';
+import TestHelper from '../../test-helper/index.js';
 
 const Op = Sequelize.Op;
 const assert = chai.assert;

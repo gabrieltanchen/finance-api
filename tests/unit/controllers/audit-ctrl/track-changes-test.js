@@ -1,10 +1,10 @@
-const chai = require('chai');
-const Sequelize = require('sequelize');
-const sinon = require('sinon');
+import chai from 'chai';
+import Sequelize from 'sequelize';
+import sinon from 'sinon';
 
-const sampleData = require('../../../sample-data');
-const TestHelper = require('../../../test-helper');
-const { AuditError } = require('../../../../app/middleware/error-handler');
+import sampleData from '../../../sample-data/index.js';
+import TestHelper from '../../../test-helper/index.js';
+import { AuditError } from '../../../../app/middleware/error-handler/index.js';
 
 const assert = chai.assert;
 

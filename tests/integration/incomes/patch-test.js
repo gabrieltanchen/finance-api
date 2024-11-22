@@ -1,6 +1,6 @@
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-const TestHelper = require('../../test-helper');
+import chai from 'chai';
+import chaiHttp from 'chai-http';
+import TestHelper from '../../test-helper/index.js';
 
 const assert = chai.assert;
 const expect = chai.expect;

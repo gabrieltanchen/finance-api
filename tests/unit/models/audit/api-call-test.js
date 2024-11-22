@@ -1,5 +1,5 @@
-const chai = require('chai');
-const TestHelper = require('../../../test-helper');
+import chai from 'chai';
+import TestHelper from '../../../test-helper/index.js';
 
 const assert = chai.assert;
 

@@ -1,8 +1,8 @@
-const ConnectRoles = require('connect-roles');
-const jwt = require('jsonwebtoken');
-const nconf = require('nconf');
+import ConnectRoles from 'connect-roles';
+import jwt from 'jsonwebtoken';
+import nconf from 'nconf';
 
-module.exports = (logger) => {
+export default (logger) => {
   const Authentication = {
     checkBearerAuth(req, res, next) {
       req.userUuid = null;

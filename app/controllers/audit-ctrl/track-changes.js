@@ -1,4 +1,4 @@
-const { AuditError } = require('../../middleware/error-handler');
+import { AuditError } from '../../middleware/error-handler/index.js';
 
 /**
  * Track the changes in the change list. The change list must be a list of
@@ -13,7 +13,7 @@ const { AuditError } = require('../../middleware/error-handler');
  * @param {object[]} [newList] List of Sequelize instances that have been created
  * @param {object} transaction Sequelize transaction
  */
-module.exports = async({
+export default async({
   auditCtrl,
   auditApiCallUuid,
   changeList = [],

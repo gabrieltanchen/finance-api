@@ -1,12 +1,12 @@
-const chai = require('chai');
-const crypto = require('crypto');
-const sinon = require('sinon');
-const { v4: uuidv4 } = require('uuid');
-const _ = require('lodash');
+import chai from 'chai';
+import crypto from 'crypto';
+import sinon from 'sinon';
+import { v4 as uuidv4 } from 'uuid';
+import _ from 'lodash';
 
-const sampleData = require('../../../sample-data');
-const TestHelper = require('../../../test-helper');
-const { UserError } = require('../../../../app/middleware/error-handler');
+import sampleData from '../../../sample-data/index.js';
+import TestHelper from '../../../test-helper/index.js';
+import { UserError } from '../../../../app/middleware/error-handler/index.js';
 
 const assert = chai.assert;
 

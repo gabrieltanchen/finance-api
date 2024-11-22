@@ -1,7 +1,7 @@
-const moment = require('moment');
-const Sequelize = require('sequelize');
+import moment from 'moment';
+import Sequelize from 'sequelize';
 
-const { LoanError } = require('../../middleware/error-handler');
+import { LoanError } from '../../middleware/error-handler/index.js';
 
 /**
  * @param {string} auditApiCallUuid
@@ -12,7 +12,7 @@ const { LoanError } = require('../../middleware/error-handler');
  * @param {string} loanUuid
  * @param {integer} principalAmount
  */
-module.exports = async({
+export default async({
   auditApiCallUuid,
   date,
   interestAmount,

@@ -1,6 +1,6 @@
-const Sequelize = require('sequelize');
+import Sequelize from 'sequelize';
 
-module.exports = (sequelize) => {
+export default (sequelize) => {
   return sequelize.define('HouseholdMember', {
     created_at: {
       allowNull: false,

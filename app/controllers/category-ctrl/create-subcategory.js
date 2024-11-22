@@ -1,6 +1,6 @@
-const Sequelize = require('sequelize');
+import Sequelize from 'sequelize';
 
-const { CategoryError } = require('../../middleware/error-handler');
+import { CategoryError } from '../../middleware/error-handler/index.js';
 
 /**
  * @param {string} auditApiCallUuid
@@ -8,7 +8,7 @@ const { CategoryError } = require('../../middleware/error-handler');
  * @param {string} categoryUuid
  * @param {string} name
  */
-module.exports = async({
+export default async({
   auditApiCallUuid,
   categoryCtrl,
   categoryUuid,

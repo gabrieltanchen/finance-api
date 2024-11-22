@@ -1,7 +1,7 @@
-const chai = require('chai');
-const jwt = require('jsonwebtoken');
-const sampleData = require('../../../sample-data');
-const TestHelper = require('../../../test-helper');
+import chai from 'chai';
+import jwt from 'jsonwebtoken';
+import sampleData from '../../../sample-data/index.js';
+import TestHelper from '../../../test-helper/index.js';
 
 const assert = chai.assert;
 

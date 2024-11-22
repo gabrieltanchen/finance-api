@@ -1,7 +1,7 @@
-const { body } = require('express-validator');
-const postFn = require('./post');
+import { body } from 'express-validator';
+import postFn from './post.js';
 
-module.exports = (router, app) => {
+export default (router, app) => {
   const Validator = app.get('Validator');
 
   router.route('/login/token')

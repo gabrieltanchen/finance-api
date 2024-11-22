@@ -1,4 +1,4 @@
-module.exports = class HouseholdError extends Error {
+export class HouseholdError extends Error {
   constructor(message) {
     super(message);
     this.name = 'HouseholdError';

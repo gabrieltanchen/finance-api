@@ -1,13 +1,13 @@
-const Sequelize = require('sequelize');
+import Sequelize from 'sequelize';
 
-const { CategoryError } = require('../../middleware/error-handler');
+import { CategoryError } from '../../middleware/error-handler/index.js';
 
 /**
  * @param {string} auditApiCallUuid
  * @param {object} categoryCtrl Instance of CategoryCtrl
  * @param {string} categoryUuid UUID of the category to delete
  */
-module.exports = async({
+export default async({
   auditApiCallUuid,
   categoryCtrl,
   categoryUuid,

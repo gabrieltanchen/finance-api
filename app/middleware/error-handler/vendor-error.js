@@ -1,4 +1,4 @@
-module.exports = class VendorError extends Error {
+export class VendorError extends Error {
   constructor(message) {
     super(message);
     this.name = 'VendorError';

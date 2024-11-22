@@ -1,4 +1,4 @@
-const { Sequelize } = require('sequelize');
+import { Sequelize } from 'sequelize';
 
 async function up({ context: queryInterface }) {
   await queryInterface.createTable('hashes', {
@@ -18,4 +18,4 @@ async function down({ context: queryInterface }) {
   await queryInterface.dropTable('hashes');
 }
 
-module.exports = { up, down };
+export { up, down };

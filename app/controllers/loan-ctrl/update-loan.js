@@ -1,6 +1,6 @@
-const Sequelize = require('sequelize');
+import Sequelize from 'sequelize';
 
-const { LoanError } = require('../../middleware/error-handler');
+import { LoanError } from '../../middleware/error-handler/index.js';
 
 /**
  * @param {integer} amount
@@ -9,7 +9,7 @@ const { LoanError } = require('../../middleware/error-handler');
  * @param {string} loanUuid UUID of the loan to update
  * @param {string} name
  */
-module.exports = async({
+export default async({
   amount,
   auditApiCallUuid,
   loanCtrl,

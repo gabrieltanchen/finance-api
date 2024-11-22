@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   deposit1: {
     amount_cents: 84464,
     date: '2021-01-07',

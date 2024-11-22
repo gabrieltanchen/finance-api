@@ -1,13 +1,13 @@
-const Sequelize = require('sequelize');
+import Sequelize from 'sequelize';
 
-const { VendorError } = require('../../middleware/error-handler');
+import { VendorError } from '../../middleware/error-handler/index.js';
 
 /**
  * @param {string} auditApiCallUuid
  * @param {string} name
  * @param {object} vendorCtrl Instance of VendorCtrl
  */
-module.exports = async({
+export default async({
   auditApiCallUuid,
   name,
   vendorCtrl,
