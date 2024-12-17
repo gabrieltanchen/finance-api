@@ -76,7 +76,17 @@ export default class App {
     const models = app.get('models');
 
     const umzug = new Umzug({
-      migrations: { glob: 'migrations/*.js' },
+      migrations: {
+        glob: 'migrations/*.js',
+        resolve: (params) => {
+          const getModule = () => import(params.path);
+          return {
+            name: params.name,
+            up: async (params) => (await getModule()).up(params),
+            down: async(params) => (await getModule()).down(params),
+          };
+        },
+      },
       context: models.sequelize.getQueryInterface(),
       storage: new SequelizeStorage({ sequelize: models.sequelize }),
       logger: console,
