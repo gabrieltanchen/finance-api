@@ -1,8 +1,7 @@
 import chai from 'chai';
+import { VendorError } from '../../../../app/middleware/error-handler/index.js';
 
 const assert = chai.assert;
-
-import { VendorError } from '../../../../app/middleware/error-handler/index.js';
 
 describe('Unit:Middleware - ErrorHandler - VendorError', function() {
   it('should return not found message', function() {

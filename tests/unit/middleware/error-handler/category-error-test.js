@@ -1,8 +1,7 @@
 import chai from 'chai';
+import { CategoryError } from '../../../../app/middleware/error-handler/index.js';
 
 const assert = chai.assert;
-
-import { CategoryError } from '../../../../app/middleware/error-handler/index.js';
 
 describe('Unit:Middleware - ErrorHandler - CategoryError', function() {
   it('should return cannot delete with subcategories message', function() {

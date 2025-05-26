@@ -79,11 +79,11 @@ export default class App {
       migrations: {
         glob: 'migrations/*.js',
         resolve: (params) => {
-          const getModule = () => import(params.path);
+          const getModule = () => { import(params.path); };
           return {
             name: params.name,
-            up: async (params) => (await getModule()).up(params),
-            down: async(params) => (await getModule()).down(params),
+            up: async(p) => { (await getModule()).up(p); },
+            down: async(p) => { (await getModule()).down(p); },
           };
         },
       },

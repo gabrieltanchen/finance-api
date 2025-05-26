@@ -24,7 +24,7 @@ export class AttachmentError extends Error {
       };
     }
   }
-};
+}
 
 export class AuditError extends Error {
   constructor(message) {
@@ -42,7 +42,7 @@ export class AuditError extends Error {
       };
     }
   }
-};
+}
 
 export class BudgetError extends Error {
   constructor(message) {
@@ -85,7 +85,7 @@ export class BudgetError extends Error {
       };
     }
   }
-};
+}
 
 export class CategoryError extends Error {
   constructor(message) {
@@ -138,7 +138,7 @@ export class CategoryError extends Error {
       };
     }
   }
-};
+}
 
 export class EmployerError extends Error {
   constructor(message) {
@@ -161,7 +161,7 @@ export class EmployerError extends Error {
       };
     }
   }
-};
+}
 
 export class ExpenseError extends Error {
   constructor(message) {
@@ -189,7 +189,7 @@ export class ExpenseError extends Error {
       };
     }
   }
-};
+}
 
 export class FundError extends Error {
   constructor(message) {
@@ -222,7 +222,7 @@ export class FundError extends Error {
       };
     }
   }
-};
+}
 
 export class HouseholdError extends Error {
   constructor(message) {
@@ -250,7 +250,7 @@ export class HouseholdError extends Error {
       };
     }
   }
-};
+}
 
 export class IncomeError extends Error {
   constructor(message) {
@@ -273,7 +273,7 @@ export class IncomeError extends Error {
       };
     }
   }
-};
+}
 
 export class LoanError extends Error {
   constructor(message) {
@@ -306,7 +306,7 @@ export class LoanError extends Error {
       };
     }
   }
-};
+}
 
 export class LoginPasswordFailedError extends Error {
   constructor(message) {
@@ -324,7 +324,7 @@ export class LoginPasswordFailedError extends Error {
       };
     }
   }
-};
+}
 
 export class UserError extends Error {
   constructor(message) {
@@ -352,7 +352,7 @@ export class UserError extends Error {
       };
     }
   }
-};
+}
 
 export class VendorError extends Error {
   constructor(message) {
@@ -380,8 +380,7 @@ export class VendorError extends Error {
       };
     }
   }
-};
-
+}
 
 const errorClasses = {
   AttachmentError,
@@ -398,7 +397,6 @@ const errorClasses = {
   UserError,
   VendorError,
 };
-
 
 export function middleware(err, req, res, next) {
   if (err

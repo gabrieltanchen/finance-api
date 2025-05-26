@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
 
- export default (sequelize) => {
+export default (sequelize) => {
   return sequelize.define('Deposit', {
     amount_cents: {
       allowNull: false,

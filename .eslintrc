@@ -12,10 +12,13 @@
   },
   "rules": {
     "arrow-body-style": ["error", "always"],
+    "class-methods-use-this": ["off"],
     "func-names": ["off"],
+    "import/extensions": ["error", "always"],
     "indent": ["error", 2],
     "jsx-a11y/href-no-hash": ["off"],
     "jsx-a11y/img-has-alt": ["off"],
+    "max-classes-per-file": ["off"],
     "newline-per-chained-call": ["off"],
     "no-restricted-globals": ["off"],
     "no-restricted-syntax": ["off"],

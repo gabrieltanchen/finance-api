@@ -1,4 +1,4 @@
-import 'dotenv/config'
+import 'dotenv/config'; // eslint-disable-line import/extensions
 import nconf from 'nconf';
 
 nconf.use('memory');

@@ -1,8 +1,7 @@
 import chai from 'chai';
+import { UserError } from '../../../../app/middleware/error-handler/index.js';
 
 const assert = chai.assert;
-
-import { UserError } from '../../../../app/middleware/error-handler/index.js';
 
 describe('Unit:Middleware - ErrorHandler - UserError', function() {
   it('should return not found message', function() {

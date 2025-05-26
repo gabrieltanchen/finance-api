@@ -1,8 +1,7 @@
 import Sequelize from 'sequelize';
+import { CategoryError } from '../../middleware/error-handler/index.js';
 
 const Op = Sequelize.Op;
-
-import { CategoryError } from '../../middleware/error-handler/index.js';
 
 export default (app) => {
   const models = app.get('models');

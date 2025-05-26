@@ -2,7 +2,7 @@ import moment from 'moment';
 import Sequelize from 'sequelize';
 import _ from 'lodash';
 
-import{ IncomeError } from '../../middleware/error-handler/index.js';
+import { IncomeError } from '../../middleware/error-handler/index.js';
 
 /**
  * @param {integer} amount

@@ -1,8 +1,7 @@
 import chai from 'chai';
+import { ExpenseError } from '../../../../app/middleware/error-handler/index.js';
 
 const assert = chai.assert;
-
-import { ExpenseError } from '../../../../app/middleware/error-handler/index.js';
 
 describe('Unit:Middleware - ErrorHandler - ExpenseError', function() {
   it('should return no open queries message', function() {
