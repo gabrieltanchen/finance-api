@@ -32,7 +32,7 @@ export default defineConfig([globalIgnores(["migrations/*"]), {
 
         parser: babelParser,
         ecmaVersion: 6,
-        sourceType: "commonjs",
+        sourceType: "module",
 
         parserOptions: {
             requireConfigFile: false,
