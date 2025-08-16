@@ -101,7 +101,6 @@ module.exports = async({
   const deleteList = [expense];
   for (const attachment of expense.Attachments) {
     if (attachment.get('aws_bucket') && attachment.get('aws_key')) {
-      // eslint-disable-next-line no-await-in-loop
       await controllers.AttachmentCtrl.s3Client.send(new DeleteObjectCommand({
         Bucket: attachment.get('aws_bucket'),
         Key: attachment.get('aws_key'),
