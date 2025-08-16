@@ -61,6 +61,6 @@
     "globals": "16.3.0",
     "mocha": "11.7.1",
     "mocha-lcov-reporter": "1.3.0",
-    "sinon": "19.0.2"
+    "sinon": "21.0.0"
   }
 }
